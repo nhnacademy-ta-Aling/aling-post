@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import kr.aling.post.base.BaseCreateTimeEntity;
+import kr.aling.post.common.base.BaseCreateTimeEntity;
 import kr.aling.post.locationcode.entity.LocationCode;
 import kr.aling.post.recruitbranchcode.entity.RecruitBranchCode;
 import lombok.AccessLevel;
