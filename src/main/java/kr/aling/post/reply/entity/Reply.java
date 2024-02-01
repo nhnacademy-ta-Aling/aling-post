@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import kr.aling.post.base.BaseCreateTimeEntity;
 import kr.aling.post.post.entity.Post;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,7 +25,6 @@ import lombok.NoArgsConstructor;
  * @since 1.0
  **/
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 @Entity
 @Table(name = "reply")

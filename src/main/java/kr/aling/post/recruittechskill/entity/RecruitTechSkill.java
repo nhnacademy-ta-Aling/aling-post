@@ -23,7 +23,6 @@ import lombok.NoArgsConstructor;
  * @since 1.0
  **/
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 @Entity
 @Table(name = "recruit_tech_skill")
