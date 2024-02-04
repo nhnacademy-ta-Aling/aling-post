@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 import kr.aling.post.recruitpost.entity.RecruitPost;
 import lombok.AccessLevel;
@@ -31,6 +32,7 @@ public class RecruitTechSkill {
     @EmbeddedId
     private Pk pk;
 
+    @MapsId(value = "recruitPostNo")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recruit_post_no")
     private RecruitPost recruitPost;
