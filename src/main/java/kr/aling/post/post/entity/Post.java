@@ -11,6 +11,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import kr.aling.post.common.base.BaseCreateTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -48,5 +49,29 @@ public class Post extends BaseCreateTimeEntity {
     @PrePersist
     public void prePersist() {
         isDelete = Objects.isNull(isDelete) ? false : isDelete;
+    }
+
+    /**
+     * 최초에 글 작성시 사용하는 생성자, 내용과 공개 여부만 필요.
+     *
+     * @author 이성준
+     * @param content : 게시물 내용
+     * @param isOpen : 게시물 공개 여부
+     */
+    @Builder
+    public Post(String content, Boolean isOpen) {
+        this.content = content;
+        this.isOpen = isOpen;
+    }
+
+    public void modifyContent(String content){
+        this.content = content;
+    }
+    public void makePrivate() {
+        this.isOpen = false;
+    }
+
+    public void safeDelete(){
+        this.isDelete = true;
     }
 }
