@@ -29,7 +29,7 @@ public class NormalPost {
     private Long postNo;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_no", insertable = false, updatable = false)
+    @JoinColumn(name = "post_no",insertable = false, updatable = false)
     private Post post;
 
     @Column(name = "normal_user_no")
@@ -40,6 +40,7 @@ public class NormalPost {
      *
      * @param postNo : 게시물 번호
      * @param userNo : 작성자 번호
+     *
      */
     @Builder
     public NormalPost(Long postNo, Long userNo) {

@@ -1,6 +1,5 @@
 package kr.aling.post.post.service.impl;
 
-import java.util.Optional;
 import kr.aling.post.common.annotation.ReadService;
 import kr.aling.post.post.dto.response.ReadPostResponse;
 import kr.aling.post.post.entity.Post;
@@ -24,11 +23,7 @@ public class PostReadServiceImpl implements PostReadService {
 
     @Override
     public Post findById(Long postNo) throws PostNotFoundException {
-        Optional<Post> postOptional = postReadRepository.findById(postNo);
-
-        if (postOptional.isPresent()) {
-            return postOptional.get();
-        }
-        throw new PostNotFoundException(postNo);
+        return postReadRepository.findById(postNo)
+                .orElseThrow(() -> new PostNotFoundException(postNo));
     }
 }

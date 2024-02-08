@@ -1,12 +1,14 @@
 package kr.aling.post.normalpost.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
-import javax.persistence.EntityManager;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.post.entity.Post;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -17,9 +19,6 @@ class NormalPostReadRepositoryTest {
 
     @Autowired
     NormalPostReadRepository normalPostReadRepository;
-
-    @Autowired
-    NormalPostManageRepository normalPostManageRepository;
 
     @Autowired
     TestEntityManager entityManager;
@@ -40,13 +39,15 @@ class NormalPostReadRepositoryTest {
                 .userNo(1L)
                 .build();
 
-        normalPostManageRepository.save(normalPost);
+        entityManager.persist(normalPost);
     }
 
     @Test
+    @DisplayName("일반 게시물 조회")
     void readNormalPost() {
         Optional<NormalPost> normalPostOptional = normalPostReadRepository.findById(normalPost.getPostNo());
 
         assertTrue(normalPostOptional.isPresent());
+        assertThat(normalPost.getUserNo(), equalTo(normalPostOptional.get().getUserNo()));
     }
 }

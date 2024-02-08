@@ -67,11 +67,20 @@ public class Post extends BaseCreateTimeEntity {
     public void modifyContent(String content){
         this.content = content;
     }
+
     public void makePrivate() {
         this.isOpen = false;
     }
 
+    public void makePublic() {
+        this.isOpen = true;
+    }
+
     public void safeDelete(){
         this.isDelete = true;
+    }
+
+    public boolean isOpen(){
+        return this.isOpen;
     }
 }

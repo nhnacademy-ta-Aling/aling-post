@@ -1,16 +1,17 @@
 package kr.aling.post.post.service.impl;
 
-import java.util.Optional;
 import kr.aling.post.common.annotation.ManageService;
 import kr.aling.post.post.dto.request.CreatePostRequest;
 import kr.aling.post.post.dto.request.ModifyPostRequest;
-import kr.aling.post.post.dto.response.ReadPostResponse;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.repository.PostManageRepository;
 import kr.aling.post.post.service.PostManageService;
 import kr.aling.post.post.service.PostReadService;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * The type Post manage service.
+ */
 @ManageService
 @RequiredArgsConstructor
 public class PostManageServiceImpl implements PostManageService {
@@ -19,40 +20,33 @@ public class PostManageServiceImpl implements PostManageService {
     private final PostReadService postReadService;
 
     @Override
-    public ReadPostResponse createPost(CreatePostRequest request) {
+    public long createPost(CreatePostRequest request) {
         Post post = Post.builder()
                 .content(request.getContent())
-                .isOpen(request.isOpen())
+                .isOpen(request.getIsOpen())
                 .build();
 
-        post = postManageRepository.save(post);
-        return new ReadPostResponse(post);
+        return postManageRepository.save(post).getPostNo();
     }
 
     @Override
-    public ReadPostResponse modifyPost(Long postNo, ModifyPostRequest request) {
+    public void modifyPost(Long postNo, ModifyPostRequest request) {
         Post post = postReadService.findById(postNo);
 
         post.modifyContent(request.getContent());
 
-        if (!request.isOpen()) {
+        if (Boolean.FALSE.equals(request.getIsOpen())) {
             post.makePrivate();
         }
-
-        return new ReadPostResponse(post);
     }
 
     @Override
     public void deleteById(Long postNo) {
-        Post post = postReadService.findById(postNo);
-
-        post.safeDelete();
+        postReadService.findById(postNo).safeDelete();
     }
 
     @Override
     public void privatePost(Long postNo) {
-        Optional<Post> postOptional = postManageRepository.findById(postNo);
-
-        postOptional.ifPresent(Post::makePrivate);
+        postManageRepository.findById(postNo).ifPresent(Post::makePrivate);
     }
 }

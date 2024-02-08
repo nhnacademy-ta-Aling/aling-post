@@ -1,19 +1,26 @@
 package kr.aling.post.normalpost.repository;
 
-import javax.sql.DataSource;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.post.entity.Post;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.dao.DataIntegrityViolationException;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
+@Slf4j
 @DataJpaTest
 class NormalPostManageRepositoryTest {
 
@@ -32,8 +39,9 @@ class NormalPostManageRepositoryTest {
                 .isOpen(true)
                 .build();
 
-        post = entityManager.persist(post);
-
+        log.error("1");
+        entityManager.persist(post);
+        log.error("2");
         normalPost = NormalPost.builder()
                 .postNo(post.getPostNo())
                 .userNo(1L)
@@ -57,13 +65,24 @@ class NormalPostManageRepositoryTest {
     }
 
     @Test
-    @DisplayName("일반 게시물 테이블은 수정하지 않음")
-    void modifyNormalPost() {
-        assertFalse(false);
+    @DisplayName("존재하지 않는 게시물에 대해 일반 게시물 추가")
+    void saveNormalPostAboutNotExistedPost() {
+        long postNo = 2L;
+
+        Post post = entityManager.find(Post.class, postNo);
+
+        NormalPost normal = NormalPost.builder()
+                .postNo(postNo)
+                .userNo(1L)
+                .build();
+
+        assertNull(post);
+        assertThrows(DataIntegrityViolationException.class, () -> normalPostManageRepository.saveAndFlush(normal));
+
     }
 
     @Test
-    @DisplayName("일반 게시물 테이블 삭제")
+    @DisplayName("일반 게시물 삭제")
     void deleteNormalPost() {
         normalPostManageRepository.save(normalPost);
 
@@ -73,10 +92,10 @@ class NormalPostManageRepositoryTest {
 
         boolean afterDelete = normalPostManageRepository.existsById(normalPost.getPostNo());
 
-        assertAll("",
-                ()-> assertTrue(beforeDelete),
-                ()-> assertThat(beforeDelete, not(equalTo(afterDelete))),
-                ()-> assertFalse(afterDelete)
+        assertAll("게시물 존재 여부 확인",
+                () -> assertTrue(beforeDelete),
+                () -> assertThat(beforeDelete, not(equalTo(afterDelete))),
+                () -> assertFalse(afterDelete)
         );
     }
 }

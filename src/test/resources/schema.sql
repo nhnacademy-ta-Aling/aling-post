@@ -15,7 +15,7 @@ CREATE TABLE `post`
 CREATE TABLE `normal_post`
 (
     `post_no` bigint NOT NULL,
-    `user_no` bigint NOT NULL
+    `normal_user_no` bigint NOT NULL
 );
 
 ALTER TABLE `normal_post`
