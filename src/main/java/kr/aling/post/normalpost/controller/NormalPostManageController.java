@@ -1,5 +1,7 @@
 package kr.aling.post.normalpost.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import javax.validation.Valid;
 import kr.aling.post.normalpost.dto.request.CreateNormalPostRequest;
 import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequest;
@@ -24,39 +26,42 @@ import org.springframework.web.bind.annotation.RestController;
  * @since : 1.0
  */
 @RestController
-@RequestMapping("/api/v1/normal-posts")
+@RequestMapping(value = "/api/v1/normal-posts", consumes = {"application/json"}, produces = {"application/json"})
 @RequiredArgsConstructor
 public class NormalPostManageController {
 
     private final NormalPostManageService normalPostManageService;
 
     /**
-     * Create normal post response entity.
+     * 일반 게시물 생성 요청
      *
-     * @param request the request
-     * @param userNo  the user no
-     * @return the response entity
+     * @param request : 게시물 생성 요청 데이터
+     * @param userNo  : 게시물을 작성하려는 유저 번호
+     * @return : HTTP 상태 코드와 데이터를 가진 Response Entity
      */
     @PostMapping
-    public ResponseEntity<Void> createNormalPost(@RequestBody @Valid CreateNormalPostRequest request,
-                                                 @RequestParam long userNo) {
-        normalPostManageService.createNormalPost(userNo, request);
+    public ResponseEntity<Map<String, Long>> createNormalPost(@RequestBody @Valid CreateNormalPostRequest request,
+                                                              @RequestParam long userNo) {
+        Long postNo = normalPostManageService.createNormalPost(userNo, request);
+
+        Map<String,Long> body = new HashMap<>();
+        body.put("postNo", postNo);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body(body);
     }
 
     /**
-     * Modify normal post response entity.
+     * 일반 게시물 수정
      *
-     * @param request the request
-     * @param postNo  the post no
-     * @return the response entity
+     * @param request : 게시물 수정 요청 정보
+     * @param postNo  : 수정할 게시물의 번호
+     * @return : HTTP 상태 코드를 가진 Response Entity
      */
     @PutMapping("/{postNo}")
     public ResponseEntity<Void> modifyNormalPost(@RequestBody @Valid ModifyNormalPostRequest request,
-                                                 @PathVariable long postNo) {
+                                                 @PathVariable Long postNo) {
 
         normalPostManageService.modifyNormalPost(postNo, request);
 
@@ -66,13 +71,13 @@ public class NormalPostManageController {
     }
 
     /**
-     * Delete normal post response entity.
+     * 일반 게시물 삭제
      *
-     * @param postNo the post no
-     * @return the response entity
+     * @param postNo : 삭제할 게시물 번호
+     * @return 상태 코드를 포함하는 Response Entity
      */
     @DeleteMapping("/{postNo}")
-    public ResponseEntity<Void> deleteNormalPost(@PathVariable long postNo){
+    public ResponseEntity<Void> deleteNormalPost(@PathVariable long postNo) {
         normalPostManageService.deleteById(postNo);
 
         return ResponseEntity

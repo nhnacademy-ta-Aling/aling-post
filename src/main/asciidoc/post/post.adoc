@@ -1,0 +1,9 @@
+=== 게시물(Post)
+
+include::create-normal-post.adoc[]
+
+include::modify-normal-post.adoc[]
+
+include::read-normal-post-by-postNo.adoc[]
+
+include::read-normal-post-by-userNo.adoc[]

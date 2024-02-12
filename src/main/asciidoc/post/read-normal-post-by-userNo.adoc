@@ -1,0 +1,5 @@
+:toc:
+
+==== 유저 번호로 게시물 조회
+
+operation::read-normal-post-by-userNo[]

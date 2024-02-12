@@ -1,0 +1,5 @@
+:toc:
+
+==== 일반 게시물 수정
+
+operation::delete-normal-post[]

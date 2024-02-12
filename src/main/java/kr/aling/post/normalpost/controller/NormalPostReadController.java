@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @since : 1.0
  */
-@RequestMapping("/api/v1/normal-posts")
+@RequestMapping(value = "/api/v1/normal-posts",consumes = {"application/json"},produces = {"application/json"})
 @RequiredArgsConstructor
 @RestController
 public class NormalPostReadController {

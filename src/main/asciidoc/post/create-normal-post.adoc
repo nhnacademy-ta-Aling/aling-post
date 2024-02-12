@@ -1,0 +1,5 @@
+:toc:
+
+==== 일반 게시물 생성
+
+operation::create-normal-post[]
