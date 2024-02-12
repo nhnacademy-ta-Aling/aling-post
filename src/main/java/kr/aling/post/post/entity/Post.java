@@ -54,9 +54,8 @@ public class Post extends BaseCreateTimeEntity {
     /**
      * 최초에 글 작성시 사용하는 생성자, 내용과 공개 여부만 필요.
      *
-     * @author 이성준
      * @param content : 게시물 내용
-     * @param isOpen : 게시물 공개 여부
+     * @param isOpen  : 게시물 공개 여부
      */
     @Builder
     public Post(String content, Boolean isOpen) {
@@ -64,7 +63,7 @@ public class Post extends BaseCreateTimeEntity {
         this.isOpen = isOpen;
     }
 
-    public void modifyContent(String content){
+    public void modifyContent(String content) {
         this.content = content;
     }
 
@@ -76,11 +75,15 @@ public class Post extends BaseCreateTimeEntity {
         this.isOpen = true;
     }
 
-    public void safeDelete(){
+    public void safeDelete() {
         this.isDelete = true;
     }
 
-    public boolean isOpen(){
+    public Boolean isOpen() {
         return this.isOpen;
+    }
+
+    public Boolean isDelete() {
+        return this.isDelete;
     }
 }

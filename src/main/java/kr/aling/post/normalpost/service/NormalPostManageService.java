@@ -17,8 +17,9 @@ public interface NormalPostManageService {
      *
      * @param userNo  : 게시물 작성을 요청한 유저 번호
      * @param request : 게시물 작성 요청에 대한 폼 데이터
+     * @return 생성된 게시물의 번호
      */
-    void createNormalPost(long userNo, CreateNormalPostRequest request);
+    Long createNormalPost(Long userNo, CreateNormalPostRequest request);
 
     /**
      * 일반 게시물 수정

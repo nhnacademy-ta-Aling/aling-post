@@ -1,7 +1,7 @@
 package kr.aling.post.normalpost.dto.response;
 
 import kr.aling.post.normalpost.entity.NormalPost;
-import kr.aling.post.post.entity.Post;
+import kr.aling.post.post.dto.response.ReadPostResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ReadNormalPostResponse {
 
-    private Post post;
+    private ReadPostResponse post;
     private Long userNo;
 
     public ReadNormalPostResponse(NormalPost normalPost) {
-        this.post = normalPost.getPost();
+        this.post = new ReadPostResponse(normalPost.getPost());
         this.userNo = normalPost.getUserNo();
     }
 }

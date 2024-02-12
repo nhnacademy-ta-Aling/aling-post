@@ -24,15 +24,16 @@ public interface NormalPostReadService {
 
 
     /**
-     * Find by id normal post.
+     * 일반 게시물 엔티티 반환이 필요한 경우 사용.
      *
      * @param postNo 파일 번호
      * @return 일반 게시물 엔티티.
-     * @throws PostNotFoundException 주어진 번호의 일반 게시물을 찾지 못했을 때 던져지는 예외 클래스
+     * @throws PostNotFoundException 주어진 번호의 일반 게시물을 찾지 못했을 때 던져지는 예외
      */
     NormalPost findById(Long postNo) throws PostNotFoundException;
 
     /**
+     * 유저 번호를 기준으로 페이지네이션 정보가 포함된 응답이 필요할 때 사용.
      *
      * @param userNo 게시물을 불러올 기준 유저 정보
      * @param pageable 게시물 페이지네이션에 필요한 정보

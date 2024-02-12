@@ -14,6 +14,7 @@ public class ReadPostResponse {
 
     private Long postNo;
     private String content;
+
     private LocalDateTime createAt;
     private LocalDateTime modifyAt;
 

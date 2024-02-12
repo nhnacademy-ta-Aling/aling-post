@@ -28,16 +28,16 @@ public interface PostManageService {
     void modifyPost(Long postNo, ModifyPostRequest request);
 
     /**
-     * 게시물 비공개 처리
+     * 게시물 비공개 처리. 게시물 제재 등을 이유로 수정이 아닌 게시물 비공개만 처리.
      *
-     * @param postNo the post no
+     * @param postNo 비공개 처리할 게시물 번호
      */
     void privatePost(Long postNo);
 
     /**
-     * Delete by id.
+     * 게시물 삭제
      *
-     * @param postNo the a long
+     * @param postNo 삭제할 게시물 번호
      */
     void deleteById(Long postNo);
 }

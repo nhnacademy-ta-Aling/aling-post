@@ -18,25 +18,26 @@ public class NormalPostManageServiceImpl implements NormalPostManageService {
     private final PostManageService postManageService;
 
     @Override
-    public void createNormalPost(long userNo, CreateNormalPostRequest request) {
+    public Long createNormalPost(Long userNo, CreateNormalPostRequest request) {
 
-        long postNo = postManageService.createPost(request.getCreatePostRequest());
+        Long postNo = postManageService.createPost(request.createPostRequest());
 
         NormalPost normalPost = NormalPost.builder()
                 .userNo(userNo)
                 .postNo(postNo)
                 .build();
 
-        normalPostManageRepository.save(normalPost);
+        return normalPostManageRepository.save(normalPost).getPostNo();
     }
 
     @Override
     public void modifyNormalPost(Long postNo, ModifyNormalPostRequest request) {
-        postManageService.modifyPost(postNo, request.getModifyPostRequest());
+        postManageService.modifyPost(postNo, request.modifyPostRequest());
     }
 
     @Override
     public void deleteById(Long postNo) {
         postManageService.deleteById(postNo);
+        normalPostManageRepository.deleteById(postNo);
     }
 }

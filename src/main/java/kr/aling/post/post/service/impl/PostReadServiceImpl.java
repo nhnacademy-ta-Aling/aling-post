@@ -15,15 +15,15 @@ public class PostReadServiceImpl implements PostReadService {
     private final PostReadRepository postReadRepository;
 
     @Override
+    public Post findById(Long postNo) throws PostNotFoundException {
+        return postReadRepository.findById(postNo)
+                .orElseThrow(() -> new PostNotFoundException(postNo));
+    }
+
+    @Override
     public ReadPostResponse readPostByPostNo(Long postNo) {
         Post post = findById(postNo);
 
         return new ReadPostResponse(post);
-    }
-
-    @Override
-    public Post findById(Long postNo) throws PostNotFoundException {
-        return postReadRepository.findById(postNo)
-                .orElseThrow(() -> new PostNotFoundException(postNo));
     }
 }

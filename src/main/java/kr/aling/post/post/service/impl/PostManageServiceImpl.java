@@ -35,8 +35,12 @@ public class PostManageServiceImpl implements PostManageService {
 
         post.modifyContent(request.getContent());
 
-        if (Boolean.FALSE.equals(request.getIsOpen())) {
-            post.makePrivate();
+        if (!post.isOpen().equals(request.getIsOpen())) {
+            if (Boolean.TRUE.equals(request.getIsOpen())) {
+                post.makePublic();
+            } else {
+                post.makePrivate();
+            }
         }
     }
 
@@ -47,6 +51,6 @@ public class PostManageServiceImpl implements PostManageService {
 
     @Override
     public void privatePost(Long postNo) {
-        postManageRepository.findById(postNo).ifPresent(Post::makePrivate);
+        postReadService.findById(postNo).makePrivate();
     }
 }

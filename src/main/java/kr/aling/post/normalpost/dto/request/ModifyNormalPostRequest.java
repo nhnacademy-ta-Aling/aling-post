@@ -22,7 +22,7 @@ public class ModifyNormalPostRequest {
     @NotNull
     private Boolean isOpen;
 
-    public ModifyPostRequest getModifyPostRequest() {
+    public ModifyPostRequest modifyPostRequest() {
         return new ModifyPostRequest(content,isOpen);
     }
 }
