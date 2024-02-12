@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import kr.aling.post.common.config.JpaConfig;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.post.entity.Post;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 
 @Slf4j
 @DataJpaTest
+@Import(JpaConfig.class)
 class NormalPostManageRepositoryTest {
 
     @Autowired
@@ -39,9 +42,8 @@ class NormalPostManageRepositoryTest {
                 .isOpen(true)
                 .build();
 
-        log.error("1");
-        entityManager.persist(post);
-        log.error("2");
+        post = entityManager.persist(post);
+
         normalPost = NormalPost.builder()
                 .postNo(post.getPostNo())
                 .userNo(1L)
