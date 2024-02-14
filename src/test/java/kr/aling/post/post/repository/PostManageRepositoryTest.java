@@ -66,7 +66,7 @@ class PostManageRepositoryTest {
 
         boolean beforeMakingPrivate = post.getIsOpen();
 
-        post.makePrivate();
+        post.switchVisibility();
 
         AtomicBoolean afterMakingPrivate = new AtomicBoolean(beforeMakingPrivate);
         postManageRepository.findById(post.getPostNo()).ifPresent( o -> afterMakingPrivate.set(o.getIsOpen()));

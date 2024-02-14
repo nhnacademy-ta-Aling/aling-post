@@ -1,5 +1,7 @@
 package kr.aling.post.normalpost.controller;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -73,7 +75,8 @@ class NormalPostManageControllerTest {
 
         CreateNormalPostResponseDto createNormalPostResponse = new CreateNormalPostResponseDto(postNo);
 
-        given(normalPostManageService.createNormalPost(any(), any(CreateNormalPostRequestDto.class))).willReturn(createNormalPostResponse);
+        given(normalPostManageService.createNormalPost(any(), any(CreateNormalPostRequestDto.class))).willReturn(
+                createNormalPostResponse);
 
         mockMvc.perform(post(mappedUrl)
                         .param("userNo", String.valueOf(userNo))
@@ -104,7 +107,7 @@ class NormalPostManageControllerTest {
 
     @Test
     @DisplayName("일반 게시물 생성 요청시 지원하지 않는 content-type 포맷")
-    void createNormalPostNotSupportedContentTypeHeader() throws Exception{
+    void createNormalPostNotSupportedContentTypeHeader() throws Exception {
         Long userNo = 1L;
 
         CreateNormalPostRequestDto createNormalPostRequest = new CreateNormalPostRequestDto();
@@ -118,6 +121,12 @@ class NormalPostManageControllerTest {
                         .content(mapper.writeValueAsString(createNormalPostRequest))
                 )
                 .andExpect(status().isUnsupportedMediaType())
+                .andExpect(
+                        result ->
+                        {
+                            String content = result.getResponse().getContentAsString();
+                            assertThat(content, containsString("application/json"));
+                        })
                 .andDo(print())
                 .andDo(document("create-normal-post-unsupported-content-type-format",
                         preprocessRequest(prettyPrint()),
@@ -128,13 +137,17 @@ class NormalPostManageControllerTest {
                         requestFields(
                                 fieldWithPath("content").description("작성할 게시물 내용"),
                                 fieldWithPath("isOpen").description("게시물 공개 여부")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("응답 메시지")
                         )
                 ));
     }
 
+    //FIXME Controller Advice 에서 반환되는 메시지가 표시되지 않음.
     @Test
     @DisplayName("일반 게시물 생성 요청시 지원하지 않는 응답 포맷")
-    void createNormalPostNotSupportedAcceptHeader() throws Exception{
+    void createNormalPostNotSupportedAcceptHeader() throws Exception {
         Long userNo = 1L;
 
         CreateNormalPostRequestDto createNormalPostRequest = new CreateNormalPostRequestDto();
@@ -166,7 +179,7 @@ class NormalPostManageControllerTest {
 
     @Test
     @DisplayName("일반 게시물 생성 요청시 요청 값이 유효하지 않음")
-    void createNormalPostInvalidRequest() throws Exception{
+    void createNormalPostInvalidRequest() throws Exception {
         Long userNo = 1L;
         Long postNo = 1L;
 
@@ -177,7 +190,11 @@ class NormalPostManageControllerTest {
 
         CreateNormalPostResponseDto createNormalPostResponse = new CreateNormalPostResponseDto(postNo);
 
-        given(normalPostManageService.createNormalPost(any(), any(CreateNormalPostRequestDto.class))).willReturn(createNormalPostResponse);
+        given(normalPostManageService.createNormalPost(any(), any(CreateNormalPostRequestDto.class))).willReturn(
+                createNormalPostResponse);
+
+
+
 
         mockMvc.perform(post(mappedUrl)
                         .param("userNo", String.valueOf(userNo))
@@ -186,6 +203,12 @@ class NormalPostManageControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isBadRequest())
+                .andExpect(
+                        result ->
+                        {
+                            String content = result.getResponse().getContentAsString();
+                            assertThat(content, containsString("must not be blank"));
+                        })
                 .andDo(print())
                 .andDo(document("create-normal-post-invalid-request",
                         preprocessRequest(prettyPrint()),
@@ -193,10 +216,12 @@ class NormalPostManageControllerTest {
                         requestHeaders(
                                 headerWithName(ACCEPT).description(ACCEPT_DESCRIPTION),
                                 headerWithName(CONTENT_TYPE).description(CONTENT_TYPE_DESCRIPTION)
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("응답 메시지")
                         )
                 ));
     }
-
 
 
     @Test
@@ -209,7 +234,7 @@ class NormalPostManageControllerTest {
         ReflectionTestUtils.setField(modifyNormalPostRequest, "content", "테스트용 일반 게시물 내용");
         ReflectionTestUtils.setField(modifyNormalPostRequest, "isOpen", false);
 
-        doNothing().when(normalPostManageService).modifyNormalPost(any(),any(ModifyNormalPostRequestDto.class));
+        doNothing().when(normalPostManageService).modifyNormalPost(any(), any(ModifyNormalPostRequestDto.class));
 
         mockMvc.perform(put(mappedUrl + "/" + postNo)
                         .content(mapper.writeValueAsString(modifyNormalPostRequest))
@@ -231,7 +256,7 @@ class NormalPostManageControllerTest {
                         )
                 ));
 
-        then(normalPostManageService).should(times(1)).modifyNormalPost(any(),any(ModifyNormalPostRequestDto.class));
+        then(normalPostManageService).should(times(1)).modifyNormalPost(any(), any(ModifyNormalPostRequestDto.class));
     }
 
     @Test

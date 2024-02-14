@@ -2,6 +2,12 @@
 
 include::create-normal-post.adoc[]
 
+include::create-normal-post-invalid-request.adoc[]
+
+include::create-normal-post-not-acceptable-format.adoc[]
+
+include::create-normal-post-unsupported-content-type-format.adoc[]
+
 include::modify-normal-post.adoc[]
 
 include::read-normal-post-by-postNo.adoc[]

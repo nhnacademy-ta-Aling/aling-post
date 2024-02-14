@@ -18,5 +18,9 @@ operation::create-normal-post-unsupported-content-type-format[snippets='request-
 
 operation::create-normal-post-unsupported-content-type-format[snippets='http-response']
 
+응답 필드
+
+operation::create-normal-post-unsupported-content-type-format[snippets='response-fields']
+
 
 

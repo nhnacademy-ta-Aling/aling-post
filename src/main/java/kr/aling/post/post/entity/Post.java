@@ -56,6 +56,8 @@ public class Post extends BaseCreateTimeEntity {
      *
      * @param content : 게시물 내용
      * @param isOpen  : 게시물 공개 여부
+     * @author : 이성준
+     * @since : 1.0
      */
     @Builder
     public Post(String content, Boolean isOpen) {
@@ -63,27 +65,35 @@ public class Post extends BaseCreateTimeEntity {
         this.isOpen = isOpen;
     }
 
+    /**
+     * 게시물 엔티티 수정시 사용하는 setter 분류의 메서드입니다.
+     *
+     * @param content : 수정할 내용
+     * @author : 이성준
+     * @since : 1.0
+     */
     public void modifyContent(String content) {
         this.content = content;
     }
 
-    public void makePrivate() {
-        this.isOpen = false;
+    /**
+     * 게시물 엔티티의 공개 여부를 전환할 때 사용하는 메서드입니다.
+     *
+     * @author : 이성준
+     * @since : 1.0
+     */
+    public void switchVisibility() {
+        this.isOpen = !isOpen;
     }
 
-    public void makePublic() {
-        this.isOpen = true;
-    }
-
-    public void safeDelete() {
+    /**
+     * 게시물 삭제 요청시 DB 삭제가 아닌 soft delete 를 실행하는 메서드 입니다.
+     *
+     * @author : 이성준
+     * @since : 1.0
+     */
+    public void softDelete() {
         this.isDelete = true;
     }
 
-    public Boolean isOpen() {
-        return this.isOpen;
-    }
-
-    public Boolean isDelete() {
-        return this.isDelete;
-    }
 }

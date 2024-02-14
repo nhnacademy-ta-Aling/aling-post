@@ -87,7 +87,7 @@ class PostManageServiceTest {
         postManageService.modifyPost(postNo, modifyPostRequest);
 
         assertThat(isOpenBeforeModify, not(equalTo(modifyPostRequest.getIsOpen())));
-        assertThat(post.isOpen(), equalTo(modifyPostRequest.getIsOpen()));
+        assertThat(post.getIsOpen(), equalTo(modifyPostRequest.getIsOpen()));
     }
 
     @Test
@@ -103,7 +103,7 @@ class PostManageServiceTest {
 
         postManageService.privatePost(postNo);
 
-        assertFalse(post.isOpen());
+        assertFalse(post.getIsOpen());
     }
 
     @Test

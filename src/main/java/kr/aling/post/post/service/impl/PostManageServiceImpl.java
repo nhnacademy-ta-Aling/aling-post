@@ -16,8 +16,8 @@ import lombok.RequiredArgsConstructor;
  * 엔티티의 수정이 발생하는 서비스 레이어 이기 때문에 스프링의 스테레오타입 Service 와 Transaction(readonly = false) 가 적용된 ManageService 커스텀 어노테이션이 적용되어 있습니다.
  *
  * @author : 이성준
- * @since : 1.0
  * @see kr.aling.post.common.annotation.ManageService
+ * @since : 1.0
  */
 @ManageService
 @RequiredArgsConstructor
@@ -48,12 +48,8 @@ public class PostManageServiceImpl implements PostManageService {
 
         post.modifyContent(request.getContent());
 
-        if (!post.isOpen().equals(request.getIsOpen())) {
-            if (Boolean.TRUE.equals(request.getIsOpen())) {
-                post.makePublic();
-            } else {
-                post.makePrivate();
-            }
+        if (!post.getIsOpen().equals(request.getIsOpen())) {
+            post.switchVisibility();
         }
     }
 
@@ -62,7 +58,7 @@ public class PostManageServiceImpl implements PostManageService {
      */
     @Override
     public void safeDeleteById(Long postNo) {
-        this.findById(postNo).safeDelete();
+        this.findById(postNo).softDelete();
     }
 
     /**
@@ -70,7 +66,11 @@ public class PostManageServiceImpl implements PostManageService {
      */
     @Override
     public void privatePost(Long postNo) {
-        this.findById(postNo).makePrivate();
+        Post post = this.findById(postNo);
+
+        if (post.getIsOpen().equals(true)) {
+            post.switchVisibility();
+        }
     }
 
     /**
@@ -79,7 +79,6 @@ public class PostManageServiceImpl implements PostManageService {
      *
      * @param postNo 조회하려는 게시물의 번호
      * @return 번호에 해당하는 게시물이 존재하면 해당하는 게시물을 반환합니다.
-     * @author : 이성준
      * @since : 1.0
      */
     private Post findById(Long postNo) {
