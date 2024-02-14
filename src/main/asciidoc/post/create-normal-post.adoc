@@ -1,0 +1,29 @@
+:toc:
+
+==== 일반 게시물 생성
+
+요청
+
+operation::create-normal-post[snippets='http-request']
+
+요청 헤더
+
+operation::create-normal-post[snippets='request-headers']
+
+요청 바디
+
+operation::create-normal-post[snippets='request-body']
+
+요청 필드
+
+operation::create-normal-post[snippets='request-fields']
+
+응답
+
+operation::create-normal-post[snippets='http-response']
+
+응답 필드
+
+operation::create-normal-post[snippets='response-fields']
+
+

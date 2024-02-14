@@ -1,0 +1,19 @@
+:toc:
+
+==== 유저 번호로 게시물 조회
+
+요청
+
+operation::read-normal-post-by-userNo[snippets='http-request']
+
+요청 헤더
+
+operation::read-normal-post-by-userNo[snippets='request-headers']
+
+응답
+
+operation::read-normal-post-by-userNo[snippets='http-response']
+
+응답 필드
+
+operation::read-normal-post-by-userNo[snippets='response-fields']

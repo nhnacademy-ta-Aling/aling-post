@@ -1,0 +1,24 @@
+:toc:
+
+==== 일반 게시물 수정
+
+요청
+
+operation::modify-normal-post[snippets='http-request']
+
+요청 헤더
+
+operation::modify-normal-post[snippets='request-headers']
+
+요청 바디
+
+operation::modify-normal-post[snippets='request-body']
+
+요청 필드
+
+operation::modify-normal-post[snippets='request-fields']
+
+응답
+
+operation::modify-normal-post[snippets='http-response']
+

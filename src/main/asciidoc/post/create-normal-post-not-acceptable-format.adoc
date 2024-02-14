@@ -1,0 +1,23 @@
+:toc:
+
+==== 일반 게시물 생성시 지원하지 않는 응답 포맷
+
+요청
+
+operation::create-normal-post-not-acceptable-format[snippets='http-request']
+
+요청 헤더
+
+operation::create-normal-post-not-acceptable-format[snippets='request-headers']
+
+요청 바디
+
+operation::create-normal-post-not-acceptable-format[snippets='request-body']
+
+응답
+
+operation::create-normal-post-not-acceptable-format[snippets='http-response']
+
+응답 필드
+
+operation::create-normal-post-not-acceptable-format[snippets='reponse-fields']
