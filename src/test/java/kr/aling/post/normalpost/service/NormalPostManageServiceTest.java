@@ -9,13 +9,15 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 
-import kr.aling.post.normalpost.dto.request.CreateNormalPostRequest;
-import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequest;
+import kr.aling.post.normalpost.dto.request.CreateNormalPostRequestDto;
+import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequestDto;
+import kr.aling.post.normalpost.dto.response.CreateNormalPostResponseDto;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.normalpost.repository.NormalPostManageRepository;
 import kr.aling.post.normalpost.service.impl.NormalPostManageServiceImpl;
-import kr.aling.post.post.dto.request.CreatePostRequest;
-import kr.aling.post.post.dto.request.ModifyPostRequest;
+import kr.aling.post.post.dto.request.CreatePostRequestDto;
+import kr.aling.post.post.dto.request.ModifyPostRequestDto;
+import kr.aling.post.post.dto.response.CreatePostResponseDto;
 import kr.aling.post.post.service.PostManageService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,10 +28,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 /**
+ * 일반 게시물 관리 서비스 테스트
+ *
  * @author : 이성준
  * @since : 1.0
  */
-
 @ExtendWith(SpringExtension.class)
 class NormalPostManageServiceTest {
 
@@ -53,18 +56,18 @@ class NormalPostManageServiceTest {
                 .postNo(postNo)
                 .build();
 
-        CreateNormalPostRequest createNormalPostRequest = new CreateNormalPostRequest();
+        CreateNormalPostRequestDto createNormalPostRequest = new CreateNormalPostRequestDto();
 
         ReflectionTestUtils.setField(createNormalPostRequest, "content", "테스트용 일반 게시물 내용");
         ReflectionTestUtils.setField(createNormalPostRequest, "isOpen", true);
 
-        given(postManageService.createPost(any(CreatePostRequest.class))).willReturn(postNo);
+        given(postManageService.createPost(any(CreatePostRequestDto.class))).willReturn(new CreatePostResponseDto(postNo));
         given(normalPostManageRepository.save(any(NormalPost.class))).willReturn(normalPost);
 
-        Long actual = normalPostManageService.createNormalPost(userNo, createNormalPostRequest);
+        CreateNormalPostResponseDto actual = normalPostManageService.createNormalPost(userNo, createNormalPostRequest);
 
         assertNotNull(actual);
-        assertEquals(postNo, actual);
+        assertEquals(postNo, actual.getPostNo());
 
     }
 
@@ -73,16 +76,16 @@ class NormalPostManageServiceTest {
     void modifyNormalPost() {
         Long postNo = 1L;
 
-        ModifyNormalPostRequest modifyNormalPostRequest = new ModifyNormalPostRequest();
+        ModifyNormalPostRequestDto modifyNormalPostRequest = new ModifyNormalPostRequestDto();
 
         ReflectionTestUtils.setField(modifyNormalPostRequest, "content", "테스트용 일반 게시물 내용");
         ReflectionTestUtils.setField(modifyNormalPostRequest, "isOpen", true);
 
-        doNothing().when(postManageService).modifyPost(anyLong(), any(ModifyPostRequest.class));
+        doNothing().when(postManageService).modifyPost(anyLong(), any(ModifyPostRequestDto.class));
 
         normalPostManageService.modifyNormalPost(postNo, modifyNormalPostRequest);
 
-        then(postManageService).should(times(1)).modifyPost(anyLong(), any(ModifyPostRequest.class));
+        then(postManageService).should(times(1)).modifyPost(anyLong(), any(ModifyPostRequestDto.class));
     }
 
     @Test
@@ -90,9 +93,8 @@ class NormalPostManageServiceTest {
     void deleteById() {
         Long postNo = 1L;
 
-        normalPostManageService.deleteById(postNo);
+        normalPostManageService.safeDeleteById(postNo);
 
-        then(postManageService).should(times(1)).deleteById(postNo);
-        then(normalPostManageRepository).should(times(1)).deleteById(postNo);
+        then(postManageService).should(times(1)).safeDeleteById(postNo);
     }
 }

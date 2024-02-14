@@ -1,15 +1,15 @@
 package kr.aling.post.post.service;
 
-import kr.aling.post.post.dto.request.CreatePostRequest;
-import kr.aling.post.post.dto.request.ModifyPostRequest;
+import kr.aling.post.post.dto.request.CreatePostRequestDto;
+import kr.aling.post.post.dto.request.ModifyPostRequestDto;
+import kr.aling.post.post.dto.response.CreatePostResponseDto;
 
 /**
- * 게시믈 생성, 수정, 삭제 서비스 레이어
+ * 게시물 생성, 수정, 삭제 서비스 레이어
  *
  * @author : 이성준
  * @since : 1.0
  */
-
 public interface PostManageService {
     /**
      * 게시물 생성
@@ -17,7 +17,7 @@ public interface PostManageService {
      * @param request : 게시물 생성 데이터
      * @return : 생성된 게시물에 부여된 번호
      */
-    long createPost(CreatePostRequest request);
+    CreatePostResponseDto createPost(CreatePostRequestDto request);
 
     /**
      * 게시물 수정
@@ -25,7 +25,7 @@ public interface PostManageService {
      * @param postNo : 수정할 게시물 번호
      * @param request : 게시물 수정에 사용될 데이터
      */
-    void modifyPost(Long postNo, ModifyPostRequest request);
+    void modifyPost(Long postNo, ModifyPostRequestDto request);
 
     /**
      * 게시물 비공개 처리. 게시물 제재 등을 이유로 수정이 아닌 게시물 비공개만 처리.
@@ -39,5 +39,5 @@ public interface PostManageService {
      *
      * @param postNo 삭제할 게시물 번호
      */
-    void deleteById(Long postNo);
+    void safeDeleteById(Long postNo);
 }

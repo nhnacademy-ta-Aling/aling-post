@@ -1,5 +1,17 @@
 :toc:
 
-==== 일반 게시물 수정
+==== 일반 게시물 삭제
 
-operation::delete-normal-post[]
+요청
+
+operation::delete-normal-post[snippets='http-request']
+
+요청 헤더
+
+operation::delete-normal-post[snippets='request-headers']
+
+응답
+
+operation::delete-normal-post[snippets='http-response']
+
+

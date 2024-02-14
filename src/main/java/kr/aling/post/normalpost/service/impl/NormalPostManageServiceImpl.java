@@ -1,43 +1,61 @@
 package kr.aling.post.normalpost.service.impl;
 
 import kr.aling.post.common.annotation.ManageService;
-import kr.aling.post.normalpost.dto.request.CreateNormalPostRequest;
-import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequest;
+import kr.aling.post.common.utils.NormalPostUtils;
+import kr.aling.post.normalpost.dto.request.CreateNormalPostRequestDto;
+import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequestDto;
+import kr.aling.post.normalpost.dto.response.CreateNormalPostResponseDto;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.normalpost.repository.NormalPostManageRepository;
 import kr.aling.post.normalpost.service.NormalPostManageService;
+import kr.aling.post.post.dto.response.CreatePostResponseDto;
 import kr.aling.post.post.service.PostManageService;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * NormalPostManageService 의 구현체입니다.
+ * 엔티티의 수정이 발생하는 서비스 레이어 이기 때문에 스프링의 스테레오타입 Service 와 Transaction(readonly = false) 가 적용된 ManageService 커스텀 어노테이션이 적용되어 있습니다.
+ *
+ * @author : 이성준
+ * @since : 1.0
+ * @see kr.aling.post.common.annotation.ManageService
+ */
 @ManageService
 @RequiredArgsConstructor
 public class NormalPostManageServiceImpl implements NormalPostManageService {
 
     private final NormalPostManageRepository normalPostManageRepository;
-
     private final PostManageService postManageService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Long createNormalPost(Long userNo, CreateNormalPostRequest request) {
+    public CreateNormalPostResponseDto createNormalPost(Long userNo, CreateNormalPostRequestDto request) {
 
-        Long postNo = postManageService.createPost(request.createPostRequest());
+        CreatePostResponseDto createPostResponse = postManageService.createPost(NormalPostUtils.convert(request));
 
         NormalPost normalPost = NormalPost.builder()
                 .userNo(userNo)
-                .postNo(postNo)
+                .postNo(createPostResponse.getPostNo())
                 .build();
 
-        return normalPostManageRepository.save(normalPost).getPostNo();
+        return new CreateNormalPostResponseDto(normalPostManageRepository.save(normalPost).getPostNo());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void modifyNormalPost(Long postNo, ModifyNormalPostRequest request) {
-        postManageService.modifyPost(postNo, request.modifyPostRequest());
+    public void modifyNormalPost(Long postNo, ModifyNormalPostRequestDto request) {
+        postManageService.modifyPost(postNo, NormalPostUtils.convert(request));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void deleteById(Long postNo) {
-        postManageService.deleteById(postNo);
-        normalPostManageRepository.deleteById(postNo);
+    public void safeDeleteById(Long postNo) {
+        postManageService.safeDeleteById(postNo);
     }
 }

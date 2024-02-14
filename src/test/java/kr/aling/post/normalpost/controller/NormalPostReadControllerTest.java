@@ -19,18 +19,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
-import kr.aling.post.normalpost.dto.response.ReadNormalPostResponse;
+import kr.aling.post.common.dto.PageResponseDto;
+import kr.aling.post.common.utils.NormalPostUtils;
+import kr.aling.post.common.utils.PageUtils;
+import kr.aling.post.normalpost.dto.response.ReadNormalPostResponseDto;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.normalpost.service.NormalPostReadService;
 import kr.aling.post.post.entity.Post;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -38,10 +39,10 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
+ * 일반 게시물 조회 컨트롤러 테스트
  * @author : 이성준
  * @since : 1.0
  */
-
 @WebMvcTest(NormalPostReadController.class)
 @AutoConfigureRestDocs(uriPort = 9030)
 class NormalPostReadControllerTest {
@@ -49,18 +50,13 @@ class NormalPostReadControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-    String mappedUrl = "/api/v1/normal-posts";
 
     @Autowired
     ObjectMapper mapper;
 
     @MockBean
     NormalPostReadService normalPostReadService;
-
-    @BeforeEach
-    void setUp() {
-
-    }
+    String mappedUrl = "/api/v1/normal-posts";
 
     @Test
     @DisplayName("게시물 번호로 일반 게시물 조회")
@@ -84,7 +80,7 @@ class NormalPostReadControllerTest {
 
         ReflectionTestUtils.setField(normalPost, "post", post);
 
-        ReadNormalPostResponse response = new ReadNormalPostResponse(normalPost);
+        ReadNormalPostResponseDto response = NormalPostUtils.convert(normalPost);
 
         given(normalPostReadService.readNormalPostByPostNo(postNo)).willReturn(response);
 
@@ -137,13 +133,15 @@ class NormalPostReadControllerTest {
 
         ReflectionTestUtils.setField(normalPost, "post", post);
 
-        Page<ReadNormalPostResponse> responses = new PageImpl<>(
-                List.of(new ReadNormalPostResponse(normalPost), new ReadNormalPostResponse(normalPost)));
+        PageResponseDto<ReadNormalPostResponseDto> responses = PageUtils.convert(new PageImpl<>(
+                List.of(NormalPostUtils.convert(normalPost), NormalPostUtils.convert(normalPost))));
 
         given(normalPostReadService.readNormalPostsByUserNo(anyLong(), any(Pageable.class))).willReturn(responses);
 
         mockMvc.perform(get(mappedUrl)
                         .param("userNo", String.valueOf(userNo))
+                        .param("page", "1L")
+                        .param("size", "20")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -165,18 +163,9 @@ class NormalPostReadControllerTest {
                                 fieldWithPath("content[].post.createAt").description("최초 작성 시간"),
                                 fieldWithPath("content[].post.modifyAt").description("마지막 수정 시간"),
                                 fieldWithPath("content[].userNo").description("게시글을 작성한 유저 번호"),
-                                fieldWithPath("number").description("현재 페이지 번호"),
-                                fieldWithPath("sort.unsorted").description("").ignored(),
-                                fieldWithPath("sort.sorted").description("").ignored(),
-                                fieldWithPath("sort.empty").description("").ignored(),
-                                fieldWithPath("pageable").description("").ignored(),
+                                fieldWithPath("pageNumber").description("현재 페이지 번호"),
                                 fieldWithPath("totalPages").description("전체 페이지 갯수"),
-                                fieldWithPath("totalElements").description("전체 요소 갯수"),
-                                fieldWithPath("numberOfElements").description("실제 데이터 갯수"),
-                                fieldWithPath("first").description("첫 페이지 여부"),
-                                fieldWithPath("last").description("마지막 페이지 여부"),
-                                fieldWithPath("size").description("페이지에 표시될 수 있는 데이터 수"),
-                                fieldWithPath("empty").description("페이지의 리스트가 비어있는지 여부")
+                                fieldWithPath("totalElements").description("전체 요소 갯수")
                         )
                 ));
     }

@@ -8,11 +8,10 @@ package kr.aling.post.post.exception;
  */
 
 public class PostNotFoundException extends RuntimeException {
-    /**
-     *
-     * @param postNo : 조회 실패한 게시물 번호
-     */
+
+    public static final String MESSAGE = "Post Not Found : ";
+
     public PostNotFoundException(Long postNo) {
-            super("Post Not Found : " + postNo);
+        super(MESSAGE + postNo);
     }
 }

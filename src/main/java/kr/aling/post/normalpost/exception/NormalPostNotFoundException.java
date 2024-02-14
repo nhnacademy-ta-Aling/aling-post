@@ -7,7 +7,10 @@ package kr.aling.post.normalpost.exception;
  * @since : 1.0
  */
 public class NormalPostNotFoundException extends RuntimeException {
+
+    public static final String MESSAGE = "Normal Post Not Found : ";
+
     public NormalPostNotFoundException(Long postNo) {
-        super("Normal Post Not Found : " + postNo);
+        super(MESSAGE + postNo);
     }
 }

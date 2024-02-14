@@ -3,13 +3,13 @@ package kr.aling.post.post.service;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import kr.aling.post.post.dto.response.ReadPostResponse;
+import kr.aling.post.common.utils.NormalPostUtils;
+import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostReadRepository;
@@ -23,11 +23,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 /**
+ * 게시물 조회 서비스 테스트
+ *
  * @author : 이성준
  * @since : 1.0
  */
-
-
 @ExtendWith(SpringExtension.class)
 class PostReadServiceTest {
 
@@ -40,24 +40,23 @@ class PostReadServiceTest {
     @Test
     @DisplayName("게시물 조회시 올바른 응답 객체 반환")
     void readPostByPostNo() {
-        ReadPostResponse postResponse = new ReadPostResponse();
-        Post post = Post.builder().build();
+
+        Post post = Post.builder()
+                .content("테스트 게시물의 내용")
+                .isOpen(true)
+                .build();
 
         LocalDateTime createAt = LocalDateTime.now();
 
         ReflectionTestUtils.setField(post, "postNo", 1L);
-        ReflectionTestUtils.setField(post, "content", "게시물 내용");
         ReflectionTestUtils.setField(post, "createAt", createAt);
         ReflectionTestUtils.setField(post, "modifyAt", null);
 
-        ReflectionTestUtils.setField(postResponse, "postNo", 1L);
-        ReflectionTestUtils.setField(postResponse, "content", "게시물 내용");
-        ReflectionTestUtils.setField(postResponse, "createAt", createAt);
-        ReflectionTestUtils.setField(postResponse, "modifyAt", null);
+        ReadPostResponseDto postResponse = NormalPostUtils.convert(post);
 
         given(postReadRepository.findById(postResponse.getPostNo())).willReturn(Optional.of(post));
 
-        ReadPostResponse actual = postReadService.readPostByPostNo(postResponse.getPostNo());
+        ReadPostResponseDto actual = postReadService.readPostByPostNo(postResponse.getPostNo());
 
         assertAll("게시물 내용과 응답 DTO 가 동일한지 확인",
                 ()-> assertThat(postResponse.getPostNo(), equalTo(actual.getPostNo())),
@@ -65,25 +64,6 @@ class PostReadServiceTest {
                 ()-> assertThat(postResponse.getCreateAt(), equalTo(actual.getCreateAt())),
                 ()-> assertThat(postResponse.getModifyAt(), equalTo(actual.getModifyAt()))
         );
-    }
-
-    @Test
-    @DisplayName("게시물 번호에 따른 게시물 엔티티 반환")
-    void findById() {
-        Post post = Post.builder().build();
-
-        LocalDateTime createAt = LocalDateTime.now();
-
-        ReflectionTestUtils.setField(post, "postNo", 1L);
-        ReflectionTestUtils.setField(post, "content", "게시물 내용");
-        ReflectionTestUtils.setField(post, "createAt", createAt);
-        ReflectionTestUtils.setField(post, "modifyAt", null);
-
-        given(postReadRepository.findById(post.getPostNo())).willReturn(Optional.of(post));
-
-        Post actual = postReadService.findById(post.getPostNo());
-
-        assertEquals(post, actual);
     }
 
     @Test

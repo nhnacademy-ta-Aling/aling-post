@@ -16,6 +16,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 
+/**
+ * 일반 게시물 조회 레포지토리 테스트
+ *
+ * @author : 이성준
+ * @since : 1.0
+ */
 @DataJpaTest
 @Import(JpaConfig.class)
 class NormalPostReadRepositoryTest {

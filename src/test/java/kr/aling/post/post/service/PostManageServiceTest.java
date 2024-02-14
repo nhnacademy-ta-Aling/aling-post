@@ -11,11 +11,13 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
-import kr.aling.post.post.dto.request.CreatePostRequest;
-import kr.aling.post.post.dto.request.ModifyPostRequest;
+import java.util.Optional;
+import kr.aling.post.post.dto.request.CreatePostRequestDto;
+import kr.aling.post.post.dto.request.ModifyPostRequestDto;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostManageRepository;
+import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.post.service.impl.PostManageServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,15 +28,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 /**
+ * 게시물 관리 서비스 테스트
+ *
  * @author : 이성준
  * @since : 1.0
  */
-
 @ExtendWith(SpringExtension.class)
 class PostManageServiceTest {
 
     @Mock
-    PostReadService postReadService;
+    PostReadRepository postReadRepository;
 
     @Mock
     PostManageRepository postManageRepository;
@@ -46,10 +49,7 @@ class PostManageServiceTest {
     @DisplayName("게시물 작성 요청에 따른 게시물 생성")
     void createPost() {
         Long postNo = 1L;
-        CreatePostRequest createPostRequest = new CreatePostRequest();
-
-        ReflectionTestUtils.setField(createPostRequest,"isOpen",true);
-        ReflectionTestUtils.setField(createPostRequest,"content", "게시물 작성 내용");
+        CreatePostRequestDto createPostRequest = new CreatePostRequestDto("게시물 작성 내용", true);
 
         Post post = Post.builder()
                 .content(createPostRequest.getContent())
@@ -69,21 +69,20 @@ class PostManageServiceTest {
     @DisplayName("게시물 수정 요청에 따른 게시물 수정")
     void modifyPost() {
         Long postNo = 1L;
-        ModifyPostRequest modifyPostRequest = new ModifyPostRequest();
-
-        ReflectionTestUtils.setField(modifyPostRequest,"isOpen",false);
-        ReflectionTestUtils.setField(modifyPostRequest,"content", "게시물 작성 내용");
+        ModifyPostRequestDto modifyPostRequest = new ModifyPostRequestDto(
+                "수정 후 게시물 내용",
+                false
+        );
 
         String contentBeforeModify = "수정 전 게시물 내용";
         boolean isOpenBeforeModify = true;
-
 
         Post post = Post.builder()
                 .content(contentBeforeModify)
                 .isOpen(isOpenBeforeModify)
                 .build();
 
-        given(postReadService.findById(postNo)).willReturn(post);
+        given(postReadRepository.findById(postNo)).willReturn(Optional.of(post));
 
         postManageService.modifyPost(postNo, modifyPostRequest);
 
@@ -96,11 +95,11 @@ class PostManageServiceTest {
     void privatePost() {
         Long postNo = 1L;
         Post post = Post.builder()
-                .content("")
+                .content("비공개 처리 테스트 게시물 내용")
                 .isOpen(true)
                 .build();
 
-        given(postReadService.findById(postNo)).willReturn(post);
+        given(postReadRepository.findById(postNo)).willReturn(Optional.of(post));
 
         postManageService.privatePost(postNo);
 
@@ -112,9 +111,9 @@ class PostManageServiceTest {
     void privatePostButNotExisted() {
         Long postNo = 2L;
 
-        given(postReadService.findById(postNo)).willThrow(new PostNotFoundException(postNo));
+        given(postReadRepository.findById(postNo)).willThrow(new PostNotFoundException(postNo));
 
-        assertThrows(PostNotFoundException.class, ()-> postManageService.privatePost(postNo));
+        assertThrows(PostNotFoundException.class, () -> postManageService.privatePost(postNo));
     }
 
     @Test
@@ -122,13 +121,13 @@ class PostManageServiceTest {
     void deleteById() {
         Long postNo = 1L;
         Post post = Post.builder()
-                .content("")
+                .content("삭제 처리 테스트 게시물 내용")
                 .isOpen(true)
                 .build();
 
-        given(postReadService.findById(postNo)).willReturn(post);
+        given(postReadRepository.findById(postNo)).willReturn(Optional.of(post));
 
-        postManageService.deleteById(postNo);
+        postManageService.safeDeleteById(postNo);
 
         assertTrue(post.getIsDelete());
     }
