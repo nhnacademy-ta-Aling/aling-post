@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.LastModifiedDate;
 
 /**
  * Post(게시글) Entity.
@@ -34,6 +35,7 @@ public class Post extends BaseCreateTimeEntity {
     @Column(name = "post_content")
     private String content;
 
+    @LastModifiedDate
     @Column(name = "post_modify_at")
     private LocalDateTime modifyAt;
 
@@ -68,12 +70,12 @@ public class Post extends BaseCreateTimeEntity {
     /**
      * 게시물 엔티티 수정시 사용하는 setter 분류의 메서드입니다.
      *
-     * @param content : 수정할 내용
+     * @param replaceContent : 수정할 내용
      * @author : 이성준
      * @since : 1.0
      */
-    public void modifyContent(String content) {
-        this.content = content;
+    public void modifyContent(String replaceContent) {
+        this.content = replaceContent;
     }
 
     /**
