@@ -6,10 +6,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import kr.aling.post.common.config.JpaConfig;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
@@ -22,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 댓글 조회 레포지토리 테스트
@@ -50,7 +50,7 @@ class ReplyReadRepositoryTest {
     }
 
     @Test
-    @DisplayName("게시물 조회")
+    @DisplayName("댓글 조회")
     void findById() {
         Reply reply = ReplyDummy.dummyReply(post.getPostNo());
         entityManager.persist(reply);
@@ -59,26 +59,6 @@ class ReplyReadRepositoryTest {
         assertThat(replyOptional.isPresent(), is(true));
         Reply actual = replyOptional.get();
         assertThat(actual.getContent(), equalTo(reply.getContent()));
-    }
-
-    @Test
-    @DisplayName("게시물 번호로 해당 게시물의 댓글 조회")
-    void findAllByPostNo() {
-        int countsReply = 10;
-        for (int i = 0; i < countsReply; i++) {
-            Reply reply = ReplyDummy.dummyReply(post.getPostNo());
-            entityManager.persist(reply);
-        }
-
-        List<Reply> actual = replyReadRepository.findAllByPostNo(post.getPostNo());
-
-        assertThat(actual.size(), equalTo(countsReply));
-        actual.forEach(
-                r -> {
-                    Set<Reply> set = new HashSet<>();
-                    assertThat(set.add(r), is(true));
-                }
-        );
     }
 
     @Test
@@ -98,9 +78,11 @@ class ReplyReadRepositoryTest {
             }
         }
 
-        List<Reply> actual = replyReadRepository.findRepliesByPostNoAndIsDeleteIsFalse(post.getPostNo());
+        Page<Reply> actual =
+                replyReadRepository.findRepliesByPostNoAndIsDeleteIsFalse(post.getPostNo(), Pageable.unpaged());
+        List<Reply> actualReplies = actual.getContent();
 
-        assertThat(actual, is(not(empty())));
+        assertThat(actualReplies, is(not(empty())));
         actual.forEach(reply -> {
             assertThat(reply.getIsDelete(), is(false));
             assertThat(reply.getContent(), not(equalTo(deleteMessage)));
