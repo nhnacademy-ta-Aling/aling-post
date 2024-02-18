@@ -1,5 +1,10 @@
 package kr.aling.post.reply.dummy;
 
+import java.time.LocalDateTime;
+import kr.aling.post.reply.dto.request.CreateReplyRequestDto;
+import kr.aling.post.reply.dto.request.ModifyReplyRequestDto;
+import kr.aling.post.reply.dto.response.CreateReplyResponseDto;
+import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
 import kr.aling.post.reply.entity.Reply;
 
 /**
@@ -15,10 +20,9 @@ public class ReplyDummy {
      *
      * @param postNo 댓글이 달릴 게시물 번호
      * @return 댓글 더미 객체
-     * @author : 이성준
      * @since : 1.0
      */
-    public static Reply dummyReply(Long postNo){
+    public static Reply dummyReply(Long postNo) {
         Long userNo = 1L;
 
         return Reply.builder()
@@ -27,5 +31,47 @@ public class ReplyDummy {
                 .content("테스트용 더미 댓글 내용")
                 .parentReplyNo(null)
                 .build();
+    }
+
+    public static CreateReplyRequestDto dummyCreateRequest() {
+        Reply reply = dummyReply(1L);
+
+        return new CreateReplyRequestDto(
+                reply.getParentReplyNo(),
+                reply.getUserNo(),
+                reply.getPostNo(),
+                reply.getContent()
+        );
+    }
+
+    public static CreateReplyResponseDto dummyCreateResponse() {
+        Reply reply = dummyReply(1L);
+
+        return new CreateReplyResponseDto(
+                reply.getReplyNo(),
+                reply.getParentReplyNo(),
+                reply.getUserNo(),
+                reply.getPostNo(),
+                reply.getContent(),
+                LocalDateTime.now()
+        );
+    }
+
+    public static ModifyReplyRequestDto dummyModifyRequest() {
+        Reply reply = dummyReply(1L);
+
+        return new ModifyReplyRequestDto(
+                reply.getContent()
+        );
+    }
+
+    public static ModifyReplyResponseDto dummyModifyResponse() {
+        Reply reply = dummyReply(1L);
+
+        return new ModifyReplyResponseDto(
+                reply.getReplyNo(),
+                reply.getContent(),
+                LocalDateTime.now()
+        );
     }
 }

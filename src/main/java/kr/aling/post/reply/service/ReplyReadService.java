@@ -1,7 +1,7 @@
 package kr.aling.post.reply.service;
 
 import kr.aling.post.common.dto.PageResponseDto;
-import kr.aling.post.reply.entity.Reply;
+import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -22,7 +22,7 @@ public interface ReplyReadService {
      * @author : 이성준
      * @since : 1.0
      */
-    PageResponseDto<Reply> readRepliesByPostNo(Long postNo, Pageable pageable);
+    PageResponseDto<ReadReplyResponseDto> readRepliesByPostNo(Long postNo, Pageable pageable);
 
 
 }

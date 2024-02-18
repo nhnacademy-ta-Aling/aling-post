@@ -13,8 +13,10 @@ import static org.mockito.BDDMockito.given;
 import java.util.ArrayList;
 import java.util.List;
 import kr.aling.post.common.dto.PageResponseDto;
+import kr.aling.post.common.utils.ReplyUtils;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
+import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
 import kr.aling.post.reply.dummy.ReplyDummy;
 import kr.aling.post.reply.entity.Reply;
 import kr.aling.post.reply.repo.ReplyReadRepository;
@@ -25,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -58,18 +61,19 @@ class ReplyReadServiceTest {
     @DisplayName("게시물 번호로 댓글 목록 페이지 조회")
     void readRepliesByPostNo() {
 
-        List<Reply> content = new ArrayList<>();
+        List<ReadReplyResponseDto> content = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Reply reply = ReplyDummy.dummyReply(post.getPostNo());
             ReflectionTestUtils.setField(reply, "replyNo", Integer.toUnsignedLong(i));
-            content.add(reply);
+            content.add(ReplyUtils.convertToReadResponse(reply));
         }
 
-        PageImpl<Reply> page = new PageImpl<>(content);
+        Page<ReadReplyResponseDto> page = new PageImpl<>(content);
 
         given(replyReadRepository.findRepliesByPostNoAndIsDeleteIsFalse(any(), any())).willReturn(page);
 
-        PageResponseDto<Reply> actual = replyReadService.readRepliesByPostNo(post.getPostNo(), Pageable.unpaged());
+        PageResponseDto<ReadReplyResponseDto> actual =
+                replyReadService.readRepliesByPostNo(post.getPostNo(), Pageable.unpaged());
 
         assertAll(
                 () -> assertThat(actual.getTotalPages(), not(nullValue())),
@@ -78,13 +82,12 @@ class ReplyReadServiceTest {
                 () -> assertThat(actual.getContent(), not(nullValue()))
         );
 
-        List<Reply> actualReplies = actual.getContent();
+        List<ReadReplyResponseDto> actualReplies = actual.getContent();
         assertThat(actualReplies, is(not(empty())));
 
         actualReplies.forEach(
                 reply -> {
                     assertThat(reply.getPostNo(), equalTo(post.getPostNo()));
-                    assertThat(reply.getIsDelete(), not(true));
                 }
         );
 

@@ -3,10 +3,11 @@ package kr.aling.post.reply.service.impl;
 import kr.aling.post.common.annotation.ReadService;
 import kr.aling.post.common.dto.PageResponseDto;
 import kr.aling.post.common.utils.PageUtils;
-import kr.aling.post.reply.entity.Reply;
+import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
 import kr.aling.post.reply.repo.ReplyReadRepository;
 import kr.aling.post.reply.service.ReplyReadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -25,8 +26,9 @@ public class ReplyReadServiceImpl implements ReplyReadService {
      * {@inheritDoc}
      */
     @Override
-    public PageResponseDto<Reply> readRepliesByPostNo(Long postNo, Pageable pageable) {
+    public PageResponseDto<ReadReplyResponseDto> readRepliesByPostNo(Long postNo, Pageable pageable) {
+        Page<ReadReplyResponseDto> response= replyReadRepository.findRepliesByPostNoAndIsDeleteIsFalse(postNo,pageable);
 
-        return PageUtils.convert(replyReadRepository.findRepliesByPostNoAndIsDeleteIsFalse(postNo, pageable));
+        return PageUtils.convert(response);
     }
 }

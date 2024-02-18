@@ -11,6 +11,7 @@ import java.util.Optional;
 import kr.aling.post.common.config.JpaConfig;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
+import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
 import kr.aling.post.reply.dummy.ReplyDummy;
 import kr.aling.post.reply.entity.Reply;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,13 +79,12 @@ class ReplyReadRepositoryTest {
             }
         }
 
-        Page<Reply> actual =
+        Page<ReadReplyResponseDto> actual =
                 replyReadRepository.findRepliesByPostNoAndIsDeleteIsFalse(post.getPostNo(), Pageable.unpaged());
-        List<Reply> actualReplies = actual.getContent();
+        List<ReadReplyResponseDto> actualReplies = actual.getContent();
 
         assertThat(actualReplies, is(not(empty())));
         actual.forEach(reply -> {
-            assertThat(reply.getIsDelete(), is(false));
             assertThat(reply.getContent(), not(equalTo(deleteMessage)));
         });
 

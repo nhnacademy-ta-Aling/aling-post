@@ -3,6 +3,8 @@ package kr.aling.post.reply.service;
 
 import kr.aling.post.reply.dto.request.CreateReplyRequestDto;
 import kr.aling.post.reply.dto.request.ModifyReplyRequestDto;
+import kr.aling.post.reply.dto.response.CreateReplyResponseDto;
+import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
 
 /**
  * 댓글 관리용 서비스 레이어
@@ -15,24 +17,26 @@ public interface ReplyManageService {
     /**
      * 댓글 작성
      *
-     * @param parentReplyNo 작성하려는 댓글의 부모 댓글, nullable
      * @param request 댓글 작성시 필요한 데이터 객체
+     * @return 댓글 작성시 응답 객체
      * @author : 이성준
      * @since : 1.0
      */
-    void createReply(Long parentReplyNo, CreateReplyRequestDto request);
+    CreateReplyResponseDto createReply(CreateReplyRequestDto request);
 
     /**
      * 댓글 수정
      *
-     * @param replyNo 수정할 댓글의 번호
+     * @param replyNo 수정할 대상 댓글 번호
      * @param request 댓글 수정시 필요한 데이터 객체
+     * @return 댓글 수정시 응답 객체
+     * @author : 이성준
      * @since : 1.0
      */
-    void modifyReply(Long replyNo, ModifyReplyRequestDto request);
+    ModifyReplyResponseDto modifyReply(Long replyNo, ModifyReplyRequestDto request);
 
     /**
-     * 댓글 삭제 처리
+     * 댓글 삭제
      *
      * @param replyNo 삭제 처리할 댓글의 번호
      * @author : 이성준

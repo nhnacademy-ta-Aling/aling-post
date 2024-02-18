@@ -1,5 +1,6 @@
 package kr.aling.post.reply.repo;
 
+import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
 import kr.aling.post.reply.entity.Reply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,5 +14,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ReplyReadRepository extends JpaRepository<Reply, Long> {
 
-    Page<Reply> findRepliesByPostNoAndIsDeleteIsFalse(Long postNo, Pageable pageable);
+    Page<ReadReplyResponseDto> findRepliesByPostNoAndIsDeleteIsFalse(Long postNo, Pageable pageable);
 }

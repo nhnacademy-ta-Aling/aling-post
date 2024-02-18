@@ -1,8 +1,10 @@
 package kr.aling.post.reply.service;
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -17,6 +19,8 @@ import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.reply.dto.request.CreateReplyRequestDto;
 import kr.aling.post.reply.dto.request.ModifyReplyRequestDto;
+import kr.aling.post.reply.dto.response.CreateReplyResponseDto;
+import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
 import kr.aling.post.reply.dummy.ReplyDummy;
 import kr.aling.post.reply.entity.Reply;
 import kr.aling.post.reply.repo.ReplyManageRepository;
@@ -63,44 +67,52 @@ class ReplyManageServiceTest {
     void createReply() {
         Post post = PostDummy.dummyPost();
         CreateReplyRequestDto request =
-                new CreateReplyRequestDto(reply.getUserNo(), reply.getPostNo(), reply.getContent());
+                new CreateReplyRequestDto(null, reply.getUserNo(), reply.getPostNo(),
+                        reply.getContent());
 
         given(replyManageRepository.save(any())).willReturn(reply);
         given(postReadRepository.findById(request.getPostNo())).willReturn(Optional.ofNullable(post));
 
-        replyManageService.createReply(null, request);
+        CreateReplyResponseDto actual = replyManageService.createReply(request);
 
         then(replyManageRepository).should(times(1)).save(any());
         then(postReadRepository).should(times(1)).findById(request.getPostNo());
+
+        assertThat(actual.getParentReplyNo(), is(nullValue()));
+        assertThat(actual.getContent(), equalTo(request.getContent()));
+    }
+
+    @Test
+    @DisplayName("댓글 작성")
+    void createReReply() {
+        Post post = PostDummy.dummyPost();
+        Long parentReplyNo = 999L;
+
+        CreateReplyRequestDto request =
+                new CreateReplyRequestDto(parentReplyNo, reply.getUserNo(), reply.getPostNo(), reply.getContent());
+
+        given(postReadRepository.findById(request.getPostNo())).willReturn(Optional.ofNullable(post));
+
+        CreateReplyResponseDto actual = replyManageService.createReply(request);
+
+        then(replyManageRepository).should(times(1)).save(any());
+        then(postReadRepository).should(times(1)).findById(request.getPostNo());
+
+        assertThat(actual.getParentReplyNo(), is(not(nullValue())));
+        assertThat(actual.getContent(), equalTo(request.getContent()));
     }
 
     @Test
     @DisplayName("댓글 작성 실패")
     void createReplyFailPostNotFount() {
         CreateReplyRequestDto request =
-                new CreateReplyRequestDto(reply.getUserNo(), reply.getPostNo(), reply.getContent());
+                new CreateReplyRequestDto(reply.getParentReplyNo(), reply.getUserNo(), reply.getPostNo(),
+                        reply.getContent());
 
         doThrow(new PostNotFoundException(request.getPostNo())).when(postReadRepository).findById(request.getPostNo());
 
-        assertThrows(PostNotFoundException.class, () -> replyManageService.createReply(null, request));
+        assertThrows(PostNotFoundException.class, () -> replyManageService.createReply(request));
 
-        then(postReadRepository).should(times(1)).findById(request.getPostNo());
-    }
-
-    @Test
-    @DisplayName("대댓글 작성")
-    void createReReply() {
-        Post post = PostDummy.dummyPost();
-        Long parentReplyNo = 999L;
-
-        CreateReplyRequestDto request =
-                new CreateReplyRequestDto(reply.getUserNo(), reply.getPostNo(), reply.getContent());
-
-        given(postReadRepository.findById(request.getPostNo())).willReturn(Optional.ofNullable(post));
-
-        replyManageService.createReply(parentReplyNo, request);
-
-        then(replyManageRepository).should(times(1)).save(any());
         then(postReadRepository).should(times(1)).findById(request.getPostNo());
     }
 
@@ -114,10 +126,10 @@ class ReplyManageServiceTest {
 
         given(replyReadRepository.findById(reply.getReplyNo())).willReturn(Optional.ofNullable(reply));
 
-        replyManageService.modifyReply(reply.getReplyNo(), request);
+        ModifyReplyResponseDto actual = replyManageService.modifyReply(reply.getReplyNo(), request);
 
         then(replyReadRepository).should(times(1)).findById(reply.getReplyNo());
-        assertThat(reply.getContent(), equalTo(replaceContent));
+        assertThat(actual.getContent(), equalTo(replaceContent));
     }
 
     @Test

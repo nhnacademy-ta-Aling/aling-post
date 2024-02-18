@@ -2,11 +2,14 @@ package kr.aling.post.reply.service.impl;
 
 import kr.aling.post.common.annotation.ManageService;
 import kr.aling.post.common.exception.DeleteContentAccessException;
+import kr.aling.post.common.utils.ReplyUtils;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.reply.dto.request.CreateReplyRequestDto;
 import kr.aling.post.reply.dto.request.ModifyReplyRequestDto;
+import kr.aling.post.reply.dto.response.CreateReplyResponseDto;
+import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
 import kr.aling.post.reply.entity.Reply;
 import kr.aling.post.reply.exception.ReplyNotFoundException;
 import kr.aling.post.reply.repo.ReplyManageRepository;
@@ -32,7 +35,7 @@ public class ReplyManageServiceImpl implements ReplyManageService {
      * {@inheritDoc}
      */
     @Override
-    public void createReply(Long parentReplyNo, CreateReplyRequestDto request) {
+    public CreateReplyResponseDto createReply(CreateReplyRequestDto request) {
 
         Post post = postReadRepository.findById(request.getPostNo())
                 .orElseThrow(() -> new PostNotFoundException(request.getPostNo()));
@@ -42,22 +45,26 @@ public class ReplyManageServiceImpl implements ReplyManageService {
         }
 
         Reply reply = Reply.builder()
-                .parentReplyNo(parentReplyNo)
+                .parentReplyNo(request.getParentReplyNo())
                 .userNo(request.getUserNo())
                 .postNo(request.getPostNo())
                 .content(request.getContent())
                 .build();
 
         replyManageRepository.save(reply);
+
+        return ReplyUtils.convertToCreateResponse(reply);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void modifyReply(Long replyNo, ModifyReplyRequestDto request) {
+    public ModifyReplyResponseDto modifyReply(Long replyNo, ModifyReplyRequestDto request) {
         Reply reply = findReplyEntityByReplyNo(replyNo);
         reply.modifyContent(request.getContent());
+
+        return ReplyUtils.convertToModifyResponse(reply);
     }
 
     /**
