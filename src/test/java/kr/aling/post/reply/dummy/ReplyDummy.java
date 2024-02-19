@@ -6,6 +6,7 @@ import kr.aling.post.reply.dto.request.ModifyReplyRequestDto;
 import kr.aling.post.reply.dto.response.CreateReplyResponseDto;
 import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
 import kr.aling.post.reply.entity.Reply;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * 테스트용 댓글 더미 객체
@@ -36,12 +37,13 @@ public class ReplyDummy {
     public static CreateReplyRequestDto dummyCreateRequest() {
         Reply reply = dummyReply(1L);
 
-        return new CreateReplyRequestDto(
-                reply.getParentReplyNo(),
-                reply.getUserNo(),
-                reply.getPostNo(),
-                reply.getContent()
-        );
+        CreateReplyRequestDto request = new CreateReplyRequestDto();
+
+        ReflectionTestUtils.setField(request,"parentReplyNo",reply.getParentReplyNo());
+        ReflectionTestUtils.setField(request,"userNo",reply.getUserNo());
+        ReflectionTestUtils.setField(request,"content",reply.getContent());
+
+        return request;
     }
 
     public static CreateReplyResponseDto dummyCreateResponse() {
@@ -60,9 +62,11 @@ public class ReplyDummy {
     public static ModifyReplyRequestDto dummyModifyRequest() {
         Reply reply = dummyReply(1L);
 
-        return new ModifyReplyRequestDto(
-                reply.getContent()
-        );
+        ModifyReplyRequestDto request = new ModifyReplyRequestDto();
+
+        ReflectionTestUtils.setField(request, "content", "테스트 수정할 내용");
+
+        return request;
     }
 
     public static ModifyReplyResponseDto dummyModifyResponse() {

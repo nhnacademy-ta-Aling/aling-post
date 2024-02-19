@@ -2,7 +2,6 @@ package kr.aling.post.reply.dto.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +13,6 @@ import lombok.NoArgsConstructor;
  * @since : 1.0
  */
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class CreateReplyRequestDto {
 
@@ -22,9 +20,6 @@ public class CreateReplyRequestDto {
 
     @NotNull
     private Long userNo;
-
-    @NotNull
-    private Long postNo;
 
     @NotBlank
     private String content;

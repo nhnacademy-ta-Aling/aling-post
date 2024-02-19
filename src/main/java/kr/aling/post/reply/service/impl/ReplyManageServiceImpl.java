@@ -35,10 +35,10 @@ public class ReplyManageServiceImpl implements ReplyManageService {
      * {@inheritDoc}
      */
     @Override
-    public CreateReplyResponseDto createReply(CreateReplyRequestDto request) {
+    public CreateReplyResponseDto createReply(Long postNo, CreateReplyRequestDto request) {
 
-        Post post = postReadRepository.findById(request.getPostNo())
-                .orElseThrow(() -> new PostNotFoundException(request.getPostNo()));
+        Post post = postReadRepository.findById(postNo)
+                .orElseThrow(() -> new PostNotFoundException(postNo));
 
         if (Boolean.TRUE.equals(post.getIsDelete())) {
             throw new DeleteContentAccessException();
@@ -47,7 +47,7 @@ public class ReplyManageServiceImpl implements ReplyManageService {
         Reply reply = Reply.builder()
                 .parentReplyNo(request.getParentReplyNo())
                 .userNo(request.getUserNo())
-                .postNo(request.getPostNo())
+                .postNo(postNo)
                 .content(request.getContent())
                 .build();
 
@@ -60,7 +60,7 @@ public class ReplyManageServiceImpl implements ReplyManageService {
      * {@inheritDoc}
      */
     @Override
-    public ModifyReplyResponseDto modifyReply(Long replyNo, ModifyReplyRequestDto request) {
+    public ModifyReplyResponseDto modifyReply(Long postNo, Long replyNo, ModifyReplyRequestDto request) {
         Reply reply = findReplyEntityByReplyNo(replyNo);
         reply.modifyContent(request.getContent());
 
@@ -71,7 +71,7 @@ public class ReplyManageServiceImpl implements ReplyManageService {
      * {@inheritDoc}
      */
     @Override
-    public void safeDeleteByReplyNo(Long replyNo) {
+    public void safeDeleteByReplyNo(Long postNo, Long replyNo) {
         Reply reply = findReplyEntityByReplyNo(replyNo);
         reply.softDelete();
     }

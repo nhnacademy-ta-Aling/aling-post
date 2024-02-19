@@ -1,7 +1,6 @@
 package kr.aling.post.reply.dto.request;
 
 import javax.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +12,6 @@ import lombok.NoArgsConstructor;
  * @since : 1.0
  */
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class ModifyReplyRequestDto {
 
