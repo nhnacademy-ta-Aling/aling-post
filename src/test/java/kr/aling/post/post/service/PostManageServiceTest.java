@@ -1,5 +1,6 @@
 package kr.aling.post.post.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -10,10 +11,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
+import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
+import kr.aling.post.post.dto.response.CreatePostResponseDtoTmp;
+import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostManageRepository;
@@ -130,5 +136,28 @@ class PostManageServiceTest {
         postManageService.safeDeleteById(postNo);
 
         assertTrue(post.getIsDelete());
+    }
+
+    @Test
+    @DisplayName("그룹 게시물 전용 저장 테스트")
+    void bandPost_create_test() {
+        // given
+        CreateBandPostRequestDto createBandPostRequestDto = new CreateBandPostRequestDto();
+        ReflectionTestUtils.setField(createBandPostRequestDto, "bandPostTitle", "title");
+        ReflectionTestUtils.setField(createBandPostRequestDto, "bandPostContent", "content");
+        ReflectionTestUtils.setField(createBandPostRequestDto, "isOpen", false);
+        ReflectionTestUtils.setField(createBandPostRequestDto, "bandPostTypeNo", 1L);
+        ReflectionTestUtils.setField(createBandPostRequestDto, "fileNoList", List.of(1L));
+
+        Post post = PostDummy.postDummy();
+
+        // when
+        when(postManageRepository.save(any(Post.class))).thenReturn(post);
+
+        // then
+        CreatePostResponseDtoTmp result = postManageService.createBandPost(createBandPostRequestDto);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getPost().getPostNo()).isEqualTo(post.getPostNo());
     }
 }
