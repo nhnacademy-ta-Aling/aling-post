@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import kr.aling.post.post.entity.Post;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +38,17 @@ public class PostFile {
     @Column(name = "file_no")
     private Long fileNo;
 
+    /**
+     * 게시글 파일(PostFile) 생성자.
+     *
+     * @param post   게시글
+     * @param fileNo 파일 번호
+     */
+    @Builder
+    public PostFile(Post post, Long fileNo) {
+        this.post = post;
+        this.fileNo = fileNo;
+    }
 }
 
 

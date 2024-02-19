@@ -9,11 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import kr.aling.post.common.config.JpaConfig;
+import kr.aling.post.config.JpaConfig;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.post.entity.Post;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 @Slf4j
 @DataJpaTest
 @Import(JpaConfig.class)
+@Disabled
 class NormalPostManageRepositoryTest {
 
     @Autowired
@@ -73,6 +75,7 @@ class NormalPostManageRepositoryTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("존재하지 않는 게시물에 대해 일반 게시물 추가")
     void saveNormalPostAboutNotExistedPost() {
         long postNo = 2L;

@@ -1,19 +1,23 @@
 package kr.aling.post.post.service.impl;
 
+import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
 import kr.aling.post.common.annotation.ManageService;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
+import kr.aling.post.post.dto.response.CreatePostResponseDtoTmp;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostManageRepository;
 import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.post.service.PostManageService;
+import kr.aling.post.postfile.service.PostFileManageService;
 import lombok.RequiredArgsConstructor;
 
 /**
  * PostManageService 의 구현체입니다.
- * 엔티티의 수정이 발생하는 서비스 레이어 이기 때문에 스프링의 스테레오타입 Service 와 Transaction(readonly = false) 가 적용된 ManageService 커스텀 어노테이션이 적용되어 있습니다.
+ * 엔티티의 수정이 발생하는 서비스 레이어 이기 때문에
+ * 스프링의 스테레오타입 Service 와 Transaction(readonly = false) 가 적용된 ManageService 커스텀 어노테이션이 적용되어 있습니다.
  *
  * @author : 이성준
  * @see kr.aling.post.common.annotation.ManageService
@@ -25,6 +29,7 @@ public class PostManageServiceImpl implements PostManageService {
 
     private final PostManageRepository postManageRepository;
     private final PostReadRepository postReadRepository;
+    private final PostFileManageService postFileManageService;
 
     /**
      * {@inheritDoc}
@@ -71,6 +76,22 @@ public class PostManageServiceImpl implements PostManageService {
         if (post.getIsOpen().equals(true)) {
             post.switchVisibility();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param createBandPostRequestDto 그룹 게시글 생성 요청 Dto
+     * @return 그룹 생성 응답 Dto
+     */
+    @Override
+    public CreatePostResponseDtoTmp createBandPost(CreateBandPostRequestDto createBandPostRequestDto) {
+        Post post = Post.builder()
+                .content(createBandPostRequestDto.getBandPostContent())
+                .isOpen(createBandPostRequestDto.getIsOpen())
+                .build();
+
+        return new CreatePostResponseDtoTmp(postManageRepository.save(post));
     }
 
     /**
