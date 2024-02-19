@@ -33,6 +33,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * 댓글 관리 서비스 레이어 테스트입니다.
@@ -66,17 +67,15 @@ class ReplyManageServiceTest {
     @DisplayName("댓글 작성")
     void createReply() {
         Post post = PostDummy.dummyPost();
-        CreateReplyRequestDto request =
-                new CreateReplyRequestDto(null, reply.getUserNo(), reply.getPostNo(),
-                        reply.getContent());
+        CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
 
         given(replyManageRepository.save(any())).willReturn(reply);
-        given(postReadRepository.findById(request.getPostNo())).willReturn(Optional.ofNullable(post));
+        given(postReadRepository.findById(reply.getPostNo())).willReturn(Optional.ofNullable(post));
 
-        CreateReplyResponseDto actual = replyManageService.createReply(request);
+        CreateReplyResponseDto actual = replyManageService.createReply(reply.getPostNo(), request);
 
         then(replyManageRepository).should(times(1)).save(any());
-        then(postReadRepository).should(times(1)).findById(request.getPostNo());
+        then(postReadRepository).should(times(1)).findById(reply.getPostNo());
 
         assertThat(actual.getParentReplyNo(), is(nullValue()));
         assertThat(actual.getContent(), equalTo(request.getContent()));
@@ -88,15 +87,16 @@ class ReplyManageServiceTest {
         Post post = PostDummy.dummyPost();
         Long parentReplyNo = 999L;
 
-        CreateReplyRequestDto request =
-                new CreateReplyRequestDto(parentReplyNo, reply.getUserNo(), reply.getPostNo(), reply.getContent());
+        CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
 
-        given(postReadRepository.findById(request.getPostNo())).willReturn(Optional.ofNullable(post));
+        ReflectionTestUtils.setField(request,"parentReplyNo",parentReplyNo);
 
-        CreateReplyResponseDto actual = replyManageService.createReply(request);
+        given(postReadRepository.findById(reply.getPostNo())).willReturn(Optional.ofNullable(post));
+
+        CreateReplyResponseDto actual = replyManageService.createReply(reply.getPostNo(), request);
 
         then(replyManageRepository).should(times(1)).save(any());
-        then(postReadRepository).should(times(1)).findById(request.getPostNo());
+        then(postReadRepository).should(times(1)).findById(reply.getPostNo());
 
         assertThat(actual.getParentReplyNo(), is(not(nullValue())));
         assertThat(actual.getContent(), equalTo(request.getContent()));
@@ -105,15 +105,13 @@ class ReplyManageServiceTest {
     @Test
     @DisplayName("댓글 작성 실패")
     void createReplyFailPostNotFount() {
-        CreateReplyRequestDto request =
-                new CreateReplyRequestDto(reply.getParentReplyNo(), reply.getUserNo(), reply.getPostNo(),
-                        reply.getContent());
+        CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
 
-        doThrow(new PostNotFoundException(request.getPostNo())).when(postReadRepository).findById(request.getPostNo());
+        doThrow(new PostNotFoundException(reply.getPostNo())).when(postReadRepository).findById(reply.getPostNo());
 
-        assertThrows(PostNotFoundException.class, () -> replyManageService.createReply(request));
+        assertThrows(PostNotFoundException.class, () -> replyManageService.createReply(reply.getPostNo(), request));
 
-        then(postReadRepository).should(times(1)).findById(request.getPostNo());
+        then(postReadRepository).should(times(1)).findById(reply.getPostNo());
     }
 
 
@@ -121,12 +119,12 @@ class ReplyManageServiceTest {
     @DisplayName("댓글 수정")
     void modifyReply() {
 
-        String replaceContent = "수정한 댓글 내용";
-        ModifyReplyRequestDto request = new ModifyReplyRequestDto(replaceContent);
+        ModifyReplyRequestDto request = ReplyDummy.dummyModifyRequest();
+        String replaceContent = request.getContent();
 
         given(replyReadRepository.findById(reply.getReplyNo())).willReturn(Optional.ofNullable(reply));
 
-        ModifyReplyResponseDto actual = replyManageService.modifyReply(reply.getReplyNo(), request);
+        ModifyReplyResponseDto actual = replyManageService.modifyReply(reply.getPostNo(), reply.getReplyNo(), request);
 
         then(replyReadRepository).should(times(1)).findById(reply.getReplyNo());
         assertThat(actual.getContent(), equalTo(replaceContent));
@@ -138,7 +136,7 @@ class ReplyManageServiceTest {
 
         given(replyReadRepository.findById(reply.getReplyNo())).willReturn(Optional.ofNullable(reply));
 
-        replyManageService.safeDeleteByReplyNo(reply.getReplyNo());
+        replyManageService.safeDeleteByReplyNo(reply.getPostNo(), reply.getReplyNo());
 
         then(replyReadRepository).should(times(1)).findById(reply.getReplyNo());
         assertThat(reply.getIsDelete(), is(true));

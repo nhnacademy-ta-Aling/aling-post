@@ -46,7 +46,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(ReplyManageController.class)
 @AutoConfigureRestDocs(uriPort = 9030)
 class ReplyManageControllerTest {
-    String mappedUrl = "/api/v1/replies";
+    String mappedUrl = "/api/v1/posts/";
     public static final String ACCEPT = "accept";
     public static final String CONTENT_TYPE = "content-type";
     public static final String CONTENT_TYPE_DESCRIPTION = "보내는 데이터의 포맷";
@@ -71,13 +71,14 @@ class ReplyManageControllerTest {
     @Test
     @DisplayName("댓글 작성")
     void createReply() throws Exception {
+
         CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
 
         CreateReplyResponseDto response = ReplyDummy.dummyCreateResponse();
 
-        given(replyManageService.createReply(any(CreateReplyRequestDto.class))).willReturn(response);
+        given(replyManageService.createReply(any(), any(CreateReplyRequestDto.class))).willReturn(response);
 
-        mockMvc.perform(post(mappedUrl)
+        mockMvc.perform(post(mappedUrl + reply.getPostNo() + "/replies/")
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -95,7 +96,6 @@ class ReplyManageControllerTest {
                         requestFields(
                                 fieldWithPath("parentReplyNo").description("대댓글인 경우 부모댓글"),
                                 fieldWithPath("userNo").description("댓글 작성자 번호"),
-                                fieldWithPath("postNo").description("댓글을 작성한 게시글 번호"),
                                 fieldWithPath("content").description("작성할 댓글 내용")
                         ),
                         responseFields(
@@ -118,9 +118,9 @@ class ReplyManageControllerTest {
 
         ModifyReplyResponseDto response = ReplyDummy.dummyModifyResponse();
 
-        given(replyManageService.modifyReply(any(), any(ModifyReplyRequestDto.class))).willReturn(response);
+        given(replyManageService.modifyReply(any(), any(), any(ModifyReplyRequestDto.class))).willReturn(response);
 
-        mockMvc.perform(put(mappedUrl + "/" + replyNo)
+        mockMvc.perform(put(mappedUrl + reply.getPostNo() + "/replies/" + replyNo)
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -151,7 +151,7 @@ class ReplyManageControllerTest {
     void safeDeleteByReplyNo() throws Exception {
         Long replyNo = 1L;
 
-        mockMvc.perform(delete(mappedUrl + "/" + replyNo)
+        mockMvc.perform(delete(mappedUrl + reply.getPostNo() + "/replies/" + replyNo)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 )
@@ -174,7 +174,7 @@ class ReplyManageControllerTest {
     void createNormalPostNotSupportedContentTypeHeader() throws Exception {
         CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
 
-        mockMvc.perform(post(mappedUrl)
+        mockMvc.perform(post(mappedUrl + reply.getPostNo() + "/replies/")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(request))
                 )
@@ -190,7 +190,6 @@ class ReplyManageControllerTest {
                         requestFields(
                                 fieldWithPath("parentReplyNo").description("대댓글인 경우 부모댓글"),
                                 fieldWithPath("userNo").description("댓글 작성자 번호"),
-                                fieldWithPath("postNo").description("댓글을 작성한 게시글 번호"),
                                 fieldWithPath("content").description("작성할 댓글 내용")
                         ),
                         responseFields(
@@ -204,7 +203,7 @@ class ReplyManageControllerTest {
     void createNormalPostNotSupportedAcceptHeader() throws Exception {
         CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
 
-        mockMvc.perform(post(mappedUrl)
+        mockMvc.perform(post(mappedUrl + reply.getPostNo() + "/replies/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_XML)
                         .content(mapper.writeValueAsString(request))
@@ -221,7 +220,6 @@ class ReplyManageControllerTest {
                         requestFields(
                                 fieldWithPath("parentReplyNo").description("대댓글인 경우 부모댓글"),
                                 fieldWithPath("userNo").description("댓글 작성자 번호"),
-                                fieldWithPath("postNo").description("댓글을 작성한 게시글 번호"),
                                 fieldWithPath("content").description("작성할 댓글 내용")
                         )
                 ));
@@ -234,7 +232,7 @@ class ReplyManageControllerTest {
 
         ReflectionTestUtils.setField(request, "content", "");
 
-        mockMvc.perform(post(mappedUrl)
+        mockMvc.perform(post(mappedUrl + reply.getPostNo() + "/replies/")
                         .content(mapper.writeValueAsString(request))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)

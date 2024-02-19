@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since : 1.0
  */
 @RestController
-@RequestMapping(value = "/api/v1/replies", consumes = {"application/json"}, produces = {"application/json"})
+@RequestMapping(value = "/api/v1/posts/{postNo}/replies", consumes = {"application/json"}, produces = {"application/json"})
 @RequiredArgsConstructor
 public class ReplyReadController {
 
@@ -35,7 +35,7 @@ public class ReplyReadController {
      * @since : 1.0
      */
     @GetMapping
-    public ResponseEntity<PageResponseDto<ReadReplyResponseDto>> readRepliesByPostNo(@RequestParam Long postNo,
+    public ResponseEntity<PageResponseDto<ReadReplyResponseDto>> readRepliesByPostNo(@PathVariable Long postNo,
                                                                                      Pageable pageable) {
 
         PageResponseDto<ReadReplyResponseDto> response = replyReadService.readRepliesByPostNo(postNo, pageable);

@@ -53,11 +53,11 @@ class ReplyReadControllerTest {
 
     @MockBean
     ReplyReadService replyReadService;
-    String mappedUrl = "/api/v1/replies";
+    String mappedUrl = "/api/v1/posts/";
 
     @Test
     @DisplayName("게시물 번호로 댓글 조회")
-    void readNormalPost() throws Exception {
+    void readRepliesByPostNo() throws Exception {
         Long postNo = 1L;
         Reply reply = ReplyDummy.dummyReply(postNo);
 
@@ -68,7 +68,7 @@ class ReplyReadControllerTest {
 
         given(replyReadService.readRepliesByPostNo(any(), any(Pageable.class))).willReturn(response);
 
-        mockMvc.perform(get(mappedUrl)
+        mockMvc.perform(get(mappedUrl + reply.getPostNo() + "/replies/")
                         .param("postNo", postNo.toString())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
