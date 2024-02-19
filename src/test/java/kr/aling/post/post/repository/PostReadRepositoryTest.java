@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
-import kr.aling.post.common.config.JpaConfig;
+import kr.aling.post.config.JpaConfig;
 import kr.aling.post.post.entity.Post;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

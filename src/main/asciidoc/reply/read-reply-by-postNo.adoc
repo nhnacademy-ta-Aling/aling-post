@@ -1,0 +1,19 @@
+:toc:
+
+==== 게시물 번호로 게시물 조회
+
+요청
+
+operation::read-replies-by-postNo[snippets='http-request']
+
+요청 헤더
+
+operation::read-replies-by-postNo[snippets='request-headers']
+
+응답
+
+operation::read-replies-by-postNo[snippets='http-response']
+
+응답 필드
+
+operation::read-replies-by-postNo[snippets='response-fields']

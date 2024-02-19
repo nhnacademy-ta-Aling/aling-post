@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import kr.aling.post.post.entity.Post;
@@ -28,6 +29,7 @@ public class NormalPost {
     @Column(name = "post_no")
     private Long postNo;
 
+    @MapsId("postNo")
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_no",insertable = false, updatable = false)
     private Post post;

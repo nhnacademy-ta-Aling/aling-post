@@ -17,7 +17,3 @@ operation::create-normal-post-not-acceptable-format[snippets='request-body']
 응답
 
 operation::create-normal-post-not-acceptable-format[snippets='http-response']
-
-응답 필드
-
-operation::create-normal-post-not-acceptable-format[snippets='reponse-fields']
