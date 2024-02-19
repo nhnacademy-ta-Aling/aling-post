@@ -10,10 +10,18 @@ import kr.aling.post.post.entity.Post;
  */
 public class PostDummy {
 
-    public static Post dummyPost(){
+    public static Post dummyPost() {
         return Post.builder()
                 .content("테스트용 더미 게시물 내용")
                 .isOpen(true)
                 .build();
     }
+
+    public static Post postDummy() {
+            return Post.builder()
+                    .content("content")
+                    .isOpen(false)
+                    .build();
+        }
+
 }

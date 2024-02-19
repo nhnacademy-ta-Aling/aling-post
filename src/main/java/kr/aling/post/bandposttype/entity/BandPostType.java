@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +40,18 @@ public class BandPostType {
 
     @PrePersist
     public void prePersist() {
-        isDelete = Objects.isNull(isDelete) ? false : isDelete;
+        isDelete = !(Objects.isNull(isDelete) || !isDelete);
+    }
+
+    /**
+     * 그룹 게시글 분류(BandPostType) 생성자.
+     *
+     * @param bandNo 그룹 번호
+     * @param name   분류 이름
+     */
+    @Builder
+    public BandPostType(Long bandNo, String name) {
+        this.bandNo = bandNo;
+        this.name = name;
     }
 }
