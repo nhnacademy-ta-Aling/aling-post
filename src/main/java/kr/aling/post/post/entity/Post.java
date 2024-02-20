@@ -50,7 +50,7 @@ public class Post extends BaseCreateTimeEntity {
 
     @PrePersist
     public void prePersist() {
-        isDelete = Objects.isNull(isDelete) ? false : isDelete;
+        isDelete = !(Objects.isNull(isDelete) || !isDelete);
     }
 
     /**
