@@ -18,7 +18,7 @@ import java.util.Optional;
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
-import kr.aling.post.post.dto.response.CreatePostResponseDtoTmp;
+import kr.aling.post.post.dto.response.CreatePostResponseDto;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
@@ -155,7 +155,7 @@ class PostManageServiceTest {
         when(postManageRepository.save(any(Post.class))).thenReturn(post);
 
         // then
-        CreatePostResponseDtoTmp result = postManageService.createBandPost(createBandPostRequestDto);
+        CreatePostResponseDto result = postManageService.createPost(createBandPostRequestDto);
 
         assertThat(result).isNotNull();
         assertThat(result.getPost().getPostNo()).isEqualTo(post.getPostNo());

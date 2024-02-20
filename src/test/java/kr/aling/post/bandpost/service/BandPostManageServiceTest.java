@@ -17,7 +17,7 @@ import kr.aling.post.bandposttype.dummy.BandPostTypeDummy;
 import kr.aling.post.bandposttype.entity.BandPostType;
 import kr.aling.post.bandposttype.exception.BandPostTypeNotFoundException;
 import kr.aling.post.bandposttype.repository.BandPostTypeReadRepository;
-import kr.aling.post.post.dto.response.CreatePostResponseDtoTmp;
+import kr.aling.post.post.dto.response.CreatePostResponseDto;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,13 +42,13 @@ class BandPostManageServiceTest {
     BandPostTypeReadRepository bandPostTypeReadRepository;
 
     Post post;
-    CreatePostResponseDtoTmp createPostResponseDtoTmp;
+    CreatePostResponseDto createPostResponseDto;
     CreateBandPostRequestDto createBandPostRequestDto;
 
     @BeforeEach
     void setUp() {
         post = PostDummy.postDummy();
-        createPostResponseDtoTmp = new CreatePostResponseDtoTmp(post);
+        createPostResponseDto = new CreatePostResponseDto(post);
 
         createBandPostRequestDto = new CreateBandPostRequestDto();
         ReflectionTestUtils.setField(createBandPostRequestDto, "bandPostTitle", "title");
@@ -68,7 +68,7 @@ class BandPostManageServiceTest {
         when(bandPostTypeReadRepository.findById(anyLong())).thenReturn(Optional.of(bandPostType));
 
         // then
-        bandPostManageService.createBandPost(createPostResponseDtoTmp, createBandPostRequestDto, 1L);
+        bandPostManageService.createBandPost(createPostResponseDto, createBandPostRequestDto, 1L);
 
         verify(bandPostManageRepository, times(1)).save(any(BandPost.class));
         verify(bandPostTypeReadRepository, times(1)).findById(anyLong());
@@ -83,7 +83,7 @@ class BandPostManageServiceTest {
         when(bandPostTypeReadRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // then
-        assertThatThrownBy(() -> bandPostManageService.createBandPost(createPostResponseDtoTmp,
+        assertThatThrownBy(() -> bandPostManageService.createBandPost(createPostResponseDto,
                 createBandPostRequestDto, anyLong()))
                 .isInstanceOf(BandPostTypeNotFoundException.class)
                 .hasMessageContaining(BandPostTypeNotFoundException.MESSAGE);
