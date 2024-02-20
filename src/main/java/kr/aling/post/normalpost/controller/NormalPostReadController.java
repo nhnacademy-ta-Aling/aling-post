@@ -27,7 +27,7 @@ public class NormalPostReadController {
     private final NormalPostReadService normalPostReadService;
 
     /**
-     * 일반 게시물 조회 처리
+     * 일반 게시물 조회 처리.
      *
      * @param postNo 조회할 일반 게시물의 번호
      * @return 조회된 게시물의 데이터와 성공 여부
@@ -35,7 +35,7 @@ public class NormalPostReadController {
      * @since : 1.0
      */
     @GetMapping("/{postNo}")
-    public ResponseEntity<ReadNormalPostResponseDto> readNormalPost(@PathVariable long postNo) {
+    public ResponseEntity<ReadNormalPostResponseDto> readNormalPost(@PathVariable Long postNo) {
 
         ReadNormalPostResponseDto response = normalPostReadService.readNormalPostByPostNo(postNo);
 
@@ -45,7 +45,7 @@ public class NormalPostReadController {
 
 
     /**
-     * 유저 번호를 기준으로 게시물 목록 조회
+     * 유저 번호를 기준으로 게시물 목록 조회.
      *
      * @param userNo   조회할 게시물들의 기준 회원 번호
      * @param pageable 페이지네이션 정보
@@ -54,7 +54,7 @@ public class NormalPostReadController {
      * @since : 1.0
      */
     @GetMapping
-    public ResponseEntity<PageResponseDto<ReadNormalPostResponseDto>> readNormalPostsByUser(@RequestParam long userNo,
+    public ResponseEntity<PageResponseDto<ReadNormalPostResponseDto>> readNormalPostsByUser(@RequestParam Long userNo,
                                                                                             Pageable pageable) {
         PageResponseDto<ReadNormalPostResponseDto>
                 responses = normalPostReadService.readNormalPostsByUserNo(userNo, pageable);

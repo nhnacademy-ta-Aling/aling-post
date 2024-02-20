@@ -36,8 +36,9 @@ public class NormalPostManageServiceImpl implements NormalPostManageService {
         CreatePostResponseDto createPostResponse = postManageService.createPost(NormalPostUtils.convert(request));
 
         NormalPost normalPost = NormalPost.builder()
+                .postNo(createPostResponse.getPost().getPostNo())
+                .post(createPostResponse.getPost())
                 .userNo(userNo)
-                .postNo(createPostResponse.getPostNo())
                 .build();
 
         return new CreateNormalPostResponseDto(normalPostManageRepository.save(normalPost).getPostNo());

@@ -32,17 +32,18 @@ public class NormalPostManageController {
     private final NormalPostManageService normalPostManageService;
 
     /**
-     * 일반 게시물 생성 요청
+     * 일반 게시물 생성 요청.
      *
      * @param request 게시물 생성 요청 데이터
-     * @param userNo 게시물을 작성하려는 유저 번호
+     * @param userNo  게시물을 작성하려는 유저 번호
      * @return HTTP 상태 코드와 데이터를 가진 Response Entity
      * @author : 이성준
      * @since : 1.0
      */
     @PostMapping
-    public ResponseEntity<CreateNormalPostResponseDto> createNormalPost(@RequestBody @Valid CreateNormalPostRequestDto request,
-                                                                        @RequestParam long userNo) {
+    public ResponseEntity<CreateNormalPostResponseDto> createNormalPost(
+            @RequestBody @Valid CreateNormalPostRequestDto request,
+            @RequestParam Long userNo) {
         CreateNormalPostResponseDto response = normalPostManageService.createNormalPost(userNo, request);
 
         return ResponseEntity
@@ -51,10 +52,10 @@ public class NormalPostManageController {
     }
 
     /**
-     * 일반 게시물 수정
+     * 일반 게시물 수정.
      *
      * @param request 게시물 수정 요청 정보
-     * @param postNo 수정할 게시물의 번호
+     * @param postNo  수정할 게시물의 번호
      * @return HTTP 상태 코드를 가진 Response Entity
      * @author : 이성준
      * @since : 1.0
@@ -66,12 +67,12 @@ public class NormalPostManageController {
         normalPostManageService.modifyNormalPost(postNo, request);
 
         return ResponseEntity
-                .noContent()
+                .status(HttpStatus.OK)
                 .build();
     }
 
     /**
-     * 일반 게시물 삭제
+     * 일반 게시물 삭제.
      *
      * @param postNo 삭제할 게시물 번호
      * @return 상태 코드를 포함하는 Response Entity
@@ -79,7 +80,7 @@ public class NormalPostManageController {
      * @since : 1.0
      */
     @DeleteMapping("/{postNo}")
-    public ResponseEntity<Void> deleteNormalPost(@PathVariable long postNo) {
+    public ResponseEntity<Void> deleteNormalPost(@PathVariable Long postNo) {
         normalPostManageService.safeDeleteById(postNo);
 
         return ResponseEntity
