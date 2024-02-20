@@ -4,7 +4,6 @@ import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
-import kr.aling.post.post.dto.response.CreatePostResponseDtoTmp;
 
 /**
  * 게시물 생성, 수정, 삭제 서비스 레이어.
@@ -17,9 +16,17 @@ public interface PostManageService {
      * 게시물 생성.
      *
      * @param request : 게시물 생성 데이터
-     * @return : 생성된 게시물에 부여된 번호
+     * @return 게시글 생성 응답 Dto
      */
     CreatePostResponseDto createPost(CreatePostRequestDto request);
+
+    /**
+     * 그룹 게시글 생성.
+     *
+     * @param createBandPostRequestDto 그룹 게시글 생성 요청 Dto
+     * @return 게시글 생성 응답 Dto
+     */
+    CreatePostResponseDto createPost(CreateBandPostRequestDto createBandPostRequestDto);
 
     /**
      * 게시물 수정.
@@ -43,11 +50,4 @@ public interface PostManageService {
      */
     void safeDeleteById(Long postNo);
 
-    /**
-     * 그룹 게시글 생성.
-     *
-     * @param createBandPostRequestDto 그룹 게시글 생성 요청 Dto
-     * @return 게시글 생성 응답 Dto
-     */
-    CreatePostResponseDtoTmp createBandPost(CreateBandPostRequestDto createBandPostRequestDto);
 }
