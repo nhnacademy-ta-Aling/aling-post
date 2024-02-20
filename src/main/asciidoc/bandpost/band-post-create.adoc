@@ -1,0 +1,24 @@
+:toc:
+
+==== 그룹 게시글 등록
+
+그룹 게시글 등록 API
+
+===== 요청
+
+operation::band-post-create[snippets='http-request']
+
+===== 응답
+
+operation::band-post-create[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 요청 Header
+
+operation::band-post-create[snippets='request-headers']
+
+====== 요청 Body
+
+operation::band-post-create[snippets='request-fields']
+

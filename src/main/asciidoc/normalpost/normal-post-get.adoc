@@ -1,0 +1,45 @@
+:toc:
+
+==== 일반 게시글 단건 조회
+
+일반 게시글 단건 조회 API
+
+===== 요청
+
+operation::normal-post-get-by-postNo[snippets='http-request']
+
+===== 응답
+
+operation::normal-post-get-by-postNo[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 요청 Path Variable
+
+operation::normal-post-get-by-postNo[snippets='path-parameters']
+
+====== 응답 Body
+
+operation::normal-post-get-by-postNo[snippets='response-fields']
+
+==== 일반 게시글 유저별 조회
+
+일반 게시글 유저 번호 기준 조회 API
+
+===== 요청
+
+operation::normal-post-get-by-userNo[snippets='http-request']
+
+===== 응답
+
+operation::normal-post-get-by-userNo[snippets='http-response']
+
+====== 파라미터 설명
+
+====== 요청 Query Param
+
+operation::normal-post-get-by-userNo[snippets='request-parameters']
+
+====== 응답 Body
+
+operation::normal-post-get-by-userNo[snippets='response-fields']

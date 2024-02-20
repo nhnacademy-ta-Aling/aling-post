@@ -1,0 +1,20 @@
+:toc:
+
+==== 일반 게시글 삭제
+
+일반 게시글 삭제 API
+
+===== 요청
+
+operation::normal-post-delete[snippets='http-request']
+
+===== 응답
+
+operation::normal-post-delete[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 요청 Path Variable
+
+operation::normal-post-delete[snippets='path-parameters']
+

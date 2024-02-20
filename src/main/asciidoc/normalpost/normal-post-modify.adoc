@@ -1,0 +1,23 @@
+:toc:
+
+==== 일반 게시글 수정
+
+일반 게시글 수정 API
+
+===== 요청
+
+operation::normal-post-modify[snippets='http-request']
+
+===== 응답
+
+operation::normal-post-modify[snippets='http-response']
+
+===== 파마리터 설명
+
+====== 요청 Path Variable
+
+operation::normal-post-modify[snippets='path-parameters']
+
+====== 요청 바디
+
+operation::normal-post-modify[snippets='request-fields']

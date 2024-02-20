@@ -1,0 +1,27 @@
+:toc:
+
+==== 댓글 등록
+
+댓글 등록 API
+
+===== 요청
+
+operation::reply-create[snippets='http-request']
+
+===== 응답
+
+operation::reply-create[snippets='http-response']
+
+===== 파리미터 설명
+
+====== 요청 Path Variable
+
+operation::reply-create[snippets='path-parameters']
+
+====== 요청 Body
+
+operation::reply-create[snippets='request-fields']
+
+====== 응답 Body
+
+operation::reply-create[snippets='response-fields']

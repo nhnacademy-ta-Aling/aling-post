@@ -1,0 +1,29 @@
+:toc:
+
+==== 댓글 수정
+
+댓글 수정 API
+
+===== 요청
+
+operation::reply-modify[snippets='http-request']
+
+===== 응답
+
+operation::reply-modify[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 요청 Path Variable
+
+operation::reply-modify[snippets='path-parameters']
+
+====== 요청 Body
+
+operation::reply-modify[snippets='request-fields']
+
+====== 응답 Body
+
+operation::reply-modify[snippets='response-fields']
+
+

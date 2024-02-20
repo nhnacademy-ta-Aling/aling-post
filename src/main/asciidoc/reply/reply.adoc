@@ -1,15 +1,6 @@
 === 게시물(Post)
 
-include::create-reply.adoc[]
-
-include::create-reply-invalid-request.adoc[]
-
-include::create-reply-not-acceptable-format.adoc[]
-
-include::create-reply-unsupported-content-type-format.adoc[]
-
-include::modify-reply.adoc[]
-
-include::delete-reply.adoc[]
-
-include::read-reply-by-postNo.adoc[]
+include::../reply/reply-get.adoc[]
+include::../reply/reply-create.adoc[]
+include::../reply/reply-modify.adoc[]
+include::../reply/reply-delete.adoc[]
