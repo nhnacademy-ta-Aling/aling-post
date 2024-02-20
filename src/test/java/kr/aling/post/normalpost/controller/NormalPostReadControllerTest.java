@@ -1,16 +1,20 @@
 package kr.aling.post.normalpost.controller;
 
+import static kr.aling.post.util.RestDocsUtil.REQUIRED;
+import static kr.aling.post.util.RestDocsUtil.REQUIRED_YES;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -35,6 +39,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -65,7 +70,7 @@ class NormalPostReadControllerTest {
         long userNo = 1;
 
         Post post = Post.builder()
-                .content("테스트용 내용")
+                .content("게시글 내용")
                 .isOpen(true)
                 .build();
 
@@ -84,7 +89,7 @@ class NormalPostReadControllerTest {
 
         given(normalPostReadService.readNormalPostByPostNo(postNo)).willReturn(response);
 
-        mockMvc.perform(get(mappedUrl + "/" + postNo)
+        mockMvc.perform(RestDocumentationRequestBuilders.get(mappedUrl + "/{postNo}", postNo)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -94,13 +99,14 @@ class NormalPostReadControllerTest {
                 ))
                 .andDo(print())
                 .andDo(
-                        document("read-normal-post-by-postNo",
+                        document("normal-post-get-by-postNo",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
-                                requestHeaders(
-                                        headerWithName("accept").description("응답 받을 데이터 형식에 대한 요청"),
-                                        headerWithName("content-type").description("보내는 데이터의 형식")
+
+                                pathParameters(
+                                        parameterWithName("postNo").description("게시글 번호")
                                 ),
+
                                 responseFields(
                                         fieldWithPath("post.postNo").description("게시물 번호"),
                                         fieldWithPath("post.content").description("게시물의 내용"),
@@ -118,7 +124,7 @@ class NormalPostReadControllerTest {
         long postNo = 1L;
 
         Post post = Post.builder()
-                .content("테스트용 게시물 내용")
+                .content("게시물 내용")
                 .isOpen(true)
                 .build();
 
@@ -126,21 +132,29 @@ class NormalPostReadControllerTest {
         ReflectionTestUtils.setField(post, "createAt", LocalDateTime.now());
         ReflectionTestUtils.setField(post, "modifyAt", LocalDateTime.now());
 
-        NormalPost normalPost = NormalPost.builder()
+        NormalPost firstNormalPost = NormalPost.builder()
                 .postNo(postNo)
+                .post(post)
                 .userNo(userNo)
                 .build();
 
-        ReflectionTestUtils.setField(normalPost, "post", post);
+        NormalPost secondNormalPost = NormalPost.builder()
+                .postNo(postNo)
+                .post(post)
+                .userNo(userNo)
+                .build();
+
+        ReflectionTestUtils.setField(firstNormalPost, "post", post);
+        ReflectionTestUtils.setField(secondNormalPost, "post", post);
 
         PageResponseDto<ReadNormalPostResponseDto> responses = PageUtils.convert(new PageImpl<>(
-                List.of(NormalPostUtils.convert(normalPost), NormalPostUtils.convert(normalPost))));
+                List.of(NormalPostUtils.convert(firstNormalPost), NormalPostUtils.convert(secondNormalPost))));
 
         given(normalPostReadService.readNormalPostsByUserNo(anyLong(), any(Pageable.class))).willReturn(responses);
 
         mockMvc.perform(get(mappedUrl)
                         .param("userNo", String.valueOf(userNo))
-                        .param("page", "1L")
+                        .param("page", "1")
                         .param("size", "20")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -150,22 +164,28 @@ class NormalPostReadControllerTest {
                         mapper.writeValueAsString(responses)
                 ))
                 .andDo(print())
-                .andDo(document("read-normal-post-by-userNo",
+                .andDo(document("normal-post-get-by-userNo",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName("accept").description("응답 받을 데이터 형식에 대한 요청"),
-                                headerWithName("content-type").description("보내는 데이터의 형식")
+
+                        requestParameters(
+                                parameterWithName("userNo").description("유저 번호")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES)),
+                                parameterWithName("page").description("페이지 번호")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES)),
+                                parameterWithName("size").description("페이지 사이즈")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES))
                         ),
+
                         responseFields(
+                                fieldWithPath("pageNumber").description("현재 페이지 번호"),
+                                fieldWithPath("totalPages").description("전체 페이지 갯수"),
+                                fieldWithPath("totalElements").description("전체 요소 갯수"),
                                 fieldWithPath("content[].post.postNo").description("게시물 번호"),
                                 fieldWithPath("content[].post.content").description("게시물의 내용"),
                                 fieldWithPath("content[].post.createAt").description("최초 작성 시간"),
                                 fieldWithPath("content[].post.modifyAt").description("마지막 수정 시간"),
-                                fieldWithPath("content[].userNo").description("게시글을 작성한 유저 번호"),
-                                fieldWithPath("pageNumber").description("현재 페이지 번호"),
-                                fieldWithPath("totalPages").description("전체 페이지 갯수"),
-                                fieldWithPath("totalElements").description("전체 요소 갯수")
+                                fieldWithPath("content[].userNo").description("게시글을 작성한 유저 번호")
                         )
                 ));
     }
