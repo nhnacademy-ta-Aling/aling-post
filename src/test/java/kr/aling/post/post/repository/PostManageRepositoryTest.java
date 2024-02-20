@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import kr.aling.post.config.JpaConfig;
 import kr.aling.post.post.entity.Post;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ import org.springframework.context.annotation.Import;
  * @author : 이성준
  * @since : 1.0
  */
-@Disabled
 @DataJpaTest
 @Import(JpaConfig.class)
 class PostManageRepositoryTest {

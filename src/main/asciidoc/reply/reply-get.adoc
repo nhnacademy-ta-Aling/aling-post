@@ -1,0 +1,27 @@
+:toc:
+
+==== 댓글 조회
+
+게시글의 댓글 조회 API
+
+===== 요청
+
+operation::reply-get-by-postNo[snippets='http-request']
+
+===== 응답
+
+operation::reply-get-by-postNo[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 요청 Path Varaible
+
+operation::reply-get-by-postNo[snippets='path-parameters']
+
+====== 요청 Query Param
+
+operation::reply-get-by-postNo[snippets='request-parameters']
+
+====== 응답 Body
+
+operation::reply-get-by-postNo[snippets='response-fields']

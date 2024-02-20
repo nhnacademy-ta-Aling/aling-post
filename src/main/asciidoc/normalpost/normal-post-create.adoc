@@ -1,0 +1,27 @@
+:toc:
+
+==== 일반 게시글 등록
+
+일반 게시글 등록 API
+
+===== 요청
+
+operation::normal-post-create[snippets='http-request']
+
+===== 응답
+
+operation::normal-post-create[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 요청 Query Param
+
+operation::normal-post-create[snippets='request-parameters']
+
+====== 요청 Body
+
+operation::normal-post-create[snippets='request-fields']
+
+====== 응답 Body
+
+operation::normal-post-create[snippets='response-fields']

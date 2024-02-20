@@ -45,8 +45,9 @@ public class NormalPost {
      *
      */
     @Builder
-    public NormalPost(Long postNo, Long userNo) {
+    public NormalPost(Long postNo, Post post, Long userNo) {
         this.postNo = postNo;
+        this.post = post;
         this.userNo = userNo;
     }
 }

@@ -1,0 +1,6 @@
+=== 일반 게시글(NormalPost)
+
+include::../normalpost/normal-post-get.adoc[]
+include::../normalpost/normal-post-create.adoc[]
+include::../normalpost/normal-post-modify.adoc[]
+include::../normalpost/normal-post-delete.adoc[]

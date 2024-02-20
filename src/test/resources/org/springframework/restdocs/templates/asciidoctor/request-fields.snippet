@@ -1,0 +1,13 @@
+// request-fields.snippet
+|===
+|Path|Type|Description|필수|Validation
+
+{{#fields}}
+|{{#tableCellContent}}`+{{path}}+`{{/tableCellContent}}
+|{{#tableCellContent}}`+{{type}}+`{{/tableCellContent}}
+|{{#tableCellContent}}{{description}}{{/tableCellContent}}
+|{{#tableCellContent}}{{required}}{{/tableCellContent}}
+|{{#tableCellContent}}{{valid}}{{/tableCellContent}}
+
+{{/fields}}
+|===

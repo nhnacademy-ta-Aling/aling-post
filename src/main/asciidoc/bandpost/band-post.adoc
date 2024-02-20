@@ -1,0 +1,3 @@
+=== 그룹 게시글(BandPost)
+
+include::band-post-create.adoc[]

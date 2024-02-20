@@ -2,7 +2,7 @@ package kr.aling.post.bandpost.service.facade;
 
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
 import kr.aling.post.bandpost.service.BandPostManageService;
-import kr.aling.post.post.dto.response.CreatePostResponseDtoTmp;
+import kr.aling.post.post.dto.response.CreatePostResponseDto;
 import kr.aling.post.post.service.PostManageService;
 import kr.aling.post.postfile.service.PostFileManageService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class BandPostFacadeService {
      * @param bandUserNo               그룹 회원 번호
      */
     public void createBandPostFacade(CreateBandPostRequestDto createBandPostRequestDto, Long bandUserNo) {
-        CreatePostResponseDtoTmp createPostResponseDto = postManageService.createBandPost(createBandPostRequestDto);
+        CreatePostResponseDto createPostResponseDto = postManageService.createPost(createBandPostRequestDto);
 
         postFileManageService.savePostFiles(createPostResponseDto.getPost(), createBandPostRequestDto.getFileNoList());
 

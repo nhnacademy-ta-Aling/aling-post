@@ -8,7 +8,7 @@ import kr.aling.post.bandposttype.entity.BandPostType;
 import kr.aling.post.bandposttype.exception.BandPostTypeNotFoundException;
 import kr.aling.post.bandposttype.repository.BandPostTypeReadRepository;
 import kr.aling.post.common.annotation.ManageService;
-import kr.aling.post.post.dto.response.CreatePostResponseDtoTmp;
+import kr.aling.post.post.dto.response.CreatePostResponseDto;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -27,19 +27,19 @@ public class BandPostManageServiceImpl implements BandPostManageService {
     /**
      * {@inheritDoc}
      *
-     * @param createPostResponseDtoTmp 게시글 생성 응답 Dto
+     * @param createPostResponseDto    게시글 생성 응답 Dto
      * @param createBandPostRequestDto 그룹 게시글 생성 요청 Dto
      * @param baneUserNo               그룹 회원 번호
      */
     @Override
-    public void createBandPost(CreatePostResponseDtoTmp createPostResponseDtoTmp,
+    public void createBandPost(CreatePostResponseDto createPostResponseDto,
                                CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo) {
         BandPostType bandPostType = bandPostTypeReadRepository.findById(createBandPostRequestDto.getBandPostTypeNo())
                 .orElseThrow(BandPostTypeNotFoundException::new);
 
         BandPost bandPost = BandPost.builder()
-                .postNo(createPostResponseDtoTmp.getPost().getPostNo())
-                .post(createPostResponseDtoTmp.getPost())
+                .postNo(createPostResponseDto.getPost().getPostNo())
+                .post(createPostResponseDto.getPost())
                 .bandPostType(bandPostType)
                 .bandUserNo(baneUserNo)
                 .title(createBandPostRequestDto.getBandPostTitle())

@@ -1,11 +1,24 @@
 package kr.aling.post.bandpost.controller;
 
 import static kr.aling.post.common.utils.ConstantUtil.X_BAND_USER_NO;
+import static kr.aling.post.util.RestDocsUtil.REQUIRED;
+import static kr.aling.post.util.RestDocsUtil.REQUIRED_NO;
+import static kr.aling.post.util.RestDocsUtil.REQUIRED_YES;
+import static kr.aling.post.util.RestDocsUtil.VALID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,7 +80,35 @@ class BandPostManageControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(createBandPostRequestDto)))
                 .andExpect(status().is2xxSuccessful())
-                .andDo(print());
+                .andDo(print())
+                .andDo(document("band-post-create",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+
+                        requestHeaders(
+                                headerWithName(X_BAND_USER_NO).description("그룹 회원 번호")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES))
+                        ),
+
+                        requestFields(
+                                fieldWithPath("bandPostTitle").description("그룹 게시글 제목")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES))
+                                        .attributes(key(VALID).value("Not Blank, 최대 50자")),
+                                fieldWithPath("bandPostContent").description("그룹 게시글 내용")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES))
+                                        .attributes(key(VALID).value("Not Blank, 최대 10,000자")),
+                                fieldWithPath("isOpen").description("게시글 공개 여부")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES))
+                                        .attributes(key(VALID).value("Not Null")),
+                                fieldWithPath("bandPostTypeNo").description("그룹 게시글 카테고리 번호")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES))
+                                        .attributes(key(VALID).value("Not Null")),
+                                fieldWithPath("fileNoList").description("파일 번호 리스트")
+                                        .attributes(key(REQUIRED).value(REQUIRED_NO))
+                                        .attributes(key(VALID).value("최대 10개"))
+                        )
+
+                ));
 
         verify(bandPostFacadeService, times(1)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
     }

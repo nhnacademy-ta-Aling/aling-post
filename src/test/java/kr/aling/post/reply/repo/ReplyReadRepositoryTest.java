@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.not;
 
 import java.util.List;
 import java.util.Optional;
-import kr.aling.post.common.config.JpaConfig;
+import kr.aling.post.config.JpaConfig;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.reply.dto.response.ReadReplyResponseDto;

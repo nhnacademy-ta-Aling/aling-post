@@ -18,6 +18,8 @@ import kr.aling.post.normalpost.service.impl.NormalPostManageServiceImpl;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
+import kr.aling.post.post.dummy.PostDummy;
+import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.service.PostManageService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,6 +53,8 @@ class NormalPostManageServiceTest {
         Long userNo = 1L;
         Long postNo = 1L;
 
+        Post post = PostDummy.dummyPost();
+
         NormalPost normalPost = NormalPost.builder()
                 .userNo(userNo)
                 .postNo(postNo)
@@ -61,7 +65,8 @@ class NormalPostManageServiceTest {
         ReflectionTestUtils.setField(createNormalPostRequest, "content", "테스트용 일반 게시물 내용");
         ReflectionTestUtils.setField(createNormalPostRequest, "isOpen", true);
 
-        given(postManageService.createPost(any(CreatePostRequestDto.class))).willReturn(new CreatePostResponseDto(postNo));
+        given(postManageService.createPost(any(CreatePostRequestDto.class))).willReturn(
+                new CreatePostResponseDto(post));
         given(normalPostManageRepository.save(any(NormalPost.class))).willReturn(normalPost);
 
         CreateNormalPostResponseDto actual = normalPostManageService.createNormalPost(userNo, createNormalPostRequest);
