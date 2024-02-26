@@ -26,7 +26,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  * 게시물 조회 서비스 테스트
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
 class PostReadServiceTest {

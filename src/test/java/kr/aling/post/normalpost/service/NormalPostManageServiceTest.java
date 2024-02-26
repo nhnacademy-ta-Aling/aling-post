@@ -33,7 +33,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  * 일반 게시물 관리 서비스 테스트
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
 class NormalPostManageServiceTest {

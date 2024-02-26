@@ -12,10 +12,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 /**
- * NormalPost 와 Post 간 요청 및 응답 객체를 변환하는 클래스
+ * NormalPost 와 Post 간 요청 및 응답 객체를 변환하는 클래스.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  * @see kr.aling.post.normalpost.entity.NormalPost
  * @see kr.aling.post.post.entity.Post
  */

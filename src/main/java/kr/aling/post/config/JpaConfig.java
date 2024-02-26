@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  * 엔티티 생성/수정 시간 값을 자동으로 변경하는 Spring Data Jpa Auditing 설정을 포함하고 있습니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @EnableJpaAuditing
 @Configuration

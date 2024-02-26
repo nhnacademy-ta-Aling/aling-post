@@ -8,7 +8,7 @@ import lombok.Getter;
  * 게시물 조회시 그 게시물의 댓글을 조회하는 응답객체입니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Getter
 @AllArgsConstructor

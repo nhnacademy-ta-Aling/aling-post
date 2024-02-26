@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
  *
  * @author : 이성준
  * @see kr.aling.post.common.annotation.ManageService
- * @since : 1.0
+ * @since 1.0
  */
 @ManageService
 @RequiredArgsConstructor
@@ -100,7 +100,7 @@ public class PostManageServiceImpl implements PostManageService {
      *
      * @param postNo 조회하려는 게시물의 번호
      * @return 번호에 해당하는 게시물이 존재하면 해당하는 게시물을 반환합니다.
-     * @since : 1.0
+     * @since 1.0
      */
     private Post findById(Long postNo) {
         return postReadRepository.findById(postNo).orElseThrow(() -> new PostNotFoundException(postNo));

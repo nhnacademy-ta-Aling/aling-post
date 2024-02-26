@@ -49,7 +49,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 /**
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 
 @WebMvcTest(ReplyManageController.class)

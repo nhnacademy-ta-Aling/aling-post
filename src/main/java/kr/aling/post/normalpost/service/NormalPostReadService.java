@@ -8,12 +8,12 @@ import org.springframework.data.domain.Pageable;
  * 일반 게시물 조회 서비스 레이어.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 public interface NormalPostReadService {
 
     /**
-     * 게시물 번호를 조건으로 일반 게시물을 조회하는 메서드
+     * 게시물 번호를 조건으로 일반 게시물을 조회하는 메서드.
      *
      * @param postNo 조회할 일반 게시물의 번호
      * @return 조회된 일반 게시물의 DTO

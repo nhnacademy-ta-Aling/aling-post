@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  * 수정할 댓글의 번호와 수정 내용이 담깁니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Getter
 @NoArgsConstructor

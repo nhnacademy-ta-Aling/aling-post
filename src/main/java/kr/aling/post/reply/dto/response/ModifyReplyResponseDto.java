@@ -9,7 +9,7 @@ import lombok.Getter;
  * 수정한 댓글 번호와 수정된 내용, 마지막 수정 시간을 담고 있습니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 
 @Getter

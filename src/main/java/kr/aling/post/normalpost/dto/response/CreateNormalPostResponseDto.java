@@ -8,7 +8,7 @@ import lombok.Getter;
  * 게시물이 정상적으로 생성되어있을 때, 해당 게시물의 번호를 반환합니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Getter
 @AllArgsConstructor

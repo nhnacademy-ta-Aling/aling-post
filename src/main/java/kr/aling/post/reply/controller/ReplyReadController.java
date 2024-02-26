@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
  * accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @RestController
-@RequestMapping(value = "/api/v1/posts/{postNo}/replies", consumes = {"application/json"}, produces = {"application/json"})
+@RequestMapping(value = "/api/v1/posts/{postNo}/replies", consumes = {"application/json"}, produces = {
+        "application/json"})
 @RequiredArgsConstructor
 public class ReplyReadController {
 
@@ -28,11 +29,12 @@ public class ReplyReadController {
     /**
      * 게시물 번호로 댓글 목록을 조회합니다.
      * 페이지네이션이 적용됩니다.
-     * @param postNo 댓글을 조회할 게시물 번호
+     *
+     * @param postNo   댓글을 조회할 게시물 번호
      * @param pageable 페이지네이션 정보
      * @return 조회한 댓글의 페이징 응답 객체
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     @GetMapping
     public ResponseEntity<PageResponseDto<ReadReplyResponseDto>> readRepliesByPostNo(@PathVariable Long postNo,

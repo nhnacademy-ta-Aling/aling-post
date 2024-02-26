@@ -5,10 +5,10 @@ import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
 import org.springframework.data.domain.Pageable;
 
 /**
- * 댓글 조회용 서비스 레이어
+ * 댓글 조회용 서비스 레이어.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 
 public interface ReplyReadService {
@@ -20,7 +20,7 @@ public interface ReplyReadService {
      * @param pageable 페이지네이션 정보
      * @return 조회된 댓글 페이지 응답 객체
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     PageResponseDto<ReadReplyResponseDto> readRepliesByPostNo(Long postNo, Pageable pageable);
 

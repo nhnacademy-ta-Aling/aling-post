@@ -10,7 +10,7 @@ import org.springframework.web.HttpMediaTypeException;
  * 각 예외에 대한 에러 메시지 응답 객체 생성 유틸 클래스입니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

@@ -39,7 +39,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  * 댓글 관리 서비스 레이어 테스트입니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
 class ReplyManageServiceTest {

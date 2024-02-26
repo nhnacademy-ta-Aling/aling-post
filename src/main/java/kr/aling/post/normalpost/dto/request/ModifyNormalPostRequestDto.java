@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * 수정 내용에 포함되는 것은 게시물의 내용과 공개 여부를 입니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Getter
 @NoArgsConstructor

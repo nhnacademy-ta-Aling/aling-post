@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * 이와 같이 분리할 경우 FeignClient 들의 위치를 명시해주어야 읽을 수 있습니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Configuration
 @EnableEurekaClient
