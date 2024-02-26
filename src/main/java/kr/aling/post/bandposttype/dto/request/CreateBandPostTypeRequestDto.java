@@ -1,5 +1,8 @@
 package kr.aling.post.bandposttype.dto.request;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +15,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CreateBandPostTypeRequestDto {
+    @NotNull
     private Long bandNo;
+
+    @NotBlank
+    @Size(max = 10)
     private String bandPostTypeName;
 }
