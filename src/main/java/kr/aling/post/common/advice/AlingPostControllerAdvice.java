@@ -1,5 +1,6 @@
 package kr.aling.post.common.advice;
 
+import kr.aling.post.bandposttype.exception.BandPostTypeAlreadyExistsException;
 import kr.aling.post.bandposttype.exception.BandPostTypeNotFoundException;
 import kr.aling.post.common.dto.ErrorResponseDto;
 import kr.aling.post.common.utils.ErrorResponseUtils;
@@ -73,6 +74,22 @@ public class AlingPostControllerAdvice {
         loggingError(HttpStatus.NOT_ACCEPTABLE, exception);
 
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                .body(ErrorResponseUtils.makeResponse(exception));
+    }
+
+    /**
+     * 409 - Conflict 상태 코드를 포함하는 예외 핸들링 메서드. <Br>
+     *
+     * @param exception Rest Controller 에서 발생한 예외 중 Exception Handler 에 등록된 예외
+     * @return 상태 코드와 예외에 대한 메시지를 담은 Response Entity
+     * @author : 정유진
+     * @since : 1.0
+     */
+    @ExceptionHandler({BandPostTypeAlreadyExistsException.class})
+    public ResponseEntity<ErrorResponseDto> handleConflictExceptions(RuntimeException exception) {
+        loggingError(HttpStatus.CONFLICT, exception);
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(ErrorResponseUtils.makeResponse(exception));
     }
 
