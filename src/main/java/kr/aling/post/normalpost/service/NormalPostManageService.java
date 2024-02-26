@@ -14,7 +14,7 @@ import kr.aling.post.normalpost.dto.response.CreateNormalPostResponseDto;
 public interface NormalPostManageService {
 
     /**
-     * 일반 게시물 생성
+     * 일반 게시물 생성.
      *
      * @param userNo  게시물 작성을 요청한 유저 번호
      * @param request 게시물 작성 요청에 대한 폼 데이터
@@ -23,7 +23,7 @@ public interface NormalPostManageService {
     CreateNormalPostResponseDto createNormalPost(Long userNo, CreateNormalPostRequestDto request);
 
     /**
-     * 일반 게시물 수정
+     * 일반 게시물 수정.
      *
      * @param postNo  수정 요청한 게시물의 번호
      * @param request 게시물 수정 요청에 대한 폼 데이터
@@ -31,7 +31,7 @@ public interface NormalPostManageService {
     void modifyNormalPost(Long postNo, ModifyNormalPostRequestDto request);
 
     /**
-     * 일반 게시물 삭제
+     * 일반 게시물 삭제.
      *
      * @param postNo 삭제하려는 게시물 번호
      */

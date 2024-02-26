@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 /**
- * PageResponseDto 관련 유틸 클래스
+ * PageResponseDto 관련 유틸 클래스.
  *
  * @author : 이성준
  * @since : 1.0

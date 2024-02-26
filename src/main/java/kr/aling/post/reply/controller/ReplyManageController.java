@@ -33,7 +33,7 @@ public class ReplyManageController {
     private final ReplyManageService replyManageService;
 
     /**
-     * 댓글 생성
+     * 댓글 생성.
      *
      * @param request 댓글 생성시 필요한 데이터 객체
      * @return Created 상태 코드와 생성 응답 객체 바디, 댓글을 작성한 게시물 주소를 Location 헤더를 갖는 ResponseEntity.
@@ -49,7 +49,7 @@ public class ReplyManageController {
     }
 
     /**
-     * 댓글 수정
+     * 댓글 수정.
      *
      * @param request 댓글 수정시 필요한 데이터 객체
      * @return OK 상태 코드와 수정에 대한 응답 객체를 바디로 갖는 ResponseEntity.
@@ -64,7 +64,7 @@ public class ReplyManageController {
     }
 
     /**
-     * 댓글 삭제 처리
+     * 댓글 삭제 처리.
      *
      * @param replyNo 삭제 처리할 댓글의 번호
      * @return No Content 상태 코드를 갖는 ResponseEntity

@@ -50,7 +50,7 @@ public class Reply extends BaseCreateTimeEntity {
     private Long parentReplyNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reply_parent_no",insertable = false, updatable = false)
+    @JoinColumn(name = "reply_parent_no", insertable = false, updatable = false)
     private Reply parentReply;
 
     @Column(name = "reply_content", nullable = false)
@@ -63,18 +63,13 @@ public class Reply extends BaseCreateTimeEntity {
     @Column(name = "reply_is_delete", nullable = false)
     private Boolean isDelete;
 
-    @PrePersist
-    public void prePersist() {
-        isDelete = Objects.isNull(isDelete) ? false : isDelete;
-    }
-
     /**
      * 댓글이 작성될 때, 필요한 초기 데이터 생성자입니다.
      *
-     * @param postNo 댓글이 달릴 게시물의 번호.
-     * @param userNo 댓글의 작성자 번호.
+     * @param postNo        댓글이 달릴 게시물의 번호.
+     * @param userNo        댓글의 작성자 번호.
      * @param parentReplyNo 댓글에 추가로 달리는 대댓글인 경우 상위 댓글 번호.
-     * @param content 댓글의 내용
+     * @param content       댓글의 내용
      */
     @Builder
     public Reply(Long postNo, Long userNo, Long parentReplyNo, String content) {
@@ -82,6 +77,11 @@ public class Reply extends BaseCreateTimeEntity {
         this.userNo = userNo;
         this.parentReplyNo = parentReplyNo;
         this.content = content;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        isDelete = Objects.isNull(isDelete) ? false : isDelete;
     }
 
     /**

@@ -10,6 +10,7 @@ package kr.aling.post.common.exception;
 public class DeleteContentAccessException extends RuntimeException {
 
     private static final String MESSAGE = "삭제된 컨텐츠에 대한 시도입니다.";
+
     public DeleteContentAccessException() {
         super(MESSAGE);
     }

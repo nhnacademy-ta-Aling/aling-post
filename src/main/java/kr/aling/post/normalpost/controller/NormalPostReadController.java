@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author : 이성준
  * @since : 1.0
  */
-@RequestMapping(value = "/api/v1/normal-posts",consumes = {"application/json"},produces = {"application/json"})
+@RequestMapping(value = "/api/v1/normal-posts", consumes = {"application/json"}, produces = {"application/json"})
 @RequiredArgsConstructor
 @RestController
 public class NormalPostReadController {

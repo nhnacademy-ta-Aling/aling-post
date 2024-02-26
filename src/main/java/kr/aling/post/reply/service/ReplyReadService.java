@@ -5,7 +5,7 @@ import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
 import org.springframework.data.domain.Pageable;
 
 /**
- * 댓글 조회용 서비스 레이어
+ * 댓글 조회용 서비스 레이어.
  *
  * @author : 이성준
  * @since : 1.0
