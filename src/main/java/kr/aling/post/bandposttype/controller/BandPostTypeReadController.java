@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 그룹 게시물 분류를 조회하기 위한 Rest Controller.
  *
- * @author : 정유진
- * @since : 1.0
+ * @author 정유진
+ * @since 1.0
  **/
 @RestController
 @RequiredArgsConstructor

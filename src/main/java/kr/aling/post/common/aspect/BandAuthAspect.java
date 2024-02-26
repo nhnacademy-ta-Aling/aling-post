@@ -16,8 +16,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 /**
  * 그룹 회원 권한을 확인하기 위한 aspect.
  *
- * @author : 정유진
- * @since : 1.0
+ * @author 정유진
+ * @since 1.0
  **/
 @Aspect
 @Component

@@ -89,7 +89,7 @@ public class Reply extends BaseCreateTimeEntity {
      *
      * @param replaceContent 댓글 내용을 대체할 문자열
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     public void modifyContent(String replaceContent) {
         this.content = replaceContent;
@@ -99,7 +99,7 @@ public class Reply extends BaseCreateTimeEntity {
      * 댓글 삭제시 데이터베이스 행 삭제가 아닌 삭제 처리합니다.
      *
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     public void softDelete() {
         this.isDelete = true;

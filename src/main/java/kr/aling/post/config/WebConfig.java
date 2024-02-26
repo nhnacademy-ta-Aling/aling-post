@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * RestAPI 와 관련된 Web 설정 Bean 을 관리하는 Java Config 입니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Configuration
 public class WebConfig {

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @RequestMapping(value = "/api/v1/normal-posts", consumes = {"application/json"}, produces = {"application/json"})
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class NormalPostReadController {
      * @param postNo 조회할 일반 게시물의 번호
      * @return 조회된 게시물의 데이터와 성공 여부
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     @GetMapping("/{postNo}")
     public ResponseEntity<ReadNormalPostResponseDto> readNormalPost(@PathVariable Long postNo) {
@@ -51,7 +51,7 @@ public class NormalPostReadController {
      * @param pageable 페이지네이션 정보
      * @return 조회된 게시물의 데이터와 성공 여부
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     @GetMapping
     public ResponseEntity<PageResponseDto<ReadNormalPostResponseDto>> readNormalPostsByUser(@RequestParam Long userNo,

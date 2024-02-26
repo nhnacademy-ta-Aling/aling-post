@@ -10,7 +10,7 @@ import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
  * 댓글 관리용 서비스 레이어.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 public interface ReplyManageService {
 
@@ -20,7 +20,7 @@ public interface ReplyManageService {
      * @param postNo
      * @param request 댓글 작성시 필요한 데이터 객체
      * @return 댓글 작성시 응답 객체
-     * @since : 1.0
+     * @since 1.0
      */
     CreateReplyResponseDto createReply(Long postNo, CreateReplyRequestDto request);
 
@@ -31,7 +31,7 @@ public interface ReplyManageService {
      * @param no
      * @param request 댓글 수정시 필요한 데이터 객체
      * @return 댓글 수정시 응답 객체
-     * @since : 1.0
+     * @since 1.0
      */
     ModifyReplyResponseDto modifyReply(Long replyNo, Long no, ModifyReplyRequestDto request);
 
@@ -40,7 +40,7 @@ public interface ReplyManageService {
      *
      * @param replyNo 삭제 처리할 댓글의 번호
      * @param no
-     * @since : 1.0
+     * @since 1.0
      */
     void safeDeleteByReplyNo(Long replyNo, Long no);
 }

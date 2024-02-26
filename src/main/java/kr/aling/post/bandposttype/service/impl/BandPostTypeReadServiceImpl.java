@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 /**
  * 그룹 게시글 분류 조회 service 구현체.
  *
- * @author : 정유진
- * @since : 1.0
+ * @author 정유진
+ * @since 1.0
  **/
 @ReadService
 @RequiredArgsConstructor

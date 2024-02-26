@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Import;
  * 게시물 관리 레포지토리 테스트
  * 
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @DataJpaTest
 @Import(JpaConfig.class)

@@ -19,7 +19,7 @@ import org.springframework.data.domain.Pageable;
  *
  * @author : 이성준
  * @see kr.aling.post.common.annotation.ReadService
- * @since : 1.0
+ * @since 1.0
  */
 @ReadService
 @RequiredArgsConstructor

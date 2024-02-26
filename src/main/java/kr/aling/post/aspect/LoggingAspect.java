@@ -13,8 +13,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 /**
  * API 요청, 응답을 로그를 남기는 AOP.
  *
- * @author : 박경서
- * @since : 1.0
+ * @author 박경서
+ * @since 1.0
  **/
 @Slf4j
 @Aspect

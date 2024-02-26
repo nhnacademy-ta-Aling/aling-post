@@ -12,7 +12,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  * 테스트용 댓글 더미 객체
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 public class ReplyDummy {
 
@@ -21,7 +21,7 @@ public class ReplyDummy {
      *
      * @param postNo 댓글이 달릴 게시물 번호
      * @return 댓글 더미 객체
-     * @since : 1.0
+     * @since 1.0
      */
     public static Reply dummyReply(Long postNo) {
         Long userNo = 1L;

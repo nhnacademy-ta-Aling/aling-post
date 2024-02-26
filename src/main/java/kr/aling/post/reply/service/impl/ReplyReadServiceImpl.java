@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
  * 댓글 조회 서비스 레이어 구현체입니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @ReadService
 @RequiredArgsConstructor

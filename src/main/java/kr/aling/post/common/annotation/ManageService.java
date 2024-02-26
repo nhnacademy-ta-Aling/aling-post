@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Service, Transactional 어노테이션의 반복을 줄이고 Transactional 에 대한 속성 누락을 방지할 수 있을 거 같습니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Target(value = ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

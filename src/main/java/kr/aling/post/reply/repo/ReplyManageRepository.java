@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 조회 메서드는 암묵적으로 사용하지 않습니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 public interface ReplyManageRepository extends JpaRepository<Reply, Long> {
 

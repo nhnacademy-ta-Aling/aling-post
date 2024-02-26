@@ -49,7 +49,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * 일반 게시물 관리 컨트롤러 테스트
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @WebMvcTest(NormalPostManageController.class)
 @AutoConfigureRestDocs(uriPort = 9030)

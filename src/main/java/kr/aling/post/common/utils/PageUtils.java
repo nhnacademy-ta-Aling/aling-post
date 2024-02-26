@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
  * PageResponseDto 관련 유틸 클래스.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PageUtils {
@@ -22,7 +22,7 @@ public class PageUtils {
      * @return 변환이 완료된 kr.aling.post.common.dto.PageResponseDto 객체
      * @see org.springframework.data.domain.Page
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     public static <T> PageResponseDto<T> convert(Page<T> page) {
         return new PageResponseDto<>(

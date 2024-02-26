@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 /**
  * 그룹 게시글 분류 조회를 위한 repository 구현체.
  *
- * @author : 정유진
- * @since : 1.0
+ * @author 정유진
+ * @since 1.0
  **/
 public class BandPostTypeReadRepositoryImpl extends QuerydslRepositorySupport implements
         BandPostTypeReadRepositoryCustom {

@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
  *
  * @author : 이성준
  * @see kr.aling.post.common.annotation.ManageService
- * @since : 1.0
+ * @since 1.0
  */
 @ManageService
 @RequiredArgsConstructor

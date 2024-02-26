@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 /**
  * 그룹 게시글 분류 Enum.
  *
- * @author : 정유진
- * @since : 1.0
+ * @author 정유진
+ * @since 1.0
  **/
 @Getter
 @RequiredArgsConstructor

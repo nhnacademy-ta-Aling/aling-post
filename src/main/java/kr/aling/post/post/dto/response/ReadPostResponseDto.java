@@ -9,7 +9,7 @@ import lombok.Getter;
  * 게시물 번호, 내용, 작성시간, 수정시간을 반환합니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @AllArgsConstructor
 @Getter

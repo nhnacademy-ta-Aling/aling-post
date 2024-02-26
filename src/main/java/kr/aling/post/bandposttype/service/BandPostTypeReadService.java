@@ -6,8 +6,8 @@ import kr.aling.post.bandposttype.dto.response.GetBandPostTypeResponseDto;
 /**
  * 그룹 게시글 분류 조회 service.
  *
- * @author : 정유진
- * @since : 1.0
+ * @author 정유진
+ * @since 1.0
  **/
 public interface BandPostTypeReadService {
 

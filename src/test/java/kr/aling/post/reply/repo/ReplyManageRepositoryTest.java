@@ -25,7 +25,7 @@ import org.springframework.dao.DataIntegrityViolationException;
  * 댓글 관리 레포지토리 테스트
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Import(JpaConfig.class)
 @DataJpaTest

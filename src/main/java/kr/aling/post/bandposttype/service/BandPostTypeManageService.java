@@ -6,8 +6,8 @@ import kr.aling.post.bandposttype.dto.request.CreateBandPostTypeRequestDto;
 /**
  * 그룹 게시글 분류 관리 service.
  *
- * @author : 정유진
- * @since : 1.0
+ * @author 정유진
+ * @since 1.0
  **/
 public interface BandPostTypeManageService {
 
