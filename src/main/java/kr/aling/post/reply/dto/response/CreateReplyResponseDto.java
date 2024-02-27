@@ -13,6 +13,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CreateReplyResponseDto {
+
     private final Long replyNo;
     private final Long parentReplyNo;
     private final Long userNo;

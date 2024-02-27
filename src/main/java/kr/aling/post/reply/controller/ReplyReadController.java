@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 댓글 조회 컨트롤러입니다.
- * accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
+ * 댓글 조회 컨트롤러입니다. accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
  *
  * @author : 이성준
  * @since 1.0
@@ -27,8 +26,7 @@ public class ReplyReadController {
     private final ReplyReadService replyReadService;
 
     /**
-     * 게시물 번호로 댓글 목록을 조회합니다.
-     * 페이지네이션이 적용됩니다.
+     * 게시물 번호로 댓글 목록을 조회합니다. 페이지네이션이 적용됩니다.
      *
      * @param postNo   댓글을 조회할 게시물 번호
      * @param pageable 페이지네이션 정보
@@ -38,7 +36,7 @@ public class ReplyReadController {
      */
     @GetMapping
     public ResponseEntity<PageResponseDto<ReadReplyResponseDto>> readRepliesByPostNo(@PathVariable Long postNo,
-                                                                                     Pageable pageable) {
+            Pageable pageable) {
 
         PageResponseDto<ReadReplyResponseDto> response = replyReadService.readRepliesByPostNo(postNo, pageable);
 

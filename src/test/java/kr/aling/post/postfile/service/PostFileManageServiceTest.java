@@ -1,15 +1,12 @@
 package kr.aling.post.postfile.service;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
-import kr.aling.post.postfile.dummy.PostFileDummy;
 import kr.aling.post.postfile.entity.PostFile;
 import kr.aling.post.postfile.repository.PostFileManageRepository;
 import kr.aling.post.postfile.service.impl.PostFileManageServiceImpl;

@@ -12,6 +12,7 @@ import kr.aling.post.post.dto.response.CreatePostResponseDto;
  * @since 1.0
  */
 public interface PostManageService {
+
     /**
      * 게시물 생성.
      *

@@ -90,7 +90,8 @@ class NormalPostReadServiceTest {
 
         given(normalPostReadRepository.findAllByUserNo(userNo, Pageable.unpaged())).willReturn(responses);
 
-        PageResponseDto<ReadNormalPostResponseDto> actual = normalPostReadService.readNormalPostsByUserNo(userNo, Pageable.unpaged());
+        PageResponseDto<ReadNormalPostResponseDto> actual =
+                normalPostReadService.readNormalPostsByUserNo(userNo, Pageable.unpaged());
 
         assertAll(
                 "",

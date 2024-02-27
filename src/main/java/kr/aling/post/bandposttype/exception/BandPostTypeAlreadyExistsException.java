@@ -7,6 +7,7 @@ package kr.aling.post.bandposttype.exception;
  * @since 1.0
  **/
 public class BandPostTypeAlreadyExistsException extends RuntimeException {
+
     private static final String MESSAGE = "Band post type is already exists!";
 
     public BandPostTypeAlreadyExistsException() {

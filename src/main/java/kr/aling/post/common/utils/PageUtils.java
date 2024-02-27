@@ -20,8 +20,8 @@ public class PageUtils {
      * @param page org.springframework.data.domain.Page 객체
      * @param <T>  페이징 요소의 타입
      * @return 변환이 완료된 kr.aling.post.common.dto.PageResponseDto 객체
-     * @see org.springframework.data.domain.Page
      * @author : 이성준
+     * @see org.springframework.data.domain.Page
      * @since 1.0
      */
     public static <T> PageResponseDto<T> convert(Page<T> page) {

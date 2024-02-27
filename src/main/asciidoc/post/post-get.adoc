@@ -1,0 +1,23 @@
+:toc:
+
+==== 게시글 존재 여부 조회
+
+게시글 번호 기준 존재 여부 조회 API
+
+===== 요청
+
+operation::post-is-exists-post[snippets='http-request']
+
+===== 응답
+
+operation::post-is-exists-post[snippets='http-response']
+
+====== 파라미터 설명
+
+====== 요청 Path Param
+
+operation::post-is-exists-post[snippets='path-parameters']
+
+====== 응답 Body
+
+operation::post-is-exists-post[snippets='response-fields']

@@ -31,12 +31,12 @@ public class BandPostManageController {
      * 그룹 게시글 생성 API.
      *
      * @param createBandPostRequestDto 게시글 생성 요청 dto
-     * @param bandUserNo 그룹 회원 번호
+     * @param bandUserNo               그룹 회원 번호
      * @return Status 201
      */
     @PostMapping
     public ResponseEntity<Void> createBandPost(@Valid @RequestBody CreateBandPostRequestDto createBandPostRequestDto,
-                                       @RequestHeader(X_BAND_USER_NO) Long bandUserNo) {
+            @RequestHeader(X_BAND_USER_NO) Long bandUserNo) {
         bandPostFacadeService.createBandPostFacade(createBandPostRequestDto, bandUserNo);
 
         return ResponseEntity

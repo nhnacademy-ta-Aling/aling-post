@@ -1,5 +1,6 @@
 package kr.aling.post.post.service;
 
+import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostResponseDto;
 
 /**
@@ -10,6 +11,7 @@ import kr.aling.post.post.dto.response.ReadPostResponseDto;
  */
 
 public interface PostReadService {
+
     /**
      * 게시물 데이터 조회.
      *
@@ -18,4 +20,13 @@ public interface PostReadService {
      */
     ReadPostResponseDto readPostByPostNo(Long postNo);
 
+    /**
+     * 게시물 번호로 게시물의 존재 여부를 조회합니다.
+     *
+     * @param postNo 조회할 게시물의 번호
+     * @return 게시물의 존재 여부
+     * @author 이수정
+     * @since 1.0
+     */
+    IsExistsPostResponseDto isExistsPost(Long postNo);
 }
