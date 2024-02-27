@@ -18,10 +18,10 @@ public class PostDummy {
     }
 
     public static Post postDummy() {
-            return Post.builder()
-                    .content("content")
-                    .isOpen(false)
-                    .build();
-        }
+        return Post.builder()
+                .content("content")
+                .isOpen(false)
+                .build();
+    }
 
 }

@@ -13,9 +13,8 @@ import kr.aling.post.post.service.PostManageService;
 import lombok.RequiredArgsConstructor;
 
 /**
- * PostManageService 의 구현체입니다. <br>
- * 엔티티의 수정이 발생하는 서비스 레이어 이기 때문에
- * 스프링의 스테레오타입 Service 와 Transaction(readonly = false) 가 적용된 ManageService 커스텀 어노테이션이 적용되어 있습니다.
+ * PostManageService 의 구현체입니다. <br> 엔티티의 수정이 발생하는 서비스 레이어 이기 때문에 스프링의 스테레오타입 Service 와 Transaction(readonly = false) 가
+ * 적용된 ManageService 커스텀 어노테이션이 적용되어 있습니다.
  *
  * @author : 이성준
  * @see kr.aling.post.common.annotation.ManageService
@@ -95,8 +94,7 @@ public class PostManageServiceImpl implements PostManageService {
     }
 
     /**
-     * 게시물의 번호를 조건으로 엔티티를 조회하는 private 메서드입니다. <br>
-     * 엔티티 수정 목적으로 조회가 필요할 때 사용합니다.
+     * 게시물의 번호를 조건으로 엔티티를 조회하는 private 메서드입니다. <br> 엔티티 수정 목적으로 조회가 필요할 때 사용합니다.
      *
      * @param postNo 조회하려는 게시물의 번호
      * @return 번호에 해당하는 게시물이 존재하면 해당하는 게시물을 반환합니다.

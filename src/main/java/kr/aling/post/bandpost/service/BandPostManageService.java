@@ -19,5 +19,5 @@ public interface BandPostManageService {
      * @param baneUserNo               그룹 회원 번호
      */
     void createBandPost(CreatePostResponseDto createPostResponseDto,
-                        CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo);
+            CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo);
 }

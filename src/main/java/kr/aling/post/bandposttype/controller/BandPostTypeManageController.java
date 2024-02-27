@@ -25,8 +25,7 @@ public class BandPostTypeManageController {
     private final BandPostTypeManageService bandPostTypeManageService;
 
     /**
-     * 기본 그룹 게시물 분류를 생성 하기 위한 메서드입니다. <br>
-     * 그룹 생성 시 사용됩니다.
+     * 기본 그룹 게시물 분류를 생성 하기 위한 메서드입니다. <br> 그룹 생성 시 사용됩니다.
      *
      * @param requestDto 기본 그룹 게시물 분류를 생성할 그룹 정보 dto
      * @return 201 created

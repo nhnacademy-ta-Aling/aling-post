@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/bands/{bandNo}/band-post-types")
 public class BandPostTypeReadController {
+
     private final BandPostTypeReadService bandPostTypeReadService;
 
     /**
-     * 그룹 게시물 분류 리스트를 조회 하기 위한 메서드입니다. <br>
-     * 특정 그룹의 그룹 게시물 분류 리스트를 조회 합니다.
+     * 그룹 게시물 분류 리스트를 조회 하기 위한 메서드입니다. <br> 특정 그룹의 그룹 게시물 분류 리스트를 조회 합니다.
      *
      * @param bandNo 그룹 번호
      * @return 200 ok. 그룹 게시물 분류 정보 dto 리스트

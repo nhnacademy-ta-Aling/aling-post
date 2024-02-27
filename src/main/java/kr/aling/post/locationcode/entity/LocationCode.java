@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "location_code")
 public class LocationCode {
+
     @Id
     @Column(name = "location_code_no")
     private String locationCodeNo;

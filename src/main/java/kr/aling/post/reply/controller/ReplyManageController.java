@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 댓글 관리 컨트롤러입니다.
- * accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
+ * 댓글 관리 컨트롤러입니다. accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
  *
  * @author : 이성준
  * @since 1.0
@@ -41,7 +40,7 @@ public class ReplyManageController {
      */
     @PostMapping
     public ResponseEntity<CreateReplyResponseDto> createReply(@Valid @RequestBody CreateReplyRequestDto request,
-                                                              @PathVariable Long postNo) {
+            @PathVariable Long postNo) {
         CreateReplyResponseDto response = replyManageService.createReply(postNo, request);
 
         return ResponseEntity.created(URI.create("/api/v1/post/" + postNo))
@@ -57,7 +56,7 @@ public class ReplyManageController {
      */
     @PutMapping("/{replyNo}")
     public ResponseEntity<ModifyReplyResponseDto> modifyReply(@Valid @RequestBody ModifyReplyRequestDto request,
-                                                              @PathVariable Long postNo, @PathVariable Long replyNo) {
+            @PathVariable Long postNo, @PathVariable Long replyNo) {
         ModifyReplyResponseDto modifyReplyResponseDto = replyManageService.modifyReply(postNo, replyNo, request);
 
         return ResponseEntity.ok(modifyReplyResponseDto);

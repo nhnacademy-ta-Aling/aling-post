@@ -14,7 +14,7 @@ public interface BandPostTypeReadRepositoryCustom {
     /**
      * 그룹 게시글 분류 존재(중복) 여부를 확인 하는 메서드입니다.<br>
      *
-     * @param name 그룹 게시글 분류 이름
+     * @param name   그룹 게시글 분류 이름
      * @param bandNo 그룹 번호
      * @return 존재(중복) 여부
      */

@@ -7,4 +7,5 @@ package kr.aling.post.common.feign.client;
  * @since 1.0
  */
 public interface FeignClientBase {
+
 }

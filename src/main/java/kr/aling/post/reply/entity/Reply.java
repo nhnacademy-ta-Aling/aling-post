@@ -31,6 +31,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Entity
 @Table(name = "reply")
 public class Reply extends BaseCreateTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reply_no")
@@ -81,7 +82,7 @@ public class Reply extends BaseCreateTimeEntity {
 
     @PrePersist
     public void prePersist() {
-        isDelete = Objects.isNull(isDelete) ? false : isDelete;
+        isDelete = !Objects.isNull(isDelete) && isDelete;
     }
 
     /**

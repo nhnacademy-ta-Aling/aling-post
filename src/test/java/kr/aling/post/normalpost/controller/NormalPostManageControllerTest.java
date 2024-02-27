@@ -177,9 +177,6 @@ class NormalPostManageControllerTest {
         given(normalPostManageService.createNormalPost(any(), any(CreateNormalPostRequestDto.class))).willReturn(
                 createNormalPostResponse);
 
-
-
-
         mockMvc.perform(post(mappedUrl)
                         .param("userNo", String.valueOf(userNo))
                         .content(mapper.writeValueAsString(createNormalPostRequest))

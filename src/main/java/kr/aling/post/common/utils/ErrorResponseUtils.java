@@ -15,6 +15,7 @@ import org.springframework.web.HttpMediaTypeException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponseUtils {
+
     public static ErrorResponseDto makeResponse(HttpMediaTypeException exception) {
         String message = "Available Media Types - ";
 
