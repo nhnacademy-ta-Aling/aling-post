@@ -38,6 +38,7 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -86,7 +87,8 @@ class PostReadControllerTest {
     @DisplayName("스크랩용 게시물 내용 조회 성공")
     void getPostsForScrap() throws Exception {
         // given
-        ReadPostsForScrapRequestDto requestDto = new ReadPostsForScrapRequestDto(List.of(1L, 2L, 3L));
+        ReadPostsForScrapRequestDto requestDto = new ReadPostsForScrapRequestDto();
+        ReflectionTestUtils.setField(requestDto, "postNos", List.of(1L, 2L, 3L));
 
         Mockito.when(postReadService.getPostsForScrap(any())).thenReturn(new ReadPostsForScrapResponseDto(List.of(
                 new ReadPostScrapsResponseDto(1L, "1", false, true),

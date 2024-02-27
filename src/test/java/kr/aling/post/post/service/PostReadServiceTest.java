@@ -106,7 +106,8 @@ class PostReadServiceTest {
     @DisplayName("게시물 번호로 게시물 내용 조회 성공")
     void getPostsForScrap() {
         // given
-        ReadPostsForScrapRequestDto requestDto = new ReadPostsForScrapRequestDto(List.of(1L, 2L, 3L));
+        ReadPostsForScrapRequestDto requestDto = new ReadPostsForScrapRequestDto();
+        ReflectionTestUtils.setField(requestDto, "postNos", List.of(1L, 2L, 3L));
 
         List<ReadPostScrapsResponseDto> list = List.of(
                 new ReadPostScrapsResponseDto(1L, "1", false, true),

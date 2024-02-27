@@ -21,3 +21,27 @@ operation::post-is-exists-post[snippets='path-parameters']
 ====== 응답 Body
 
 operation::post-is-exists-post[snippets='response-fields']
+
+
+==== 스크랩용 게시글 조회
+
+게시글 번호 리스트 기준 게시글 조회 API
+
+===== 요청
+
+operation::post-read-for-scrap[snippets='http-request']
+
+===== 응답
+
+operation::post-read-for-scrap[snippets='http-response']
+
+====== 파라미터 설명
+
+====== 요청 Body
+
+operation::post-read-for-scrap[snippets='request-fields']
+
+====== 응답 Body
+
+operation::post-read-for-scrap[snippets='response-fields']
+
