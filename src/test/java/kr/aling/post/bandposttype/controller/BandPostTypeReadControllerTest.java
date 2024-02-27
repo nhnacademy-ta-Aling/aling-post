@@ -69,7 +69,7 @@ class BandPostTypeReadControllerTest {
 
     @Test
     @DisplayName("그룹 게시글 분류 리스트 조회")
-    public void getBandPostTypeList() throws Exception {
+    void getBandPostTypeList() throws Exception {
         // given
         Long bandNo = 1L;
 
@@ -82,7 +82,7 @@ class BandPostTypeReadControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andDo(document("band-post-type-get",
+                .andDo(document("band-post-type-get-list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
