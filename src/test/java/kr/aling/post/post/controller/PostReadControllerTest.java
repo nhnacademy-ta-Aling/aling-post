@@ -29,7 +29,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-@AutoConfigureRestDocs(outputDir = "target/snippets")
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 @MockBean(JpaMetamodelMappingContext.class)
 @WebMvcTest(PostReadController.class)
 class PostReadControllerTest {
@@ -49,7 +49,8 @@ class PostReadControllerTest {
         Mockito.when(postReadService.isExistsPost(anyLong())).thenReturn(new IsExistsPostResponseDto(Boolean.TRUE));
 
         // when
-        ResultActions perform = mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/posts/{postNo}", postNo));
+        ResultActions perform =
+                mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/check-post/{postNo}", postNo));
 
         // then
         perform.andDo(print())

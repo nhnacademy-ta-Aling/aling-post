@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 1.0
  */
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/posts")
+@RequestMapping("/api/v1")
 @RestController
 public class PostReadController {
 
     private final PostReadService postReadService;
 
-    @GetMapping("/{postNo}")
+    @GetMapping("/check-post/{postNo}")
     public ResponseEntity<IsExistsPostResponseDto> isExistsPost(@PathVariable Long postNo) {
         return ResponseEntity.ok(postReadService.isExistsPost(postNo));
     }
