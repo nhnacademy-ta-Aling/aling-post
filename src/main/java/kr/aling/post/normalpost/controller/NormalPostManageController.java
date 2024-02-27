@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 일반 게시물 작성, 수정, 삭제를 위한 컨트롤러입니다.
- * accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
+ * 일반 게시물 작성, 수정, 삭제를 위한 컨트롤러입니다. accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
  *
  * @author : 이성준
  * @since 1.0
@@ -62,7 +61,7 @@ public class NormalPostManageController {
      */
     @PutMapping("/{postNo}")
     public ResponseEntity<Void> modifyNormalPost(@RequestBody @Valid ModifyNormalPostRequestDto request,
-                                                 @PathVariable Long postNo) {
+            @PathVariable Long postNo) {
 
         normalPostManageService.modifyNormalPost(postNo, request);
 

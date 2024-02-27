@@ -46,6 +46,7 @@ public class RecruitTechSkill {
     @Getter
     @Embeddable
     public static class Pk implements Serializable {
+
         @Column(name = "recruit_post_no")
         private Long recruitPostNo;
 

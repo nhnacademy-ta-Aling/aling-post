@@ -61,8 +61,7 @@ public class AlingPostControllerAdvice {
 
 
     /**
-     * 406 - Not Acceptable 상태 코드를 포함하는 예외 핸들링 메서드 <Br>
-     * Content Negotiation 관련 예외를 처리합니다.
+     * 406 - Not Acceptable 상태 코드를 포함하는 예외 핸들링 메서드 <Br> Content Negotiation 관련 예외를 처리합니다.
      *
      * @param exception Rest Controller 에서 발생한 예외 중 Exception Handler 에 등록된 예외
      * @return 상태 코드와 예외에 대한 메시지를 담은 Response Entity

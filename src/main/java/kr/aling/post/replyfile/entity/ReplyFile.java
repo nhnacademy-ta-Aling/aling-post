@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "reply_file")
 public class ReplyFile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reply_file_no")

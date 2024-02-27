@@ -1,7 +1,6 @@
 package kr.aling.post.bandposttype.controller;
 
 import javax.validation.Valid;
-import kr.aling.post.bandposttype.dto.request.CreateBandPostTypeDefaultRequestDto;
 import kr.aling.post.bandposttype.dto.request.CreateBandPostTypeRequestDto;
 import kr.aling.post.bandposttype.service.BandPostTypeManageService;
 import lombok.RequiredArgsConstructor;

@@ -12,5 +12,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class GetBandPostTypeResponseDto {
+
     private String name;
 }

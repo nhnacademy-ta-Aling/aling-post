@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "normal_post")
 public class NormalPost {
+
     @Id
     @Column(name = "post_no")
     private Long postNo;
@@ -42,7 +43,6 @@ public class NormalPost {
      *
      * @param postNo 게시물 번호
      * @param userNo 작성자 번호
-     *
      */
     @Builder
     public NormalPost(Long postNo, Post post, Long userNo) {

@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "post_file")
 public class PostFile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_file_no")

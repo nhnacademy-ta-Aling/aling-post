@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @ReadService
 @RequiredArgsConstructor
 public class BandPostTypeReadServiceImpl implements BandPostTypeReadService {
+
     private final BandPostTypeReadRepository bandPostTypeReadRepository;
 
     /**

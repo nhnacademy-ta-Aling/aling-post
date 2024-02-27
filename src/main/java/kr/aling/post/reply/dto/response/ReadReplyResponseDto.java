@@ -13,6 +13,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ReadReplyResponseDto {
+
     private final Long postNo;
     private final Long replyNo;
     private final Long parentReplyNo;

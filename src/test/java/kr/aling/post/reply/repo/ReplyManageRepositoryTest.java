@@ -71,9 +71,10 @@ class ReplyManageRepositoryTest {
                 .userNo(anotherUserNo)
                 .build();
 
-        assertThrows(DataIntegrityViolationException.class, ()-> replyManageRepository.saveAndFlush(reReply));
+        assertThrows(DataIntegrityViolationException.class, () -> replyManageRepository.saveAndFlush(reReply));
 
     }
+
     @Test
     @DisplayName("존재하지 않는 게시물에 대한 댓글 작성시")
     void createReplyAboutNonExistedPost() {
@@ -87,7 +88,7 @@ class ReplyManageRepositoryTest {
                 .userNo(userNo)
                 .build();
 
-        assertThrows(DataIntegrityViolationException.class, ()-> replyManageRepository.saveAndFlush(reReply));
+        assertThrows(DataIntegrityViolationException.class, () -> replyManageRepository.saveAndFlush(reReply));
 
     }
 

@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "recruit_branch_code")
 public class RecruitBranchCode {
+
     @Id
     @Column(name = "recruit_branch_code_no")
     private String recruitBranchCodeNo;

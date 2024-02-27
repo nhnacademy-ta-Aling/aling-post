@@ -27,6 +27,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Entity
 @Table(name = "post")
 public class Post extends BaseCreateTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_no")

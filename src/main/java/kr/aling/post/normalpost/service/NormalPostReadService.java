@@ -23,7 +23,7 @@ public interface NormalPostReadService {
     /**
      * 유저 번호를 기준으로 페이징이 된 게시물 목록을 찾는 메서드.
      *
-     * @param userNo 게시물을 불러올 기준 유저 정보
+     * @param userNo   게시물을 불러올 기준 유저 정보
      * @param pageable 게시물 페이지네이션에 필요한 정보
      * @return 페이지네이션이 적용된 일반 게시물 조회 DTO 목록
      */
