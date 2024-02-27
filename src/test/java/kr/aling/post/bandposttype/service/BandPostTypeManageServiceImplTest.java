@@ -1,4 +1,4 @@
-package kr.aling.post.bandposttype.service.impl;
+package kr.aling.post.bandposttype.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -17,6 +17,7 @@ import kr.aling.post.bandposttype.entity.BandPostType;
 import kr.aling.post.bandposttype.exception.BandPostTypeAlreadyExistsException;
 import kr.aling.post.bandposttype.repository.BandPostTypeManageRepository;
 import kr.aling.post.bandposttype.repository.BandPostTypeReadRepository;
+import kr.aling.post.bandposttype.service.impl.BandPostTypeManageServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

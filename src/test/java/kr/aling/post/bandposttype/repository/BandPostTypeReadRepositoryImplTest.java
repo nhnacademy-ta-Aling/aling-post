@@ -1,4 +1,4 @@
-package kr.aling.post.bandposttype.repository.impl;
+package kr.aling.post.bandposttype.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,21 +43,21 @@ class BandPostTypeReadRepositoryImplTest {
 
     @Test
     @DisplayName("그룹 게시글 분류명과 그룹명으로 그룹 게시글 존재 여부 확인_존재할 경우")
-    public void existsByNameAndBandNoTest_returnTrue() {
+    void existsByNameAndBandNoTest_returnTrue() {
         boolean result = bandPostTypeReadRepository.existsByNameAndBandNo(bandPostType.getName(), bandPostType.getBandNo());
         assertThat(result).isTrue();
     }
 
     @Test
     @DisplayName("그룹 게시글 분류명과 그룹명으로 그룹 게시글 존재 여부 확인_존재 하지 않는 경우")
-    public void existsByNameAndBandNoTest_returnFalse() {
+    void existsByNameAndBandNoTest_returnFalse() {
         boolean result = bandPostTypeReadRepository.existsByNameAndBandNo("존재 하지 않는 그룹 명 입니다", -100L);
         assertThat(result).isFalse();
     }
 
     @Test
     @DisplayName("그룹 명으로 그룹 게시글 리스트 조회")
-    public void getBandPostTypeListByBandNo() {
+    void getBandPostTypeListByBandNo() {
         List<GetBandPostTypeResponseDto> resultList =
                 bandPostTypeReadRepository.getBandPostTypeListByBandNo(bandPostType.getBandNo());
 

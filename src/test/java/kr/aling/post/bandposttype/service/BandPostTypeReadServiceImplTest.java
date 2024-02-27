@@ -1,4 +1,4 @@
-package kr.aling.post.bandposttype.service.impl;
+package kr.aling.post.bandposttype.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import kr.aling.post.bandposttype.dto.response.GetBandPostTypeResponseDto;
 import kr.aling.post.bandposttype.repository.BandPostTypeReadRepository;
+import kr.aling.post.bandposttype.service.impl.BandPostTypeReadServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

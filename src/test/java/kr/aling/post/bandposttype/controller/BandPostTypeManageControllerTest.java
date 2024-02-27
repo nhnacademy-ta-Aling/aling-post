@@ -57,7 +57,7 @@ class BandPostTypeManageControllerTest {
 
     @Test
     @DisplayName("그룹 게시글 분류 생성 성공")
-    public void makeBandPostTypeSuccess() throws Exception {
+    void makeBandPostTypeSuccess() throws Exception {
         // given
         ReflectionTestUtils.setField(createRequestDto, "bandNo", 1L);
         ReflectionTestUtils.setField(createRequestDto, "bandPostTypeName", "typeName");
@@ -88,7 +88,7 @@ class BandPostTypeManageControllerTest {
 
     @Test
     @DisplayName("그룹 게시글 분류 생성 실패_그룹 번호가 null")
-    public void makeBandPostTypeFail_bandNoIsNull() throws Exception {
+    void makeBandPostTypeFail_bandNoIsNull() throws Exception {
         // given
         ReflectionTestUtils.setField(createRequestDto, "bandNo", null);
         ReflectionTestUtils.setField(createRequestDto, "bandPostTypeName", "testTypeName");
@@ -107,7 +107,7 @@ class BandPostTypeManageControllerTest {
 
     @Test
     @DisplayName("그룹 게시글 분류 생성 실패_그룹 게시글 분류 명이 blank")
-    public void makeBandPostTypeFail_bandNoIsBlank() throws Exception {
+    void makeBandPostTypeFail_bandNoIsBlank() throws Exception {
         // given
         ReflectionTestUtils.setField(createRequestDto, "bandNo", 1L);
         ReflectionTestUtils.setField(createRequestDto, "bandPostTypeName", "   ");
@@ -126,7 +126,7 @@ class BandPostTypeManageControllerTest {
 
     @Test
     @DisplayName("그룹 게시글 분류 생성 실패_그룹 게시글 분류 명 사이즈 초과")
-    public void makeBandPostTypeFail_bandNoIsOverSize() throws Exception {
+    void makeBandPostTypeFail_bandNoIsOverSize() throws Exception {
         // given
         ReflectionTestUtils.setField(createRequestDto, "bandNo", 1L);
         ReflectionTestUtils.setField(createRequestDto, "bandPostTypeName", "i".repeat(11));
