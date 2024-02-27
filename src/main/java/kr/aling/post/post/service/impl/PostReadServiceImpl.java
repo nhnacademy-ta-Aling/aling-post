@@ -2,8 +2,10 @@ package kr.aling.post.post.service.impl;
 
 import kr.aling.post.common.annotation.ReadService;
 import kr.aling.post.common.utils.NormalPostUtils;
+import kr.aling.post.post.dto.request.ReadPostsForScrapRequestDto;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostResponseDto;
+import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostReadRepository;
@@ -44,5 +46,16 @@ public class PostReadServiceImpl implements PostReadService {
     @Override
     public IsExistsPostResponseDto isExistsPost(Long postNo) {
         return new IsExistsPostResponseDto(postReadRepository.existsById(postNo));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param requestDto 조회할 게시물 번호 리스트를 담은 Dto
+     * @return 스크랩 조회에 필요한 게시물 내용 리스트를 담은 Dto
+     */
+    @Override
+    public ReadPostsForScrapResponseDto getPostsForScrap(ReadPostsForScrapRequestDto requestDto) {
+        return new ReadPostsForScrapResponseDto(postReadRepository.getPostInfoForScrap(requestDto.getPostNos()));
     }
 }
