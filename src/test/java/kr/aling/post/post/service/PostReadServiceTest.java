@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import kr.aling.post.common.utils.NormalPostUtils;
-import kr.aling.post.post.dto.request.ReadPostsForScrapRequestDto;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
@@ -106,8 +105,7 @@ class PostReadServiceTest {
     @DisplayName("게시물 번호로 게시물 내용 조회 성공")
     void getPostsForScrap() {
         // given
-        ReadPostsForScrapRequestDto requestDto = new ReadPostsForScrapRequestDto();
-        ReflectionTestUtils.setField(requestDto, "postNos", List.of(1L, 2L, 3L));
+        List<Long> postNos = List.of(1L, 2L, 3L);
 
         List<ReadPostScrapsResponseDto> list = List.of(
                 new ReadPostScrapsResponseDto(1L, "1", false, true),
@@ -117,7 +115,7 @@ class PostReadServiceTest {
         when(postReadRepository.getPostInfoForScrap(anyList())).thenReturn(list);
 
         // when
-        ReadPostsForScrapResponseDto result = postReadService.getPostsForScrap(requestDto);
+        ReadPostsForScrapResponseDto result = postReadService.getPostsForScrap(postNos);
 
         // then
         Assertions.assertThat(result).isNotNull();

@@ -37,9 +37,9 @@ operation::post-read-for-scrap[snippets='http-response']
 
 ====== 파라미터 설명
 
-====== 요청 Body
+====== 요청 Params
 
-operation::post-read-for-scrap[snippets='request-fields']
+operation::post-read-for-scrap[snippets='request-parameters']
 
 ====== 응답 Body
 

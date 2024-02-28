@@ -1,8 +1,7 @@
 package kr.aling.post.post.controller;
 
 
-import javax.validation.Valid;
-import kr.aling.post.post.dto.request.ReadPostsForScrapRequestDto;
+import java.util.List;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.service.PostReadService;
@@ -10,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -44,14 +43,13 @@ public class PostReadController {
     /**
      * 게시물 번호 리스트를 받아 스크랩 조회에 필요한 게시물 내용을 조회합니다.
      *
-     * @param requestDto 게시물 번호 리스트를 담은 Dto
+     * @param postNos 게시물 번호 리스트
      * @return 스크랩 조회에 필요한 게시물 내용
      * @author 이수정
      * @since 1.0
      */
     @GetMapping("/posts-for-scrap")
-    public ResponseEntity<ReadPostsForScrapResponseDto> getPostsForScrap(
-            @RequestBody @Valid ReadPostsForScrapRequestDto requestDto) {
-        return ResponseEntity.ok().body(postReadService.getPostsForScrap(requestDto));
+    public ResponseEntity<ReadPostsForScrapResponseDto> getPostsForScrap(@RequestParam List<Long> postNos) {
+        return ResponseEntity.ok().body(postReadService.getPostsForScrap(postNos));
     }
 }

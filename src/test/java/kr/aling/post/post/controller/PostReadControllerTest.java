@@ -11,10 +11,10 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import kr.aling.post.post.dto.request.ReadPostsForScrapRequestDto;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.service.PostReadService;
@@ -35,12 +34,12 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 @AutoConfigureRestDocs
 @MockBean(JpaMetamodelMappingContext.class)
@@ -87,20 +86,19 @@ class PostReadControllerTest {
     @DisplayName("스크랩용 게시물 내용 조회 성공")
     void getPostsForScrap() throws Exception {
         // given
-        ReadPostsForScrapRequestDto requestDto = new ReadPostsForScrapRequestDto();
-        ReflectionTestUtils.setField(requestDto, "postNos", List.of(1L, 2L, 3L));
-
         Mockito.when(postReadService.getPostsForScrap(any())).thenReturn(new ReadPostsForScrapResponseDto(List.of(
                 new ReadPostScrapsResponseDto(1L, "1", false, true),
                 new ReadPostScrapsResponseDto(2L, "2", true, true),
                 new ReadPostScrapsResponseDto(3L, "3", true, false)
         )));
 
+        MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
+        request.addAll("postNos", List.of("1", "2", "3"));
+
         // when
         ResultActions perform =
                 mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/posts-for-scrap")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDto)));
+                        .queryParams(request));
 
         // then
         perform.andDo(print())
@@ -114,8 +112,8 @@ class PostReadControllerTest {
         perform.andDo(document("post-read-for-scrap",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                requestFields(
-                        fieldWithPath("postNos").type(JsonFieldType.ARRAY).description("게시물 번호 리스트")
+                requestParameters(
+                        parameterWithName("postNos").description("게시물 번호 리스트")
                                 .attributes(key(REQUIRED).value(REQUIRED_YES))
                                 .attributes(key(VALID).value(""))
                 ),

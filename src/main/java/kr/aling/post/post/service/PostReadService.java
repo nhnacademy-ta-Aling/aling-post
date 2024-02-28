@@ -1,6 +1,6 @@
 package kr.aling.post.post.service;
 
-import kr.aling.post.post.dto.request.ReadPostsForScrapRequestDto;
+import java.util.List;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
@@ -35,10 +35,10 @@ public interface PostReadService {
     /**
      * 게시물 번호 리스트로 스크랩 조회에 필요한 게시물 내용을 조회해 응답합니다.
      *
-     * @param requestDto 조회할 게시물 번호 리스트를 담은 dto
+     * @param postNos 조회할 게시물 번호 리스트
      * @return 스크랩 조회에 필요한 게시물 내용 리스트를 담은 Dto
      * @author 이수정
      * @since 1.0
      */
-    ReadPostsForScrapResponseDto getPostsForScrap(ReadPostsForScrapRequestDto requestDto);
+    ReadPostsForScrapResponseDto getPostsForScrap(List<Long> postNos);
 }
