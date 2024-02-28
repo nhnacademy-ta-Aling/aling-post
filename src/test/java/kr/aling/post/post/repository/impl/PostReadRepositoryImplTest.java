@@ -6,7 +6,7 @@ import java.util.List;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.repository.PostReadRepository;
-import kr.aling.post.postscrap.dto.response.ReadPostScrapsResponseDto;
+import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,8 @@ class PostReadRepositoryImplTest {
         Post persistPost = testEntityManager.persist(PostDummy.dummyPost());
 
         // when
-        List<ReadPostScrapsResponseDto> list = postReadRepository.getPostInfoForScrap(List.of(persistPost.getPostNo()));
+        List<ReadPostScrapsPostResponseDto> list =
+                postReadRepository.getPostInfoForScrap(List.of(persistPost.getPostNo()));
 
         // then
         assertThat(list).isNotNull();

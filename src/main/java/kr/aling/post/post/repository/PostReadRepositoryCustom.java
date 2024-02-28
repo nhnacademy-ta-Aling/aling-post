@@ -1,7 +1,7 @@
 package kr.aling.post.post.repository;
 
 import java.util.List;
-import kr.aling.post.postscrap.dto.response.ReadPostScrapsResponseDto;
+import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
 import org.springframework.data.repository.NoRepositoryBean;
 
 /**
@@ -19,5 +19,5 @@ public interface PostReadRepositoryCustom {
      * @param postNos 조회할 게시물 번호 리스트
      * @return 스크랩 조회에 필요한 게시물 내용 리스트
      */
-    List<ReadPostScrapsResponseDto> getPostInfoForScrap(List<Long> postNos);
+    List<ReadPostScrapsPostResponseDto> getPostInfoForScrap(List<Long> postNos);
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.entity.QPost;
 import kr.aling.post.post.repository.PostReadRepositoryCustom;
-import kr.aling.post.postscrap.dto.response.ReadPostScrapsResponseDto;
+import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -29,13 +29,13 @@ public class PostReadRepositoryImpl extends QuerydslRepositorySupport implements
      * @return 스크랩 조회에 필요한 게시물 내용 리스트
      */
     @Override
-    public List<ReadPostScrapsResponseDto> getPostInfoForScrap(List<Long> postNos) {
+    public List<ReadPostScrapsPostResponseDto> getPostInfoForScrap(List<Long> postNos) {
         QPost post = QPost.post;
 
         return from(post)
                 .where(post.postNo.in(postNos))
                 .orderBy(post.createAt.desc())
-                .select(Projections.constructor(ReadPostScrapsResponseDto.class,
+                .select(Projections.constructor(ReadPostScrapsPostResponseDto.class,
                         post.postNo,
                         post.content.substring(0, 30),
                         post.isDelete,

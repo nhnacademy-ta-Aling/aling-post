@@ -25,7 +25,7 @@ import java.util.List;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.service.PostReadService;
-import kr.aling.post.postscrap.dto.response.ReadPostScrapsResponseDto;
+import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -87,9 +87,9 @@ class PostReadControllerTest {
     void getPostsForScrap() throws Exception {
         // given
         Mockito.when(postReadService.getPostsForScrap(any())).thenReturn(new ReadPostsForScrapResponseDto(List.of(
-                new ReadPostScrapsResponseDto(1L, "1", false, true),
-                new ReadPostScrapsResponseDto(2L, "2", true, true),
-                new ReadPostScrapsResponseDto(3L, "3", true, false)
+                new ReadPostScrapsPostResponseDto(1L, "1", false, true),
+                new ReadPostScrapsPostResponseDto(2L, "2", true, true),
+                new ReadPostScrapsPostResponseDto(3L, "3", true, false)
         )));
 
         MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
