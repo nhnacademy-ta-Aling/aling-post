@@ -5,19 +5,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import kr.aling.post.common.utils.NormalPostUtils;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostResponseDto;
+import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.post.service.impl.PostReadServiceImpl;
+import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,7 +84,6 @@ class PostReadServiceTest {
 
         assertThrows(PostNotFoundException.class, () -> postReadService.readPostByPostNo(postNo),
                 "Post Not Found : " + postNo);
-
     }
 
     @Test
@@ -95,6 +99,26 @@ class PostReadServiceTest {
 
         // then
         assertEquals(Boolean.TRUE, result.getIsExists());
+    }
 
+    @Test
+    @DisplayName("게시물 번호로 게시물 내용 조회 성공")
+    void getPostsForScrap() {
+        // given
+        List<Long> postNos = List.of(1L, 2L, 3L);
+
+        List<ReadPostScrapsPostResponseDto> list = List.of(
+                new ReadPostScrapsPostResponseDto(1L, "1", false, true),
+                new ReadPostScrapsPostResponseDto(2L, "2", true, true),
+                new ReadPostScrapsPostResponseDto(3L, "3", true, false)
+        );
+        when(postReadRepository.getPostInfoForScrap(anyList())).thenReturn(list);
+
+        // when
+        ReadPostsForScrapResponseDto result = postReadService.getPostsForScrap(postNos);
+
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getInfos()).isEqualTo(list);
     }
 }
