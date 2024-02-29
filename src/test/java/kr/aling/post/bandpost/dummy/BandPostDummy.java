@@ -10,6 +10,7 @@ public class BandPostDummy {
         return BandPost.builder()
                 .postNo(post.getPostNo())
                 .post(post)
+                .bandNo(1L)
                 .bandPostType(bandPostType)
                 .bandUserNo(1L)
                 .title("title")
