@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 그룹 게시글 조회 Facade Service.
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
  * @since 1.0
  **/
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BandPostFacadeReadService {
 
