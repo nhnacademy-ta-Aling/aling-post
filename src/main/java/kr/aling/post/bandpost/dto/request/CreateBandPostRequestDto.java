@@ -17,6 +17,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateBandPostRequestDto {
 
+    @NotNull
+    private Long bandNo;
+
     @NotBlank
     @Size(max = 50)
     private String bandPostTitle;

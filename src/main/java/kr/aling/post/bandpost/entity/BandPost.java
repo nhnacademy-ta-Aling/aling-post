@@ -38,6 +38,9 @@ public class BandPost {
     @JoinColumn(name = "post_no")
     private Post post;
 
+    @Column(name = "band_no")
+    private Long bandNo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "band_post_type_no")
     private BandPostType bandPostType;
@@ -53,14 +56,16 @@ public class BandPost {
      *
      * @param postNo       게시글 번호
      * @param post         게시글
+     * @param bandNo       그룹 번호
      * @param bandPostType 게시글 분류
      * @param bandUserNo   그룹 회원 번호
      * @param title        제목
      */
     @Builder
-    public BandPost(Long postNo, Post post, BandPostType bandPostType, Long bandUserNo, String title) {
+    public BandPost(Long postNo, Post post, Long bandNo, BandPostType bandPostType, Long bandUserNo, String title) {
         this.postNo = postNo;
         this.post = post;
+        this.bandNo = bandNo;
         this.bandPostType = bandPostType;
         this.bandUserNo = bandUserNo;
         this.title = title;

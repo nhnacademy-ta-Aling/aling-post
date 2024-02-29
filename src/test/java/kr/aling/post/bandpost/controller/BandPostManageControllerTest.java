@@ -65,6 +65,7 @@ class BandPostManageControllerTest {
     @DisplayName("그룹 게시글 생성 API 성공 테스트")
     void create_bandPost_api_success_test() throws Exception {
         // given
+        ReflectionTestUtils.setField(createBandPostRequestDto, "bandNo", 1L);
         ReflectionTestUtils.setField(createBandPostRequestDto, "bandPostTitle", "title");
         ReflectionTestUtils.setField(createBandPostRequestDto, "bandPostContent", "content");
         ReflectionTestUtils.setField(createBandPostRequestDto, "isOpen", true);
@@ -91,6 +92,9 @@ class BandPostManageControllerTest {
                         ),
 
                         requestFields(
+                                fieldWithPath("bandNo").description("그룹 번호")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES))
+                                        .attributes(key(VALID).value("Not Null")),
                                 fieldWithPath("bandPostTitle").description("그룹 게시글 제목")
                                         .attributes(key(REQUIRED).value(REQUIRED_YES))
                                         .attributes(key(VALID).value("Not Blank, 최대 50자")),

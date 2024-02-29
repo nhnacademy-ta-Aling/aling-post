@@ -40,6 +40,7 @@ public class BandPostManageServiceImpl implements BandPostManageService {
         BandPost bandPost = BandPost.builder()
                 .postNo(createPostResponseDto.getPost().getPostNo())
                 .post(createPostResponseDto.getPost())
+                .bandNo(createBandPostRequestDto.getBandNo())
                 .bandPostType(bandPostType)
                 .bandUserNo(baneUserNo)
                 .title(createBandPostRequestDto.getBandPostTitle())

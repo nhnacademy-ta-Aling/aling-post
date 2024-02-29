@@ -1,20 +1,23 @@
 package kr.aling.post.post.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import kr.aling.post.common.base.BaseCreateTimeEntity;
+import kr.aling.post.postfile.entity.PostFile;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
 
 /**
  * Post(게시글) Entity.
@@ -36,7 +39,6 @@ public class Post extends BaseCreateTimeEntity {
     @Column(name = "post_content")
     private String content;
 
-    @LastModifiedDate
     @Column(name = "post_modify_at")
     private LocalDateTime modifyAt;
 
@@ -48,6 +50,9 @@ public class Post extends BaseCreateTimeEntity {
 
     @Column(name = "post_is_open")
     private Boolean isOpen;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+    private List<PostFile> postFileList;
 
     @PrePersist
     public void prePersist() {
