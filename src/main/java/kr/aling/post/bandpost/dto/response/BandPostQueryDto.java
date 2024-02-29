@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Some description here.
+ * 단건 게시글 조회 QueryDto. <Br>
+ * <i>(쿼리 하나로 파일 번호 리스트 까지 조회)</i>
  *
  * @author 박경서
  * @since 1.0
@@ -27,6 +28,9 @@ public class BandPostQueryDto {
     private Boolean isOpen;
     private List<AlingFileInfo> files;
 
+    /**
+     * 첨부 파일 번호.
+     */
     @Getter
     @AllArgsConstructor
     public static class AlingFileInfo {

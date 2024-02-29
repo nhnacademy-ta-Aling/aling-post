@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Some description here.
+ * 오직 게시글 정보만 조회 하는 QueryDto. <Br>
+ * <i>(페이징 조회 하기 위해 게시글 정보만 조회)</i>
  *
  * @author 박경서
  * @since 1.0

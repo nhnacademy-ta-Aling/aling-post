@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Some description here.
+ * 게시글 첨부 파일 조회 Query Dto.
  *
  * @author 박경서
  * @since 1.0

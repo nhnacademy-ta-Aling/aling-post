@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Some description here.
+ * 파일 서버에 게시글 청부 파일 정보 조회 API 응답 Dto.
  *
  * @author 박경서
  * @since 1.0
