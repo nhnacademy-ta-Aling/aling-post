@@ -7,7 +7,7 @@ import kr.aling.post.bandpost.dto.response.external.GetFileInfoResponseDto;
 import lombok.Getter;
 
 /**
- * Some description here.
+ * 그룹 게시글 응답 중 게시글 정보 부분 Dto.
  *
  * @author 박경서
  * @since 1.0
@@ -28,6 +28,12 @@ public class BandPostDto {
 
     private final List<GetFileInfoResponseDto> file;
 
+    /**
+     * 게시글 정보 응답 Dto 생성자.
+     *
+     * @param bandPostQueryDto        파일 번호 리스트 가지고 있는 QueryDto
+     * @param fileInfoResponseDtoList 파일 정보 가지고 있는 List Dto
+     */
     public BandPostDto(BandPostQueryDto bandPostQueryDto, List<GetFileInfoResponseDto> fileInfoResponseDtoList) {
         this.postNo = bandPostQueryDto.getPostNo();
         this.title = bandPostQueryDto.getTitle();
@@ -38,6 +44,12 @@ public class BandPostDto {
         this.file = fileInfoResponseDtoList;
     }
 
+    /**
+     * 게시글 정보 응답 Dto 생성자.
+     *
+     * @param bandPostExceptFileQueryDto 파일 번호 리스트 가지지 않는 QueryDto
+     * @param fileInfoResponseDtoList    파일 정보 가지고 있는 List Dto
+     */
     public BandPostDto(BandPostExceptFileQueryDto bandPostExceptFileQueryDto,
                        List<GetFileInfoResponseDto> fileInfoResponseDtoList) {
         this.postNo = bandPostExceptFileQueryDto.getPostNo();
