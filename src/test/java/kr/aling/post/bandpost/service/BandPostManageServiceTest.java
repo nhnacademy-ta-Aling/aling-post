@@ -84,7 +84,7 @@ class BandPostManageServiceTest {
 
         // then
         assertThatThrownBy(() -> bandPostManageService.createBandPost(createPostResponseDto,
-                createBandPostRequestDto, anyLong()))
+                createBandPostRequestDto, 1L))
                 .isInstanceOf(BandPostTypeNotFoundException.class)
                 .hasMessageContaining(BandPostTypeNotFoundException.MESSAGE);
     }
