@@ -1,0 +1,5 @@
+=== 그룹 게시글 분류(BandPostType)
+
+include::band-post-type-get.adoc[]
+include::band-post-type-create.adoc[]
+
