@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Some description here.
+ * 그룹 게시글 정보 조회 API Controller.
  *
  * @author 박경서
  * @since 1.0
@@ -25,6 +25,12 @@ public class BandPostReadController {
 
     private final BandPostFacadeReadService bandPostFacadeReadService;
 
+    /**
+     * 그룹 게시글 단건 조회 API.
+     *
+     * @param postNo 게시글 번호
+     * @return status 200 & 게시글 정보 Dto
+     */
     @GetMapping("/band-posts/{postNo}")
     public ResponseEntity<GetBandResponseDto> getBandPost(@PathVariable("postNo") Long postNo) {
         return ResponseEntity
@@ -32,6 +38,13 @@ public class BandPostReadController {
                 .body(bandPostFacadeReadService.getBandPost(postNo));
     }
 
+    /**
+     * 그룹의 게시글 리스트(페이징) 조회 API
+     *
+     * @param bandNo   그룹 번호
+     * @param pageable Paging
+     * @return status 200 & 게시글 리스트 정보 Dto
+     */
     @GetMapping("/bands/{bandNo}/posts")
     public ResponseEntity<PageResponseDto<GetBandResponseDto>> getBandPostsByBand(@PathVariable("bandNo") Long bandNo,
                                                                                   Pageable pageable) {
