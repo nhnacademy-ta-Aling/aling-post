@@ -4,7 +4,7 @@ import kr.aling.post.postfile.entity.PostFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Some description here.
+ * PostFile Read Repository.
  *
  * @author 박경서
  * @since 1.0

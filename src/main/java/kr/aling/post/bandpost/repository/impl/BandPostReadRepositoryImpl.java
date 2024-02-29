@@ -17,7 +17,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.data.support.PageableExecutionUtils;
 
 /**
- * Some description here.
+ * BandPostReadRepositoryCustom 구현체.
  *
  * @author 박경서
  * @since 1.0
@@ -28,6 +28,12 @@ public class BandPostReadRepositoryImpl extends QuerydslRepositorySupport implem
         super(BandPost.class);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param postNo 게시글 번호
+     * @return 게시글 정보 Query Dto
+     */
     @Override
     public BandPostQueryDto getBandPostByPostNo(Long postNo) {
         QPost post = QPost.post;
@@ -60,6 +66,13 @@ public class BandPostReadRepositoryImpl extends QuerydslRepositorySupport implem
                 ).get(0);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param bandNo   그룹 번호
+     * @param pageable 페이징
+     * @return 페이징 된 게시글 정보 QueryDto
+     */
     @Override
     public Page<BandPostExceptFileQueryDto> getBandPostByBand(Long bandNo, Pageable pageable) {
         QPost post = QPost.post;
