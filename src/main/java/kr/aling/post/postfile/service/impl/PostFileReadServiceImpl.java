@@ -8,7 +8,7 @@ import kr.aling.post.postfile.service.PostFileReadService;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Some description here.
+ * PostFile 조회 Service 구현체.
  *
  * @author 박경서
  * @since 1.0
@@ -19,6 +19,12 @@ public class PostFileReadServiceImpl implements PostFileReadService {
 
     private final PostFileReadRepository postFileReadRepository;
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param postNo 게시글 번호
+     * @return 게시글 첨부 파일 번호 리스트
+     */
     @Override
     public List<PostFileQueryDto> getPostFileNoList(Long postNo) {
         return postFileReadRepository.getPostFileByPostNo(postNo);
