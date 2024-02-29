@@ -1,5 +1,6 @@
 package kr.aling.post.common.advice;
 
+import kr.aling.post.bandpost.exception.BandPostNotFoundException;
 import kr.aling.post.bandposttype.exception.BandPostTypeNotFoundException;
 import kr.aling.post.common.dto.ErrorResponseDto;
 import kr.aling.post.common.utils.ErrorResponseUtils;
@@ -50,7 +51,7 @@ public class AlingPostControllerAdvice {
      * @since : 1.0
      */
     @ExceptionHandler({PostNotFoundException.class, NormalPostNotFoundException.class,
-            BandPostTypeNotFoundException.class})
+            BandPostTypeNotFoundException.class, BandPostNotFoundException.class})
     public ResponseEntity<ErrorResponseDto> handleNotFoundExceptions(RuntimeException exception) {
         loggingError(HttpStatus.NOT_FOUND, exception);
 
