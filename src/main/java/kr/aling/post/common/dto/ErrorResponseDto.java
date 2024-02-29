@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
  * 에러 메시지 응답 객체 입니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorResponseDto {
+
     private String message;
 }

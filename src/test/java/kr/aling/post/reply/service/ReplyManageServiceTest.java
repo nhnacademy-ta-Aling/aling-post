@@ -1,11 +1,11 @@
 package kr.aling.post.reply.service;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -39,7 +39,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  * 댓글 관리 서비스 레이어 테스트입니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
 class ReplyManageServiceTest {
@@ -89,7 +89,7 @@ class ReplyManageServiceTest {
 
         CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
 
-        ReflectionTestUtils.setField(request,"parentReplyNo",parentReplyNo);
+        ReflectionTestUtils.setField(request, "parentReplyNo", parentReplyNo);
 
         given(postReadRepository.findById(reply.getPostNo())).willReturn(Optional.ofNullable(post));
 
@@ -109,7 +109,8 @@ class ReplyManageServiceTest {
 
         doThrow(new PostNotFoundException(reply.getPostNo())).when(postReadRepository).findById(reply.getPostNo());
 
-        assertThrows(PostNotFoundException.class, () -> replyManageService.createReply(reply.getPostNo(), request));
+        assertThatThrownBy(() -> replyManageService.createReply(reply.getPostNo(), request))
+                .isInstanceOf(PostNotFoundException.class);
 
         then(postReadRepository).should(times(1)).findById(reply.getPostNo());
     }

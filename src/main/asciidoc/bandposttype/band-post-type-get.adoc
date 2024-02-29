@@ -1,0 +1,23 @@
+:toc:
+
+==== 그룹 게시글 분류 조회
+
+그룹 별 게시글 분류 전체 조회 API
+
+===== 요청
+
+operation::band-post-type-get-list[snippets='http-request']
+
+===== 응답
+
+operation::band-post-type-get-list[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 요청 Path Variable
+
+operation::band-post-type-get-list[snippets='path-parameters']
+
+====== 응답 Body
+
+operation::band-post-type-get-list[snippets='response-fields']

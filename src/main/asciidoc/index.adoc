@@ -20,5 +20,8 @@ include::../asciidoc/normalpost/normal-post.adoc[]
 // 그룹 게시글
 include::../asciidoc/bandpost/band-post.adoc[]
 
+// 그룹 게시글 분류
+include::../asciidoc/bandposttype/band-post-type.adoc[]
+
 // 댓글
 include::../asciidoc/reply/reply.adoc[]

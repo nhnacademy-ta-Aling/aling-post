@@ -30,6 +30,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "recruit_post")
 public class RecruitPost extends BaseCreateTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recruit_post_no")
@@ -72,7 +73,7 @@ public class RecruitPost extends BaseCreateTimeEntity {
 
     @PrePersist
     public void prePersist() {
-        isOpen = Objects.isNull(isOpen) ? false : isOpen;
-        isDelete = Objects.isNull(isDelete) ? false : isDelete;
+        isOpen = !Objects.isNull(isOpen) && isOpen;
+        isDelete = !Objects.isNull(isDelete) && isDelete;
     }
 }

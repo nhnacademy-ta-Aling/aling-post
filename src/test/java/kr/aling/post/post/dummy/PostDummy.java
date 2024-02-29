@@ -6,7 +6,7 @@ import kr.aling.post.post.entity.Post;
  * 테스트용 게시물 더미 객체
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 public class PostDummy {
 

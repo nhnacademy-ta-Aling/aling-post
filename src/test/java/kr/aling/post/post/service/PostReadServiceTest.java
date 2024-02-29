@@ -3,17 +3,26 @@ package kr.aling.post.post.service;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import kr.aling.post.common.utils.NormalPostUtils;
+import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostResponseDto;
+import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.post.service.impl.PostReadServiceImpl;
+import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +35,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  * 게시물 조회 서비스 테스트
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
 class PostReadServiceTest {
@@ -59,10 +68,10 @@ class PostReadServiceTest {
         ReadPostResponseDto actual = postReadService.readPostByPostNo(postResponse.getPostNo());
 
         assertAll("게시물 내용과 응답 DTO 가 동일한지 확인",
-                ()-> assertThat(postResponse.getPostNo(), equalTo(actual.getPostNo())),
-                ()-> assertThat(postResponse.getContent(), equalTo(actual.getContent())),
-                ()-> assertThat(postResponse.getCreateAt(), equalTo(actual.getCreateAt())),
-                ()-> assertThat(postResponse.getModifyAt(), equalTo(actual.getModifyAt()))
+                () -> assertThat(postResponse.getPostNo(), equalTo(actual.getPostNo())),
+                () -> assertThat(postResponse.getContent(), equalTo(actual.getContent())),
+                () -> assertThat(postResponse.getCreateAt(), equalTo(actual.getCreateAt())),
+                () -> assertThat(postResponse.getModifyAt(), equalTo(actual.getModifyAt()))
         );
     }
 
@@ -73,7 +82,43 @@ class PostReadServiceTest {
 
         given(postReadRepository.findById(postNo)).willThrow(new PostNotFoundException(postNo));
 
-        assertThrows(PostNotFoundException.class,()-> postReadService.readPostByPostNo(postNo),"Post Not Found : " + postNo);
+        assertThrows(PostNotFoundException.class, () -> postReadService.readPostByPostNo(postNo),
+                "Post Not Found : " + postNo);
+    }
 
+    @Test
+    @DisplayName("게시물 존재 확인 성공")
+    void isExistsPost() {
+        // given
+        Long postNo = 1L;
+
+        when(postReadRepository.existsById(anyLong())).thenReturn(Boolean.TRUE);
+
+        // when
+        IsExistsPostResponseDto result = postReadService.isExistsPost(postNo);
+
+        // then
+        assertEquals(Boolean.TRUE, result.getIsExists());
+    }
+
+    @Test
+    @DisplayName("게시물 번호로 게시물 내용 조회 성공")
+    void getPostsForScrap() {
+        // given
+        List<Long> postNos = List.of(1L, 2L, 3L);
+
+        List<ReadPostScrapsPostResponseDto> list = List.of(
+                new ReadPostScrapsPostResponseDto(1L, "1", false, true),
+                new ReadPostScrapsPostResponseDto(2L, "2", true, true),
+                new ReadPostScrapsPostResponseDto(3L, "3", true, false)
+        );
+        when(postReadRepository.getPostInfoForScrap(anyList())).thenReturn(list);
+
+        // when
+        ReadPostsForScrapResponseDto result = postReadService.getPostsForScrap(postNos);
+
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getInfos()).isEqualTo(list);
     }
 }

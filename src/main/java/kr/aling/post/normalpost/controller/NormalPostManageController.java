@@ -18,11 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 일반 게시물 작성, 수정, 삭제를 위한 컨트롤러입니다.
- * accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
+ * 일반 게시물 작성, 수정, 삭제를 위한 컨트롤러입니다. accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @RestController
 @RequestMapping(value = "/api/v1/normal-posts", consumes = {"application/json"}, produces = {"application/json"})
@@ -38,7 +37,7 @@ public class NormalPostManageController {
      * @param userNo  게시물을 작성하려는 유저 번호
      * @return HTTP 상태 코드와 데이터를 가진 Response Entity
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     @PostMapping
     public ResponseEntity<CreateNormalPostResponseDto> createNormalPost(
@@ -58,11 +57,11 @@ public class NormalPostManageController {
      * @param postNo  수정할 게시물의 번호
      * @return HTTP 상태 코드를 가진 Response Entity
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     @PutMapping("/{postNo}")
     public ResponseEntity<Void> modifyNormalPost(@RequestBody @Valid ModifyNormalPostRequestDto request,
-                                                 @PathVariable Long postNo) {
+            @PathVariable Long postNo) {
 
         normalPostManageService.modifyNormalPost(postNo, request);
 
@@ -77,7 +76,7 @@ public class NormalPostManageController {
      * @param postNo 삭제할 게시물 번호
      * @return 상태 코드를 포함하는 Response Entity
      * @author : 이성준
-     * @since : 1.0
+     * @since 1.0
      */
     @DeleteMapping("/{postNo}")
     public ResponseEntity<Void> deleteNormalPost(@PathVariable Long postNo) {

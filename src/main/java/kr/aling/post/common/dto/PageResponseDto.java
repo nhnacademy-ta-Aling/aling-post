@@ -9,7 +9,7 @@ import lombok.Getter;
  *
  * @param <T> 페이징 요소의 타입
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Getter
 @AllArgsConstructor

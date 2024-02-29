@@ -25,7 +25,7 @@ import org.springframework.dao.DataIntegrityViolationException;
  * 댓글 관리 레포지토리 테스트
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @Import(JpaConfig.class)
 @DataJpaTest
@@ -71,9 +71,10 @@ class ReplyManageRepositoryTest {
                 .userNo(anotherUserNo)
                 .build();
 
-        assertThrows(DataIntegrityViolationException.class, ()-> replyManageRepository.saveAndFlush(reReply));
+        assertThrows(DataIntegrityViolationException.class, () -> replyManageRepository.saveAndFlush(reReply));
 
     }
+
     @Test
     @DisplayName("존재하지 않는 게시물에 대한 댓글 작성시")
     void createReplyAboutNonExistedPost() {
@@ -87,7 +88,7 @@ class ReplyManageRepositoryTest {
                 .userNo(userNo)
                 .build();
 
-        assertThrows(DataIntegrityViolationException.class, ()-> replyManageRepository.saveAndFlush(reReply));
+        assertThrows(DataIntegrityViolationException.class, () -> replyManageRepository.saveAndFlush(reReply));
 
     }
 

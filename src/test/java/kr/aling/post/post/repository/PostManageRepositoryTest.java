@@ -20,9 +20,9 @@ import org.springframework.context.annotation.Import;
 
 /**
  * 게시물 관리 레포지토리 테스트
- * 
+ *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @DataJpaTest
 @Import(JpaConfig.class)
@@ -69,7 +69,7 @@ class PostManageRepositoryTest {
         post.switchVisibility();
 
         AtomicBoolean afterMakingPrivate = new AtomicBoolean(beforeMakingPrivate);
-        postManageRepository.findById(post.getPostNo()).ifPresent( o -> afterMakingPrivate.set(o.getIsOpen()));
+        postManageRepository.findById(post.getPostNo()).ifPresent(o -> afterMakingPrivate.set(o.getIsOpen()));
 
         assertAll(
                 "비공개 처리 전과 후 값 비교",

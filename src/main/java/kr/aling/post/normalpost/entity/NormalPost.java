@@ -25,24 +25,24 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "normal_post")
 public class NormalPost {
+
     @Id
     @Column(name = "post_no")
     private Long postNo;
 
     @MapsId("postNo")
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_no",insertable = false, updatable = false)
+    @JoinColumn(name = "post_no", insertable = false, updatable = false)
     private Post post;
 
     @Column(name = "normal_user_no")
     private Long userNo;
 
     /**
-     * 일반 게시물 작성시, NormalPost 테이블 insert 에 필요한 컬럼의 값을 받는 생성자
+     * 일반 게시물 작성시, NormalPost 테이블 insert 에 필요한 컬럼의 값을 받는 생성자.
      *
      * @param postNo 게시물 번호
      * @param userNo 작성자 번호
-     *
      */
     @Builder
     public NormalPost(Long postNo, Post post, Long userNo) {

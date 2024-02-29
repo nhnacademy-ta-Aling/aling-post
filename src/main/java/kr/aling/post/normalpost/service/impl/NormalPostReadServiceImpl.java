@@ -14,12 +14,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * NormalPostReadService 의 구현체입니다.
- * 조회 전용 서비스 레이어 이기 때문에 스프링의 스테레오타입 Service 와 Transaction(readonly = true) 가 적용된 ReadService 커스텀 어노테이션이 적용되어 있습니다.
+ * NormalPostReadService 의 구현체입니다. 조회 전용 서비스 레이어 이기 때문에 스프링의 스테레오타입 Service 와 Transaction(readonly = true) 가 적용된
+ * ReadService 커스텀 어노테이션이 적용되어 있습니다.
  *
  * @author : 이성준
  * @see kr.aling.post.common.annotation.ReadService
- * @since : 1.0
+ * @since 1.0
  */
 @ReadService
 @RequiredArgsConstructor

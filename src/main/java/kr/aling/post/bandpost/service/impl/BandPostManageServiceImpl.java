@@ -33,7 +33,7 @@ public class BandPostManageServiceImpl implements BandPostManageService {
      */
     @Override
     public void createBandPost(CreatePostResponseDto createPostResponseDto,
-                               CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo) {
+            CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo) {
         BandPostType bandPostType = bandPostTypeReadRepository.findById(createBandPostRequestDto.getBandPostTypeNo())
                 .orElseThrow(BandPostTypeNotFoundException::new);
 

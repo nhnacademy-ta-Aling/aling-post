@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * sample 용 컨트롤러입니다. eureka 서버의 actuator 정보를 확인할 수 있습니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 
 @RestController

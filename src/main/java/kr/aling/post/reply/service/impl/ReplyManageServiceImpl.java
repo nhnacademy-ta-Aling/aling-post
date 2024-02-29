@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
  * 댓글 관리 서비스 레이어 구현체입니다.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 @ManageService
 @RequiredArgsConstructor
@@ -81,7 +81,7 @@ public class ReplyManageServiceImpl implements ReplyManageService {
      *
      * @param replyNo 조회할 댓글의 번호
      * @return 조회된 댓글 엔티티
-     * @since : 1.0
+     * @since 1.0
      */
     private Reply findReplyEntityByReplyNo(Long replyNo) {
         return replyReadRepository.findById(replyNo).orElseThrow(() -> new ReplyNotFoundException(replyNo));

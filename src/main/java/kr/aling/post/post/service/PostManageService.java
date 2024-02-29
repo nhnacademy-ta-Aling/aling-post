@@ -9,9 +9,10 @@ import kr.aling.post.post.dto.response.CreatePostResponseDto;
  * 게시물 생성, 수정, 삭제 서비스 레이어.
  *
  * @author : 이성준
- * @since : 1.0
+ * @since 1.0
  */
 public interface PostManageService {
+
     /**
      * 게시물 생성.
      *

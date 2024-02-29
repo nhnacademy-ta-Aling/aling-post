@@ -77,9 +77,9 @@ class BandPostManageControllerTest {
 
         // then
         mvc.perform(post(url)
-                    .header(X_BAND_USER_NO, bandUserNo)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(createBandPostRequestDto)))
+                        .header(X_BAND_USER_NO, bandUserNo)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createBandPostRequestDto)))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(print())
                 .andDo(document("band-post-create",
@@ -131,9 +131,9 @@ class BandPostManageControllerTest {
 
         // then
         mvc.perform(post(url)
-                    .header(X_BAND_USER_NO, bandUserNo)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(createBandPostRequestDto)))
+                        .header(X_BAND_USER_NO, bandUserNo)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createBandPostRequestDto)))
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
@@ -263,7 +263,8 @@ class BandPostManageControllerTest {
         ReflectionTestUtils.setField(createBandPostRequestDto, "bandPostContent", "content");
         ReflectionTestUtils.setField(createBandPostRequestDto, "isOpen", false);
         ReflectionTestUtils.setField(createBandPostRequestDto, "bandPostTypeNo", 1L);
-        ReflectionTestUtils.setField(createBandPostRequestDto, "fileNoList", List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L));
+        ReflectionTestUtils.setField(createBandPostRequestDto, "fileNoList",
+                List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L));
 
         // when
 
