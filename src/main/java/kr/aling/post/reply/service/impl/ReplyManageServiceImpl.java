@@ -2,6 +2,7 @@ package kr.aling.post.reply.service.impl;
 
 import kr.aling.post.common.annotation.ManageService;
 import kr.aling.post.common.exception.DeleteContentAccessException;
+import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.common.utils.ReplyUtils;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
@@ -15,6 +16,7 @@ import kr.aling.post.reply.exception.ReplyNotFoundException;
 import kr.aling.post.reply.repo.ReplyManageRepository;
 import kr.aling.post.reply.repo.ReplyReadRepository;
 import kr.aling.post.reply.service.ReplyManageService;
+import kr.aling.post.user.exception.UnauthenticatedUserException;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -30,12 +32,17 @@ public class ReplyManageServiceImpl implements ReplyManageService {
     private final ReplyManageRepository replyManageRepository;
     private final ReplyReadRepository replyReadRepository;
     private final PostReadRepository postReadRepository;
+    private final UserFeignClient userFeignClient;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public CreateReplyResponseDto createReply(Long postNo, CreateReplyRequestDto request) {
+
+        if (Boolean.FALSE.equals(userFeignClient.isExistUser(request.getUserNo()).getIsExists())) {
+            throw new UnauthenticatedUserException("Reply");
+        }
 
         Post post = postReadRepository.findById(postNo)
                 .orElseThrow(() -> new PostNotFoundException(postNo));

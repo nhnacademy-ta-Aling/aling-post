@@ -104,6 +104,7 @@ class ReplyReadControllerTest {
                                         fieldWithPath("content[].postNo").description("댓글이 달린 게시물 번호"),
                                         fieldWithPath("content[].parentReplyNo").description("대댓글인 경우 부모 댓글의 번호"),
                                         fieldWithPath("content[].userNo").description("댓글을 작성한 유저 번호"),
+                                        fieldWithPath("content[].userName").description("댓글을 작성한 유저 이름"),
                                         fieldWithPath("content[].content").description("게시물의 내용"),
                                         fieldWithPath("content[].createAt").description("최초 작성 시간"),
                                         fieldWithPath("content[].modifyAt").description("마지막 수정 시간"),

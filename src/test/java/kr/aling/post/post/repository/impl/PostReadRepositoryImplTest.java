@@ -26,7 +26,7 @@ class PostReadRepositoryImplTest {
     @DisplayName("게시물 스크랩 조회용 게시물 정보 조회 성공")
     void getPostInfoForScrap() {
         // given
-        Post persistPost = testEntityManager.persist(PostDummy.dummyPost());
+        Post persistPost = testEntityManager.persist(PostDummy.postDummy());
 
         // when
         List<ReadPostScrapsPostResponseDto> list =

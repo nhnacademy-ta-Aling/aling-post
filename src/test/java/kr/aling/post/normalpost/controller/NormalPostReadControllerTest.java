@@ -24,12 +24,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import kr.aling.post.common.dto.PageResponseDto;
-import kr.aling.post.common.utils.NormalPostUtils;
 import kr.aling.post.common.utils.PageUtils;
-import kr.aling.post.normalpost.dto.response.ReadNormalPostResponseDto;
-import kr.aling.post.normalpost.entity.NormalPost;
+import kr.aling.post.common.utils.PostUtils;
 import kr.aling.post.normalpost.service.NormalPostReadService;
+import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import kr.aling.post.post.entity.Post;
+import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,14 +79,9 @@ class NormalPostReadControllerTest {
         ReflectionTestUtils.setField(post, "createAt", LocalDateTime.now());
         ReflectionTestUtils.setField(post, "modifyAt", LocalDateTime.now());
 
-        NormalPost normalPost = NormalPost.builder()
-                .postNo(postNo)
-                .userNo(userNo)
-                .build();
+        ReadWriterResponseDto writerResponse = new ReadWriterResponseDto(userNo, "테스트 작성자");
 
-        ReflectionTestUtils.setField(normalPost, "post", post);
-
-        ReadNormalPostResponseDto response = NormalPostUtils.convert(normalPost);
+        ReadPostResponseDto response = PostUtils.convert(post);
 
         given(normalPostReadService.readNormalPostByPostNo(postNo)).willReturn(response);
 
@@ -109,11 +104,10 @@ class NormalPostReadControllerTest {
                                 ),
 
                                 responseFields(
-                                        fieldWithPath("post.postNo").description("게시물 번호"),
-                                        fieldWithPath("post.content").description("게시물의 내용"),
-                                        fieldWithPath("post.createAt").description("최초 작성 시간"),
-                                        fieldWithPath("post.modifyAt").description("마지막 수정 시간"),
-                                        fieldWithPath("userNo").description("유저 번호")
+                                        fieldWithPath("postNo").description("게시물 번호"),
+                                        fieldWithPath("content").description("게시물의 내용"),
+                                        fieldWithPath("createAt").description("최초 작성 시간"),
+                                        fieldWithPath("modifyAt").description("마지막 수정 시간")
                                 )
                         ));
     }
@@ -133,23 +127,11 @@ class NormalPostReadControllerTest {
         ReflectionTestUtils.setField(post, "createAt", LocalDateTime.now());
         ReflectionTestUtils.setField(post, "modifyAt", LocalDateTime.now());
 
-        NormalPost firstNormalPost = NormalPost.builder()
-                .postNo(postNo)
-                .post(post)
-                .userNo(userNo)
-                .build();
+        ReadWriterResponseDto writerResponse = new ReadWriterResponseDto(userNo, "테스트 작성자");
 
-        NormalPost secondNormalPost = NormalPost.builder()
-                .postNo(postNo)
-                .post(post)
-                .userNo(userNo)
-                .build();
-
-        ReflectionTestUtils.setField(firstNormalPost, "post", post);
-        ReflectionTestUtils.setField(secondNormalPost, "post", post);
-
-        PageResponseDto<ReadNormalPostResponseDto> responses = PageUtils.convert(new PageImpl<>(
-                List.of(NormalPostUtils.convert(firstNormalPost), NormalPostUtils.convert(secondNormalPost))));
+        PageResponseDto<ReadPostResponseDto> responses = PageUtils.convert(new PageImpl<>(
+                List.of(PostUtils.convert(post), PostUtils.convert(post
+                ))));
 
         given(normalPostReadService.readNormalPostsByUserNo(anyLong(), any(Pageable.class))).willReturn(responses);
 
@@ -182,11 +164,10 @@ class NormalPostReadControllerTest {
                                 fieldWithPath("pageNumber").description("현재 페이지 번호"),
                                 fieldWithPath("totalPages").description("전체 페이지 갯수"),
                                 fieldWithPath("totalElements").description("전체 요소 갯수"),
-                                fieldWithPath("content[].post.postNo").description("게시물 번호"),
-                                fieldWithPath("content[].post.content").description("게시물의 내용"),
-                                fieldWithPath("content[].post.createAt").description("최초 작성 시간"),
-                                fieldWithPath("content[].post.modifyAt").description("마지막 수정 시간"),
-                                fieldWithPath("content[].userNo").description("게시글을 작성한 유저 번호")
+                                fieldWithPath("content[].postNo").description("게시물 번호"),
+                                fieldWithPath("content[].content").description("게시물의 내용"),
+                                fieldWithPath("content[].createAt").description("최초 작성 시간"),
+                                fieldWithPath("content[].modifyAt").description("마지막 수정 시간")
                         )
                 ));
     }

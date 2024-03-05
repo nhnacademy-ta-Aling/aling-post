@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 
+import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.normalpost.dto.request.CreateNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.response.CreateNormalPostResponseDto;
@@ -18,9 +19,9 @@ import kr.aling.post.normalpost.service.impl.NormalPostManageServiceImpl;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
-import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.service.PostManageService;
+import kr.aling.post.user.dto.response.IsExistsUserResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,19 +46,23 @@ class NormalPostManageServiceTest {
     PostManageService postManageService;
 
     @Mock
+    UserFeignClient userFeignClient;
+
+    @Mock
     NormalPostManageRepository normalPostManageRepository;
 
     @Test
     @DisplayName("일반 게시물 생성")
     void createNormalPost() {
         Long userNo = 1L;
-        Long postNo = 1L;
+        long postNo = 1L;
 
-        Post post = PostDummy.dummyPost();
+        Post post = Post.builder().build();
+        ReflectionTestUtils.setField(post, "postNo", postNo);
 
         NormalPost normalPost = NormalPost.builder()
+                .post(post)
                 .userNo(userNo)
-                .postNo(postNo)
                 .build();
 
         CreateNormalPostRequestDto createNormalPostRequest = new CreateNormalPostRequestDto();
@@ -65,9 +70,14 @@ class NormalPostManageServiceTest {
         ReflectionTestUtils.setField(createNormalPostRequest, "content", "테스트용 일반 게시물 내용");
         ReflectionTestUtils.setField(createNormalPostRequest, "isOpen", true);
 
+
+        IsExistsUserResponseDto responseDto = new IsExistsUserResponseDto();
+        ReflectionTestUtils.setField(responseDto, "isExists", true);
+
         given(postManageService.createPost(any(CreatePostRequestDto.class))).willReturn(
                 new CreatePostResponseDto(post));
         given(normalPostManageRepository.save(any(NormalPost.class))).willReturn(normalPost);
+        given(userFeignClient.isExistUser(userNo)).willReturn(responseDto);
 
         CreateNormalPostResponseDto actual = normalPostManageService.createNormalPost(userNo, createNormalPostRequest);
 

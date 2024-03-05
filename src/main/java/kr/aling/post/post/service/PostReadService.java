@@ -2,7 +2,7 @@ package kr.aling.post.post.service;
 
 import java.util.List;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
-import kr.aling.post.post.dto.response.ReadPostResponseDto;
+import kr.aling.post.post.dto.response.ReadPostIntegrationDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 
 /**
@@ -20,7 +20,7 @@ public interface PostReadService {
      * @param postNo : 조회할 게시물 번호
      * @return : 조회된 게시물의 DTO
      */
-    ReadPostResponseDto readPostByPostNo(Long postNo);
+    ReadPostIntegrationDto readPostByPostNo(Long postNo);
 
     /**
      * 게시물 번호로 게시물의 존재 여부를 조회합니다.

@@ -3,6 +3,7 @@ package kr.aling.post.post.controller;
 
 import java.util.List;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
+import kr.aling.post.post.dto.response.ReadPostIntegrationDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.service.PostReadService;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,11 @@ public class PostReadController {
     @GetMapping("/posts-for-scrap")
     public ResponseEntity<ReadPostsForScrapResponseDto> getPostsForScrap(@RequestParam List<Long> postNos) {
         return ResponseEntity.ok().body(postReadService.getPostsForScrap(postNos));
+    }
+
+    @GetMapping("/posts/{postNo}")
+    public ResponseEntity<ReadPostIntegrationDto> getPostByPostNo(@PathVariable Long postNo) {
+        return ResponseEntity.ok()
+                .body(postReadService.readPostByPostNo(postNo));
     }
 }

@@ -5,23 +5,31 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
+import feign.FeignException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import kr.aling.post.common.utils.NormalPostUtils;
+import kr.aling.post.common.feign.client.FileFeignClient;
+import kr.aling.post.common.feign.client.UserFeignClient;
+import kr.aling.post.common.utils.PostUtils;
+import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
-import kr.aling.post.post.dto.response.ReadPostResponseDto;
+import kr.aling.post.post.dto.response.ReadPostIntegrationDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
+import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.post.service.impl.PostReadServiceImpl;
 import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
+import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,6 +51,11 @@ class PostReadServiceTest {
     @Mock
     PostReadRepository postReadRepository;
 
+    @Mock
+    UserFeignClient userFeignClient;
+    @Mock
+    FileFeignClient fileFeignClient;
+
     @InjectMocks
     PostReadServiceImpl postReadService;
 
@@ -50,28 +63,37 @@ class PostReadServiceTest {
     @DisplayName("게시물 조회시 올바른 응답 객체 반환")
     void readPostByPostNo() {
 
-        Post post = Post.builder()
-                .content("테스트 게시물의 내용")
-                .isOpen(true)
-                .build();
-
+        Post post = PostDummy.postDummy();
         LocalDateTime createAt = LocalDateTime.now();
 
         ReflectionTestUtils.setField(post, "postNo", 1L);
         ReflectionTestUtils.setField(post, "createAt", createAt);
         ReflectionTestUtils.setField(post, "modifyAt", null);
 
-        ReadPostResponseDto postResponse = NormalPostUtils.convert(post);
+        NormalPost normalPost = NormalPost.builder()
+                .post(post)
+                .build();
 
-        given(postReadRepository.findById(postResponse.getPostNo())).willReturn(Optional.of(post));
+        ReflectionTestUtils.setField(post, "normalPost", normalPost);
 
-        ReadPostResponseDto actual = postReadService.readPostByPostNo(postResponse.getPostNo());
+        ReadWriterResponseDto writerResponse = new ReadWriterResponseDto(1L, "테스트 작성자");
+
+        ReadPostIntegrationDto integrationDto = ReadPostIntegrationDto.builder()
+                .post(PostUtils.convert(post))
+                .writer(writerResponse)
+                .additional(null)
+                .build();
+
+        given(postReadRepository.findByPostNoAndIsDeleteFalse(post.getPostNo())).willReturn(Optional.of(post));
+        doThrow(FeignException.class).when(userFeignClient).requestWriterNames(any());
+
+        ReadPostIntegrationDto actual = postReadService.readPostByPostNo(post.getPostNo());
 
         assertAll("게시물 내용과 응답 DTO 가 동일한지 확인",
-                () -> assertThat(postResponse.getPostNo(), equalTo(actual.getPostNo())),
-                () -> assertThat(postResponse.getContent(), equalTo(actual.getContent())),
-                () -> assertThat(postResponse.getCreateAt(), equalTo(actual.getCreateAt())),
-                () -> assertThat(postResponse.getModifyAt(), equalTo(actual.getModifyAt()))
+                () -> assertThat(integrationDto.getPost().getPostNo(), equalTo(actual.getPost().getPostNo())),
+                () -> assertThat(integrationDto.getPost().getContent(), equalTo(actual.getPost().getContent())),
+                () -> assertThat(integrationDto.getPost().getCreateAt(), equalTo(actual.getPost().getCreateAt())),
+                () -> assertThat(integrationDto.getPost().getModifyAt(), equalTo(actual.getPost().getModifyAt()))
         );
     }
 

@@ -38,6 +38,12 @@ public class NormalPostUtils {
     }
 
     public static ReadPostResponseDto convert(Post post) {
-        return new ReadPostResponseDto(post.getPostNo(), post.getContent(), post.getCreateAt(), post.getModifyAt());
+        return ReadPostResponseDto.builder()
+                .postNo(post.getPostNo())
+                .content(post.getContent())
+                .createAt(post.getCreateAt())
+                .modifyAt(post.getModifyAt())
+                .build();
     }
+
 }

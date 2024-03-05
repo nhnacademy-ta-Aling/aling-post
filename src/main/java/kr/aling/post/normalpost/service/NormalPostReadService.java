@@ -1,7 +1,7 @@
 package kr.aling.post.normalpost.service;
 
 import kr.aling.post.common.dto.PageResponseDto;
-import kr.aling.post.normalpost.dto.response.ReadNormalPostResponseDto;
+import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -18,7 +18,7 @@ public interface NormalPostReadService {
      * @param postNo 조회할 일반 게시물의 번호
      * @return 조회된 일반 게시물의 DTO
      */
-    ReadNormalPostResponseDto readNormalPostByPostNo(Long postNo);
+    ReadPostResponseDto readNormalPostByPostNo(Long postNo);
 
     /**
      * 유저 번호를 기준으로 페이징이 된 게시물 목록을 찾는 메서드.
@@ -27,5 +27,5 @@ public interface NormalPostReadService {
      * @param pageable 게시물 페이지네이션에 필요한 정보
      * @return 페이지네이션이 적용된 일반 게시물 조회 DTO 목록
      */
-    PageResponseDto<ReadNormalPostResponseDto> readNormalPostsByUserNo(long userNo, Pageable pageable);
+    PageResponseDto<ReadPostResponseDto> readNormalPostsByUserNo(long userNo, Pageable pageable);
 }

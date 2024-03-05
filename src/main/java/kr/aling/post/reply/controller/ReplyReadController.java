@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 1.0
  */
 @RestController
-@RequestMapping(value = "/api/v1/posts/{postNo}/replies", consumes = {"application/json"}, produces = {
-        "application/json"})
+@RequestMapping(value = "/api/v1/posts/{postNo}/replies", produces = {"application/json"})
 @RequiredArgsConstructor
 public class ReplyReadController {
 

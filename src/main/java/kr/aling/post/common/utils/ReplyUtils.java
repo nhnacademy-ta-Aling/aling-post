@@ -45,11 +45,12 @@ public class ReplyUtils {
      */
     public static ReadReplyResponseDto convertToReadResponse(Reply reply) {
         return new ReadReplyResponseDto(
-                reply.getPostNo(),
                 reply.getReplyNo(),
+                reply.getPostNo(),
+                reply.getUserNo(),
+                "Unknown",
                 reply.getParentReplyNo(),
                 reply.getContent(),
-                reply.getUserNo(),
                 reply.getCreateAt(),
                 reply.getModifyAt()
         );
@@ -67,6 +68,19 @@ public class ReplyUtils {
         return new ModifyReplyResponseDto(
                 reply.getReplyNo(),
                 reply.getContent(),
+                reply.getModifyAt()
+        );
+    }
+
+    public static ReadReplyResponseDto convertToReadReplyResponse(Reply reply, String writerName) {
+        return new ReadReplyResponseDto(
+                reply.getReplyNo(),
+                reply.getPostNo(),
+                reply.getUserNo(),
+                writerName,
+                reply.getParentReplyNo(),
+                reply.getContent(),
+                reply.getCreateAt(),
                 reply.getModifyAt()
         );
     }

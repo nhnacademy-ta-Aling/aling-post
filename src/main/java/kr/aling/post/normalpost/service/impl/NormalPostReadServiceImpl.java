@@ -4,11 +4,11 @@ import kr.aling.post.common.annotation.ReadService;
 import kr.aling.post.common.dto.PageResponseDto;
 import kr.aling.post.common.utils.NormalPostUtils;
 import kr.aling.post.common.utils.PageUtils;
-import kr.aling.post.normalpost.dto.response.ReadNormalPostResponseDto;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.normalpost.exception.NormalPostNotFoundException;
 import kr.aling.post.normalpost.repository.NormalPostReadRepository;
 import kr.aling.post.normalpost.service.NormalPostReadService;
+import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,19 +31,19 @@ public class NormalPostReadServiceImpl implements NormalPostReadService {
      * {@inheritDoc}
      */
     @Override
-    public ReadNormalPostResponseDto readNormalPostByPostNo(Long postNo) {
+    public ReadPostResponseDto readNormalPostByPostNo(Long postNo) {
         NormalPost normalPost =
                 normalPostReadRepository.findById(postNo).orElseThrow(() -> new NormalPostNotFoundException(postNo));
 
-        return NormalPostUtils.convert(normalPost);
+        return NormalPostUtils.convert(normalPost).getPost();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public PageResponseDto<ReadNormalPostResponseDto> readNormalPostsByUserNo(long userNo, Pageable pageable) {
-        Page<ReadNormalPostResponseDto> page = normalPostReadRepository.findAllByUserNo(userNo, pageable);
+    public PageResponseDto<ReadPostResponseDto> readNormalPostsByUserNo(long userNo, Pageable pageable) {
+        Page<ReadPostResponseDto> page = normalPostReadRepository.findAllByUserNo(userNo, pageable);
 
         return PageUtils.convert(page);
     }

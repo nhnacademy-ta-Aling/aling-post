@@ -10,9 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import kr.aling.post.bandpost.entity.BandPost;
 import kr.aling.post.common.base.BaseCreateTimeEntity;
+import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.postfile.entity.PostFile;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -53,6 +56,14 @@ public class Post extends BaseCreateTimeEntity {
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<PostFile> postFileList;
+
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
+    private NormalPost normalPost;
+
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
+    private BandPost bandPost;
+
+
 
     @PrePersist
     public void prePersist() {

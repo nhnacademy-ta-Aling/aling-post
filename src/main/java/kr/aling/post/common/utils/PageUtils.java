@@ -1,15 +1,18 @@
 package kr.aling.post.common.utils;
 
+import java.util.List;
 import kr.aling.post.common.dto.PageResponseDto;
+import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
+import kr.aling.post.reply.entity.Reply;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 /**
- * PageResponseDto 관련 유틸 클래스.
+ * PageResponseDto 관련 유틸 클래스
  *
  * @author : 이성준
- * @since 1.0
+ * @since : 1.0
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PageUtils {
@@ -34,4 +37,13 @@ public class PageUtils {
     }
 
 
+    public static PageResponseDto<ReadReplyResponseDto> convert(Page<Reply> page,
+                                                                List<ReadReplyResponseDto> pageContent) {
+        return new PageResponseDto<>(
+                page.getNumber(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                pageContent
+        );
+    }
 }
