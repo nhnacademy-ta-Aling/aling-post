@@ -1,6 +1,7 @@
 package kr.aling.post.post.service;
 
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
+import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
@@ -36,6 +37,14 @@ public interface PostManageService {
      * @param request : 게시물 수정에 사용될 데이터
      */
     void modifyPost(Long postNo, ModifyPostRequestDto request);
+
+    /**
+     * 그룹 게시글 용 수정 메서드.
+     *
+     * @param postNo                   게시글 번호
+     * @param modifyBandPostRequestDto 그룹 게시글 수정 요청 Dto
+     */
+    void modifyBandPost(Long postNo, ModifyBandPostRequestDto modifyBandPostRequestDto);
 
     /**
      * 게시물 비공개 처리. 게시물 제재 등을 이유로 수정이 아닌 게시물 비공개만 처리.

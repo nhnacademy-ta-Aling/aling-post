@@ -1,6 +1,7 @@
 package kr.aling.post.bandpost.service.facade;
 
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
+import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
 import kr.aling.post.bandpost.service.BandPostManageService;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
 import kr.aling.post.post.service.PostManageService;
@@ -41,5 +42,29 @@ public class BandPostFacadeService {
         postFileManageService.savePostFiles(createPostResponseDto.getPost(), createBandPostRequestDto.getFileNoList());
 
         bandPostManageService.createBandPost(createPostResponseDto, createBandPostRequestDto, bandUserNo);
+    }
+
+    /**
+     * 그룹 게시글 수정 하는 파사드 메서드. 다음 동작을 수행 합니다.
+     * <ol>
+     *     <li>게시글(post) 내용, 수정 시간 수정</li>
+     *     <li>그룹 게시글(band_post) 제목, Category 수정</li>
+     * </ol>
+     *
+     * @param postNo                   게시글 번호
+     * @param modifyBandPostRequestDto 그룹 게시글 수정 요청 Dto
+     */
+    public void modifyBandPostFacade(Long postNo, ModifyBandPostRequestDto modifyBandPostRequestDto) {
+        postManageService.modifyBandPost(postNo, modifyBandPostRequestDto);
+        bandPostManageService.modifyBandPost(postNo, modifyBandPostRequestDto);
+    }
+
+    /**
+     * 그룹 게시글 삭제 메서드.
+     *
+     * @param postNo 게시글 번호
+     */
+    public void deleteBandPostFacade(Long postNo) {
+        postManageService.safeDeleteById(postNo);
     }
 }
