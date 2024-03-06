@@ -8,14 +8,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Optional;
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
+import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
@@ -94,6 +97,26 @@ class PostManageServiceTest {
 
         assertThat(isOpenBeforeModify, not(equalTo(modifyPostRequest.getIsOpen())));
         assertThat(post.getIsOpen(), equalTo(modifyPostRequest.getIsOpen()));
+    }
+
+    @Test
+    @DisplayName("그룹 게시글 수정 용 메서드 테스트")
+    void modify_bandPost_test() {
+        // given
+        ModifyBandPostRequestDto bandPostRequestDto = new ModifyBandPostRequestDto();
+        ReflectionTestUtils.setField(bandPostRequestDto, "bandPostTitle", "title");
+        ReflectionTestUtils.setField(bandPostRequestDto, "bandPostContent", "content");
+        ReflectionTestUtils.setField(bandPostRequestDto, "bandPostTypeNo", 2L);
+
+        Post post = PostDummy.dummyPost();
+
+        // when
+        when(postReadRepository.findById(anyLong())).thenReturn(Optional.of(post));
+
+        // then
+        postManageService.modifyBandPost(1L, bandPostRequestDto);
+
+        verify(postReadRepository, times(1)).findById(anyLong());
     }
 
     @Test
