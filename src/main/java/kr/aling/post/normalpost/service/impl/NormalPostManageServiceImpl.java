@@ -2,7 +2,7 @@ package kr.aling.post.normalpost.service.impl;
 
 import kr.aling.post.common.annotation.ManageService;
 import kr.aling.post.common.feign.client.UserFeignClient;
-import kr.aling.post.common.utils.NormalPostUtils;
+import kr.aling.post.common.utils.PostUtils;
 import kr.aling.post.normalpost.dto.request.CreateNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.response.CreateNormalPostResponseDto;
@@ -39,7 +39,7 @@ public class NormalPostManageServiceImpl implements NormalPostManageService {
             throw new UnauthenticatedUserException("Reply");
         }
 
-        CreatePostResponseDto createPostResponse = postManageService.createPost(NormalPostUtils.convert(request));
+        CreatePostResponseDto createPostResponse = postManageService.createPost(PostUtils.convert(request));
 
         NormalPost normalPost = NormalPost.builder()
                 .post(createPostResponse.getPost())
@@ -54,7 +54,7 @@ public class NormalPostManageServiceImpl implements NormalPostManageService {
      */
     @Override
     public void modifyNormalPost(Long postNo, ModifyNormalPostRequestDto request) {
-        postManageService.modifyPost(postNo, NormalPostUtils.convert(request));
+        postManageService.modifyPost(postNo, PostUtils.convert(request));
     }
 
     /**
