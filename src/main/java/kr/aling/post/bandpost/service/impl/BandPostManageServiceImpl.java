@@ -1,7 +1,9 @@
 package kr.aling.post.bandpost.service.impl;
 
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
+import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
 import kr.aling.post.bandpost.entity.BandPost;
+import kr.aling.post.bandpost.exception.BandPostNotFoundException;
 import kr.aling.post.bandpost.repository.BandPostManageRepository;
 import kr.aling.post.bandpost.service.BandPostManageService;
 import kr.aling.post.bandposttype.entity.BandPostType;
@@ -33,7 +35,7 @@ public class BandPostManageServiceImpl implements BandPostManageService {
      */
     @Override
     public void createBandPost(CreatePostResponseDto createPostResponseDto,
-            CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo) {
+                               CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo) {
         BandPostType bandPostType = bandPostTypeReadRepository.findById(createBandPostRequestDto.getBandPostTypeNo())
                 .orElseThrow(BandPostTypeNotFoundException::new);
 
@@ -47,5 +49,20 @@ public class BandPostManageServiceImpl implements BandPostManageService {
                 .build();
 
         bandPostManageRepository.save(bandPost);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param postNo                   게시글 번호
+     * @param modifyBandPostRequestDto 그룹 게시글 수정 요청 Dto
+     */
+    @Override
+    public void modifyBandPost(Long postNo, ModifyBandPostRequestDto modifyBandPostRequestDto) {
+        BandPost bandPost = bandPostManageRepository.findById(postNo).orElseThrow(BandPostNotFoundException::new);
+        BandPostType bandPostType = bandPostTypeReadRepository.findById(modifyBandPostRequestDto.getBandPostTypeNo())
+                .orElseThrow(BandPostTypeNotFoundException::new);
+
+        bandPost.modifyBandPost(modifyBandPostRequestDto.getBandPostTitle(), bandPostType);
     }
 }

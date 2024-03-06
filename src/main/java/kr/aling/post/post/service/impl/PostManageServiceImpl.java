@@ -1,6 +1,7 @@
 package kr.aling.post.post.service.impl;
 
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
+import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
 import kr.aling.post.common.annotation.ManageService;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
@@ -71,6 +72,19 @@ public class PostManageServiceImpl implements PostManageService {
         if (!post.getIsOpen().equals(request.getIsOpen())) {
             post.switchVisibility();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param postNo                   게시글 번호
+     * @param modifyBandPostRequestDto 그룹 게시글 수정 요청 Dto
+     */
+    @Override
+    public void modifyBandPost(Long postNo, ModifyBandPostRequestDto modifyBandPostRequestDto) {
+        Post post = this.findById(postNo);
+
+        post.modifyContent(modifyBandPostRequestDto.getBandPostContent());
     }
 
     /**

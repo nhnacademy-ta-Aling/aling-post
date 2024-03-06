@@ -82,6 +82,7 @@ public class Post extends BaseCreateTimeEntity {
      */
     public void modifyContent(String replaceContent) {
         this.content = replaceContent;
+        this.modifyAt = LocalDateTime.now();
     }
 
     /**

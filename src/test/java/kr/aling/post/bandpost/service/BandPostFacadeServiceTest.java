@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
+import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
 import kr.aling.post.bandpost.service.facade.BandPostFacadeService;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
 import kr.aling.post.post.dummy.PostDummy;
@@ -74,6 +75,37 @@ class BandPostFacadeServiceTest {
         verify(postFileManageService, times(1)).savePostFiles(any(Post.class), anyList());
         verify(bandPostManageService, times(1)).createBandPost(any(CreatePostResponseDto.class),
                 any(CreateBandPostRequestDto.class), anyLong());
+    }
+
+    @Test
+    @DisplayName("그룹 게시글 수정 Facade service test")
+    void modifyBandPost_facade_service_test() {
+        // given
+        ModifyBandPostRequestDto modifyBandPostRequestDto = new ModifyBandPostRequestDto();
+
+        // when
+        doNothing().when(postManageService).modifyBandPost(anyLong(), any(ModifyBandPostRequestDto.class));
+        doNothing().when(bandPostManageService).modifyBandPost(anyLong(), any(ModifyBandPostRequestDto.class));
+
+        // then
+        bandPostFacadeService.modifyBandPostFacade(1L, modifyBandPostRequestDto);
+
+        verify(postManageService, times(1)).modifyBandPost(anyLong(), any(ModifyBandPostRequestDto.class));
+        verify(bandPostManageService, times(1)).modifyBandPost(anyLong(), any(ModifyBandPostRequestDto.class));
+    }
+
+    @Test
+    @DisplayName("그룹 게시글 삭제 Facade service test")
+    void deleteBandPost_facade_service_test() {
+        // given
+
+        // when
+        doNothing().when(postManageService).safeDeleteById(anyLong());
+
+        // then
+        bandPostFacadeService.deleteBandPostFacade(anyLong());
+
+        verify(postManageService, times(1)).safeDeleteById(anyLong());
     }
 
 }

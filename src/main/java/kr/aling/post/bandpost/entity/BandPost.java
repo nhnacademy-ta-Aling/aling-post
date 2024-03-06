@@ -70,4 +70,15 @@ public class BandPost {
         this.bandUserNo = bandUserNo;
         this.title = title;
     }
+
+    /**
+     * 그룹 게시글 제목, Category 수정.
+     *
+     * @param title        제목
+     * @param bandPostType Category
+     */
+    public void modifyBandPost(String title, BandPostType bandPostType) {
+        this.title = title;
+        this.bandPostType = bandPostType;
+    }
 }

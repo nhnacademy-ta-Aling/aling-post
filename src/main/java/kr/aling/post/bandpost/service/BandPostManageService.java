@@ -1,6 +1,7 @@
 package kr.aling.post.bandpost.service;
 
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
+import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
 
 /**
@@ -19,5 +20,13 @@ public interface BandPostManageService {
      * @param baneUserNo               그룹 회원 번호
      */
     void createBandPost(CreatePostResponseDto createPostResponseDto,
-            CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo);
+                        CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo);
+
+    /**
+     * 그룹 게시글 수정.
+     *
+     * @param postNo                   게시글 번호
+     * @param modifyBandPostRequestDto 그룹 게시글 수정 요청 Dto
+     */
+    void modifyBandPost(Long postNo, ModifyBandPostRequestDto modifyBandPostRequestDto);
 }

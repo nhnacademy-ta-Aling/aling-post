@@ -10,7 +10,9 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
+import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
 import kr.aling.post.bandpost.entity.BandPost;
+import kr.aling.post.bandpost.exception.BandPostNotFoundException;
 import kr.aling.post.bandpost.repository.BandPostManageRepository;
 import kr.aling.post.bandpost.service.impl.BandPostManageServiceImpl;
 import kr.aling.post.bandposttype.dummy.BandPostTypeDummy;
@@ -44,6 +46,7 @@ class BandPostManageServiceTest {
     Post post;
     CreatePostResponseDto createPostResponseDto;
     CreateBandPostRequestDto createBandPostRequestDto;
+    ModifyBandPostRequestDto modifyBandPostRequestDto;
 
     @BeforeEach
     void setUp() {
@@ -56,6 +59,11 @@ class BandPostManageServiceTest {
         ReflectionTestUtils.setField(createBandPostRequestDto, "isOpen", false);
         ReflectionTestUtils.setField(createBandPostRequestDto, "bandPostTypeNo", 1L);
         ReflectionTestUtils.setField(createBandPostRequestDto, "fileNoList", List.of(1L));
+
+        modifyBandPostRequestDto = new ModifyBandPostRequestDto();
+        ReflectionTestUtils.setField(modifyBandPostRequestDto, "bandPostTitle", "title");
+        ReflectionTestUtils.setField(modifyBandPostRequestDto, "bandPostContent", "content");
+        ReflectionTestUtils.setField(modifyBandPostRequestDto, "bandPostTypeNo", 2L);
     }
 
     @Test
@@ -87,6 +95,54 @@ class BandPostManageServiceTest {
                 createBandPostRequestDto, 1L))
                 .isInstanceOf(BandPostTypeNotFoundException.class)
                 .hasMessageContaining(BandPostTypeNotFoundException.MESSAGE);
+    }
+
+    @Test
+    @DisplayName("bandPost 수정 실패 테스트 - bandPost not found")
+    void modify_bandPost_fail_test_bandPost_notFound() {
+        // given
+
+        // when
+        when(bandPostManageRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // then
+        assertThatThrownBy(() -> bandPostManageService.modifyBandPost(1L, modifyBandPostRequestDto))
+                .isInstanceOf(BandPostNotFoundException.class)
+                .hasMessage(BandPostNotFoundException.MESSAGE);
+    }
+
+    @Test
+    @DisplayName("bandPost 수정 실패 테스트 - bandPostType not found")
+    void modify_bandPost_fail_test_bandPostType_notFound() {
+        // given
+        BandPost bandPost = BandPost.builder().build();
+
+        // when
+        when(bandPostManageRepository.findById(anyLong())).thenReturn(Optional.of(bandPost));
+        when(bandPostTypeReadRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // then
+        assertThatThrownBy(() -> bandPostManageService.modifyBandPost(1L, modifyBandPostRequestDto))
+                .isInstanceOf(BandPostTypeNotFoundException.class)
+                .hasMessage(BandPostTypeNotFoundException.MESSAGE);
+    }
+
+    @Test
+    @DisplayName("bandPost 수정 성공 테스트")
+    void modify_bandPost_success_test() {
+        // given
+        BandPost bandPost = BandPost.builder().build();
+        BandPostType bandPostType = BandPostType.builder().build();
+
+        // when
+        when(bandPostManageRepository.findById(anyLong())).thenReturn(Optional.of(bandPost));
+        when(bandPostTypeReadRepository.findById(anyLong())).thenReturn(Optional.of(bandPostType));
+
+        // then
+        bandPostManageService.modifyBandPost(1L, modifyBandPostRequestDto);
+
+        verify(bandPostManageRepository, times(1)).findById(anyLong());
+        verify(bandPostTypeReadRepository, times(1)).findById(anyLong());
     }
 
 }
