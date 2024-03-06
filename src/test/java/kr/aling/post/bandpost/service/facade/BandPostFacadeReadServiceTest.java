@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import kr.aling.post.bandpost.dto.response.BandPostExceptFileQueryDto;
 import kr.aling.post.bandpost.dto.response.BandPostQueryDto;
-import kr.aling.post.bandpost.dto.response.external.GetBandPostUserInfoResponseDto;
 import kr.aling.post.bandpost.dto.response.external.GetFileInfoResponseDto;
 import kr.aling.post.bandpost.service.BandPostReadService;
 import kr.aling.post.common.feign.client.FileFeignClient;
 import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.postfile.dto.response.PostFileQueryDto;
 import kr.aling.post.postfile.service.PostFileReadService;
+import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class BandPostFacadeReadServiceTest {
     BandPostQueryDto bandPostQueryDto;
     BandPostExceptFileQueryDto bandPostExceptFileQueryDto;
     GetFileInfoResponseDto getFileInfoResponseDto;
-    GetBandPostUserInfoResponseDto getBandPostUserInfoResponseDto;
+    ReadWriterResponseDto getBandPostUserInfoResponseDto;
 
     @BeforeEach
     void setUp() {
@@ -60,7 +60,7 @@ class BandPostFacadeReadServiceTest {
                         true);
 
         getFileInfoResponseDto = new GetFileInfoResponseDto();
-        getBandPostUserInfoResponseDto = new GetBandPostUserInfoResponseDto();
+        getBandPostUserInfoResponseDto = new ReadWriterResponseDto();
     }
 
     @Test

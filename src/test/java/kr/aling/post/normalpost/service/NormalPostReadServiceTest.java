@@ -17,7 +17,6 @@ import kr.aling.post.normalpost.repository.NormalPostReadRepository;
 import kr.aling.post.normalpost.service.impl.NormalPostReadServiceImpl;
 import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import kr.aling.post.post.entity.Post;
-import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,8 +57,6 @@ class NormalPostReadServiceTest {
                 .userNo(userNo)
                 .build();
 
-        ReadWriterResponseDto writerResponse = new ReadWriterResponseDto(1L, "테스트 작성자");
-
         ReadPostResponseDto response = PostUtils.convert(post);
 
         given(normalPostReadRepository.findById(postNo)).willReturn(Optional.of(normalPost));
@@ -80,8 +77,6 @@ class NormalPostReadServiceTest {
 
         Post post = Post.builder().build();
         ReflectionTestUtils.setField(post, "postNo", postNo);
-
-        ReadWriterResponseDto writerResponseDto = new ReadWriterResponseDto(1L, "테스트 작성자");
 
         Page<ReadPostResponseDto> responses = new PageImpl<>(List.of(PostUtils.convert(post
         )));

@@ -2,20 +2,17 @@ package kr.aling.post.post.service.impl;
 
 import feign.FeignException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import kr.aling.post.bandpost.dto.response.external.GetFileInfoResponseDto;
 import kr.aling.post.common.annotation.ReadService;
 import kr.aling.post.common.feign.client.FileFeignClient;
 import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.common.utils.PostUtils;
-import kr.aling.post.post.dto.AdditionalInformationDto;
-import kr.aling.post.post.dto.request.WriterRequestDto;
+import kr.aling.post.post.dto.PostAdditionalInformationDto;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
-import kr.aling.post.post.dto.response.ReadPostIntegrationDto;
+import kr.aling.post.post.dto.response.ReadPostResponseIntegrationDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
@@ -47,7 +44,7 @@ public class PostReadServiceImpl implements PostReadService {
      * {@inheritDoc}
      */
     @Override
-    public ReadPostIntegrationDto readPostByPostNo(Long postNo) {
+    public ReadPostResponseIntegrationDto readPostByPostNo(Long postNo) {
         Post post = postReadRepository.findByPostNoAndIsDeleteFalse(postNo)
                 .orElseThrow(() -> new PostNotFoundException(postNo));
 
@@ -63,24 +60,21 @@ public class PostReadServiceImpl implements PostReadService {
             log.error(e.getMessage());
         }
 
-        AdditionalInformationDto additional = new AdditionalInformationDto(false);
+        PostAdditionalInformationDto additional = new PostAdditionalInformationDto();
         Long userNo = getUserNo(post, additional);
 
-        Set<Long> writers = new HashSet<>();
-        writers.add(userNo);
-
-        List<ReadWriterResponseDto> response = new ArrayList<>();
+        ReadWriterResponseDto writerResponseDto;
         try {
-            response = userFeignClient.requestWriterNames(new WriterRequestDto(writers));
+            writerResponseDto = userFeignClient.requestBandPostUserInfo(userNo);
         } catch (FeignException e) {
             log.error(e.getMessage());
-            response.add(new ReadWriterResponseDto(0L, "Unknown User"));
+            writerResponseDto = new ReadWriterResponseDto(1L, "Unknown User", null);
         }
 
 
-        return ReadPostIntegrationDto.builder()
+        return ReadPostResponseIntegrationDto.builder()
                 .post(PostUtils.convert(post))
-                .writer(response.get(0))
+                .writer(writerResponseDto)
                 .additional(additional)
                 .file(fileInfoResponseDtoList)
                 .build();
@@ -109,16 +103,16 @@ public class PostReadServiceImpl implements PostReadService {
     }
 
     /**
-     * 게시물의 작성자 번호를 찾는 private 메서드
+     * 게시물의 작성자 번호를 찾고, 그룹 게시물 일 경우 추가 정보를 할당하는 메서드입니다.
      *
      * @param post       작성자를 찾을 대상 게시물
-     * @param additional
+     * @param additional 게시물의 추가 정보(그룹 게시물일 경우 etc...)
      * @return 게시물 작성자 식별 번호
      * @since : 1.0
      */
-    private static Long getUserNo(Post post, AdditionalInformationDto additional) {
+    private static Long getUserNo(Post post, PostAdditionalInformationDto additional) {
         if (Objects.nonNull(post.getBandPost())) {
-            additional.isBandPost();
+            additional.setBandNo(post.getBandPost().getBandNo());
             return post.getBandPost().getBandUserNo();
         }
 

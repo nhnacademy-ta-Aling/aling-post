@@ -56,13 +56,14 @@ public class ReplyReadServiceImpl implements ReplyReadService {
         } catch (FeignException e) {
             log.error(e.getMessage());
         }
-        Map<Long, String> writerMap = writers.stream().collect(
-                Collectors.toMap(ReadWriterResponseDto::getWriterNo, ReadWriterResponseDto::getWriterName)
+
+        Map<Long, ReadWriterResponseDto> writerMap = writers.stream().collect(
+                Collectors.toMap(ReadWriterResponseDto::getUserNo, readWriterResponseDto -> readWriterResponseDto)
         );
 
         List<ReadReplyResponseDto> pageContent = new ArrayList<>();
         replies.forEach(reply -> pageContent.add(ReplyUtils.convertToReadReplyResponse(reply,
-                writerMap.getOrDefault(reply.getUserNo(), "Unknown User"))));
+                writerMap.getOrDefault(reply.getUserNo(), new ReadWriterResponseDto(-999999L, "Unknown User", null)))));
 
         return PageUtils.convert(page, pageContent);
     }

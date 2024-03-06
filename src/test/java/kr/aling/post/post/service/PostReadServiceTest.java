@@ -21,7 +21,7 @@ import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.common.utils.PostUtils;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
-import kr.aling.post.post.dto.response.ReadPostIntegrationDto;
+import kr.aling.post.post.dto.response.ReadPostResponseIntegrationDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
@@ -55,7 +55,6 @@ class PostReadServiceTest {
     UserFeignClient userFeignClient;
     @Mock
     FileFeignClient fileFeignClient;
-
     @InjectMocks
     PostReadServiceImpl postReadService;
 
@@ -76,9 +75,9 @@ class PostReadServiceTest {
 
         ReflectionTestUtils.setField(post, "normalPost", normalPost);
 
-        ReadWriterResponseDto writerResponse = new ReadWriterResponseDto(1L, "테스트 작성자");
+        ReadWriterResponseDto writerResponse = new ReadWriterResponseDto(1L, "테스트 작성자", null);
 
-        ReadPostIntegrationDto integrationDto = ReadPostIntegrationDto.builder()
+        ReadPostResponseIntegrationDto integrationDto = ReadPostResponseIntegrationDto.builder()
                 .post(PostUtils.convert(post))
                 .writer(writerResponse)
                 .additional(null)
@@ -87,7 +86,7 @@ class PostReadServiceTest {
         given(postReadRepository.findByPostNoAndIsDeleteFalse(post.getPostNo())).willReturn(Optional.of(post));
         doThrow(FeignException.class).when(userFeignClient).requestWriterNames(any());
 
-        ReadPostIntegrationDto actual = postReadService.readPostByPostNo(post.getPostNo());
+        ReadPostResponseIntegrationDto actual = postReadService.readPostByPostNo(post.getPostNo());
 
         assertAll("게시물 내용과 응답 DTO 가 동일한지 확인",
                 () -> assertThat(integrationDto.getPost().getPostNo(), equalTo(actual.getPost().getPostNo())),

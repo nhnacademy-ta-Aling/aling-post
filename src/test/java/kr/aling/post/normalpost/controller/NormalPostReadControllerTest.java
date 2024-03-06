@@ -29,7 +29,6 @@ import kr.aling.post.common.utils.PostUtils;
 import kr.aling.post.normalpost.service.NormalPostReadService;
 import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import kr.aling.post.post.entity.Post;
-import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +78,6 @@ class NormalPostReadControllerTest {
         ReflectionTestUtils.setField(post, "createAt", LocalDateTime.now());
         ReflectionTestUtils.setField(post, "modifyAt", LocalDateTime.now());
 
-        ReadWriterResponseDto writerResponse = new ReadWriterResponseDto(userNo, "테스트 작성자");
-
         ReadPostResponseDto response = PostUtils.convert(post);
 
         given(normalPostReadService.readNormalPostByPostNo(postNo)).willReturn(response);
@@ -126,8 +123,6 @@ class NormalPostReadControllerTest {
         ReflectionTestUtils.setField(post, "postNo", postNo);
         ReflectionTestUtils.setField(post, "createAt", LocalDateTime.now());
         ReflectionTestUtils.setField(post, "modifyAt", LocalDateTime.now());
-
-        ReadWriterResponseDto writerResponse = new ReadWriterResponseDto(userNo, "테스트 작성자");
 
         PageResponseDto<ReadPostResponseDto> responses = PageUtils.convert(new PageImpl<>(
                 List.of(PostUtils.convert(post), PostUtils.convert(post

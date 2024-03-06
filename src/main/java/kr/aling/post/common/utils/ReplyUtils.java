@@ -3,6 +3,7 @@ package kr.aling.post.common.utils;
 import kr.aling.post.reply.dto.response.CreateReplyResponseDto;
 import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
 import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
+import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
 import kr.aling.post.reply.entity.Reply;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -36,27 +37,6 @@ public class ReplyUtils {
     }
 
     /**
-     * 엔티티를 조회 응답 객체로 변환합니다.
-     *
-     * @param reply 변환할 엔티티
-     * @return 변환된 조회 응답 객체
-     * @author : 이성준
-     * @since 1.0
-     */
-    public static ReadReplyResponseDto convertToReadResponse(Reply reply) {
-        return new ReadReplyResponseDto(
-                reply.getReplyNo(),
-                reply.getPostNo(),
-                reply.getUserNo(),
-                "Unknown",
-                reply.getParentReplyNo(),
-                reply.getContent(),
-                reply.getCreateAt(),
-                reply.getModifyAt()
-        );
-    }
-
-    /**
      * 엔티티를 수정 응답 객체로 변환합니다.
      *
      * @param reply 변환할 엔티티
@@ -72,16 +52,15 @@ public class ReplyUtils {
         );
     }
 
-    public static ReadReplyResponseDto convertToReadReplyResponse(Reply reply, String writerName) {
-        return new ReadReplyResponseDto(
-                reply.getReplyNo(),
-                reply.getPostNo(),
-                reply.getUserNo(),
-                writerName,
-                reply.getParentReplyNo(),
-                reply.getContent(),
-                reply.getCreateAt(),
-                reply.getModifyAt()
-        );
+    public static ReadReplyResponseDto convertToReadReplyResponse(Reply reply, ReadWriterResponseDto writerResponseDto) {
+        return ReadReplyResponseDto.builder()
+                .replyNo(reply.getReplyNo())
+                .parentReplyNo(reply.getParentReplyNo())
+                .postNo(reply.getPostNo())
+                .content(reply.getContent())
+                .createAt(reply.getCreateAt())
+                .modifyAt(reply.getModifyAt())
+                .writer(writerResponseDto)
+                .build();
     }
 }

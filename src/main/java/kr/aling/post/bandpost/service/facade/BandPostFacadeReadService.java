@@ -7,7 +7,6 @@ import kr.aling.post.bandpost.dto.response.BandPostDto;
 import kr.aling.post.bandpost.dto.response.BandPostExceptFileQueryDto;
 import kr.aling.post.bandpost.dto.response.BandPostQueryDto;
 import kr.aling.post.bandpost.dto.response.GetBandResponseDto;
-import kr.aling.post.bandpost.dto.response.external.GetBandPostUserInfoResponseDto;
 import kr.aling.post.bandpost.dto.response.external.GetFileInfoResponseDto;
 import kr.aling.post.bandpost.service.BandPostReadService;
 import kr.aling.post.common.dto.PageResponseDto;
@@ -16,6 +15,7 @@ import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.common.utils.PageUtils;
 import kr.aling.post.postfile.dto.response.PostFileQueryDto;
 import kr.aling.post.postfile.service.PostFileReadService;
+import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,7 +62,7 @@ public class BandPostFacadeReadService {
 
         List<GetFileInfoResponseDto> fileInfoResponseDtoList = fileFeignClient.requestFileInfo(fileNoList);
 
-        GetBandPostUserInfoResponseDto getBandPostUserInfoResponseDto =
+        ReadWriterResponseDto getBandPostUserInfoResponseDto =
                 userFeignClient.requestBandPostUserInfo(bandPostQueryDto.getBandUserNo());
 
         BandPostDto bandPostDto = new BandPostDto(bandPostQueryDto, fileInfoResponseDtoList);
@@ -97,7 +97,7 @@ public class BandPostFacadeReadService {
 
             List<GetFileInfoResponseDto> fileInfoResponseDtoList = fileFeignClient.requestFileInfo(fileNoList);
 
-            GetBandPostUserInfoResponseDto getBandPostUserInfoResponseDto =
+            ReadWriterResponseDto getBandPostUserInfoResponseDto =
                     userFeignClient.requestBandPostUserInfo(bandPostExceptFileQueryDto.getBandUserNo());
 
             BandPostDto bandPostDto = new BandPostDto(bandPostExceptFileQueryDto, fileInfoResponseDtoList);
