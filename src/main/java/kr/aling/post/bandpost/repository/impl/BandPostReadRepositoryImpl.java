@@ -9,6 +9,7 @@ import kr.aling.post.bandpost.dto.response.BandPostQueryDto;
 import kr.aling.post.bandpost.entity.BandPost;
 import kr.aling.post.bandpost.entity.QBandPost;
 import kr.aling.post.bandpost.repository.BandPostReadRepositoryCustom;
+import kr.aling.post.bandposttype.entity.QBandPostType;
 import kr.aling.post.post.entity.QPost;
 import kr.aling.post.postfile.entity.QPostFile;
 import org.springframework.data.domain.Page;
@@ -108,14 +109,23 @@ public class BandPostReadRepositoryImpl extends QuerydslRepositorySupport implem
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param bandPostTypeNo 그룹 게시글 분류
+     * @return 그룹 게시글 분류 내 그룹 게시글 개수
+     */
     @Override
     public long getCountBandPostByBandPostTypeNo(Long bandPostTypeNo) {
         QPost post = QPost.post;
         QBandPost bandPost = QBandPost.bandPost;
+        QBandPostType bandPostType = QBandPostType.bandPostType;
 
         return from(bandPost)
-                .innerJoin(post)
-                .where(post.isDelete.isFalse())
+                .innerJoin(bandPost.bandPostType, bandPostType)
+                .innerJoin(bandPost.post, post)
+                .where(post.isDelete.isFalse()
+                        .and(bandPostType.bandPostTypeNo.eq(bandPostTypeNo)))
                 .select(bandPost.count())
                 .fetchOne();
     }
