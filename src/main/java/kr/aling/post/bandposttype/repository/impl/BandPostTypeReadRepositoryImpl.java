@@ -33,8 +33,8 @@ public class BandPostTypeReadRepositoryImpl extends QuerydslRepositorySupport im
         QBandPostType bandPostType = QBandPostType.bandPostType;
 
         Long count = from(bandPostType)
-                .where(bandPostType.isDelete.isFalse()
-                        .and(bandPostType.name.eq(name))
+                .where(bandPostType.name.eq(name)
+                        .and(bandPostType.isDelete.isFalse())
                         .and(bandPostType.bandNo.eq(bandNo)))
                 .select(bandPostType.count())
                 .fetchOne();
@@ -42,14 +42,21 @@ public class BandPostTypeReadRepositoryImpl extends QuerydslRepositorySupport im
         return (count > 0);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param bandNo 그룹 번호
+     * @return 그룹 게시글 분류 정보 dto 리스트
+     */
     @Override
     public List<GetBandPostTypeResponseDto> getBandPostTypeListByBandNo(Long bandNo) {
         QBandPostType bandPostType = QBandPostType.bandPostType;
 
         return from(bandPostType)
-                .where(bandPostType.isDelete.isFalse()
-                        .and(bandPostType.bandNo.eq(bandNo)))
+                .where(bandPostType.bandNo.eq(bandNo)
+                        .and(bandPostType.isDelete.isFalse()))
                 .select(Projections.constructor(GetBandPostTypeResponseDto.class,
+                        bandPostType.bandPostTypeNo,
                         bandPostType.name))
                 .fetch();
     }

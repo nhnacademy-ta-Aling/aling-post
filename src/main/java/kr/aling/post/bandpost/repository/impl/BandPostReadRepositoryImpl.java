@@ -107,4 +107,17 @@ public class BandPostReadRepositoryImpl extends QuerydslRepositorySupport implem
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
+
+    @Override
+    public long getCountBandPostByBandPostTypeNo(Long bandPostTypeNo) {
+        QPost post = QPost.post;
+        QBandPost bandPost = QBandPost.bandPost;
+
+        return from(bandPost)
+                .innerJoin(post)
+                .where(post.isDelete.isFalse())
+                .select(bandPost.count())
+                .fetchOne();
+    }
+
 }
