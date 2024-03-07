@@ -37,7 +37,7 @@ class BandPostTypeReadServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        getResponseDto = new GetBandPostTypeResponseDto("testTypeName");
+        getResponseDto = new GetBandPostTypeResponseDto(1L, "testTypeName");
     }
 
     @Test
