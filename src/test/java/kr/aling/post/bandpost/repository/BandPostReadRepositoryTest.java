@@ -39,6 +39,8 @@ class BandPostReadRepositoryTest {
     PostFile postFile;
     BandPostType bandPostType;
 
+    BandPost bandPost;
+
     @BeforeEach
     void setUp() {
         post = PostDummy.postDummy();
@@ -98,5 +100,22 @@ class BandPostReadRepositoryTest {
         assertThat(result.getContent().get(0).getIsDelete()).isEqualTo(post.getIsDelete());
         assertThat(result.getContent().get(0).getDeleteReason()).isEqualTo(post.getDeleteReason());
         assertThat(result.getContent().get(0).getIsOpen()).isEqualTo(post.getIsOpen());
+    }
+
+    @Test
+    @DisplayName("그룹 게시글 분류 내 그룹 게시글 개수 조회 테스트")
+    void getCountBandPostByBandPostTypeNo_successTest() {
+        // given
+        Post persistPost = testEntityManager.persist(post);
+        BandPostType persistBandPostType = testEntityManager.persist(bandPostType);
+        BandPost bandPost = BandPostDummy.bandPostDummy(persistPost, persistBandPostType);
+        testEntityManager.persist(bandPost);
+
+        // when
+
+        // then
+        long count =
+                bandPostReadRepository.getCountBandPostByBandPostTypeNo(bandPostType.getBandPostTypeNo());
+        assertThat(count).isEqualTo(1L);
     }
 }

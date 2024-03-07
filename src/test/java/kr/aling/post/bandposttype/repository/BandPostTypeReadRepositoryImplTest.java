@@ -44,6 +44,11 @@ class BandPostTypeReadRepositoryImplTest {
     @Test
     @DisplayName("그룹 게시글 분류명과 그룹명으로 그룹 게시글 존재 여부 확인_존재할 경우")
     void existsByNameAndBandNoTest_returnTrue() {
+        // given
+
+        // when
+
+        // then
         boolean result = bandPostTypeReadRepository.existsByNameAndBandNo(bandPostType.getName(), bandPostType.getBandNo());
         assertThat(result).isTrue();
     }
@@ -51,13 +56,23 @@ class BandPostTypeReadRepositoryImplTest {
     @Test
     @DisplayName("그룹 게시글 분류명과 그룹명으로 그룹 게시글 존재 여부 확인_존재 하지 않는 경우")
     void existsByNameAndBandNoTest_returnFalse() {
+        // given
+
+        // when
+
+        // then
         boolean result = bandPostTypeReadRepository.existsByNameAndBandNo("존재 하지 않는 그룹 명 입니다", -100L);
         assertThat(result).isFalse();
     }
 
     @Test
     @DisplayName("그룹 명으로 그룹 게시글 리스트 조회")
-    void getBandPostTypeListByBandNo() {
+    void getBandPostTypeListByBandNo_successTest() {
+        // given
+
+        // when
+
+        // then
         List<GetBandPostTypeResponseDto> resultList =
                 bandPostTypeReadRepository.getBandPostTypeListByBandNo(bandPostType.getBandNo());
 
