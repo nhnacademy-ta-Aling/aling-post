@@ -1,0 +1,20 @@
+:toc:
+
+==== 그룹 게시글 분류 삭제
+
+그룹 게시글 분류 수정 API +
+삭제하고자 하는 그룹 게시글 분류 내에 삭제되지 않은 그룹 게시글이 존재할 경우, 그룹 게시글 분류는 삭제할 수 없습니다.
+
+===== 요청
+
+operation::bandposttype-delete[snippets='http-request']
+
+===== 응답
+
+operation::bandposttype-delete[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 요청 Path Variable
+
+operation::bandposttype-delete[snippets='path-parameters']

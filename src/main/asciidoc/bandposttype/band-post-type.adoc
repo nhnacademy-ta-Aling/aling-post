@@ -2,4 +2,6 @@
 
 include::band-post-type-get.adoc[]
 include::band-post-type-create.adoc[]
+include::band-post-type-modify.adoc[]
+include::band-post-type-delete.adoc[]
 
