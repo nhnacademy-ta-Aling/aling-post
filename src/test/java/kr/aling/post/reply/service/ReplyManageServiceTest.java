@@ -13,6 +13,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 
 import java.util.Optional;
+import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
@@ -26,6 +27,7 @@ import kr.aling.post.reply.entity.Reply;
 import kr.aling.post.reply.repo.ReplyManageRepository;
 import kr.aling.post.reply.repo.ReplyReadRepository;
 import kr.aling.post.reply.service.impl.ReplyManageServiceImpl;
+import kr.aling.post.user.dto.response.IsExistsUserResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +41,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  * 댓글 관리 서비스 레이어 테스트입니다.
  *
  * @author : 이성준
- * @since 1.0
+ * @since : 1.0
  */
 @ExtendWith(SpringExtension.class)
 class ReplyManageServiceTest {
@@ -53,6 +55,9 @@ class ReplyManageServiceTest {
     @Mock
     PostReadRepository postReadRepository;
 
+    @Mock
+    UserFeignClient userFeignClient;
+
     @InjectMocks
     ReplyManageServiceImpl replyManageService;
 
@@ -61,12 +66,19 @@ class ReplyManageServiceTest {
     @BeforeEach
     void setUp() {
         reply = ReplyDummy.dummyReply(1L);
+
+        given(userFeignClient.isExistUser(reply.getUserNo())).willReturn(new IsExistsUserResponseDto() {
+            @Override
+            public Boolean getIsExists() {
+                return true;
+            }
+        });
     }
 
     @Test
     @DisplayName("댓글 작성")
     void createReply() {
-        Post post = PostDummy.dummyPost();
+        Post post = PostDummy.postDummy();
         CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
 
         given(replyManageRepository.save(any())).willReturn(reply);
@@ -84,7 +96,7 @@ class ReplyManageServiceTest {
     @Test
     @DisplayName("댓글 작성")
     void createReReply() {
-        Post post = PostDummy.dummyPost();
+        Post post = PostDummy.postDummy();
         Long parentReplyNo = 999L;
 
         CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();

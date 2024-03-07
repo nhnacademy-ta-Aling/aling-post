@@ -42,7 +42,7 @@ class ReplyManageRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        post = PostDummy.dummyPost();
+        post = PostDummy.postDummy();
         entityManager.persist(post);
 
         reply = ReplyDummy.dummyReply(post.getPostNo());

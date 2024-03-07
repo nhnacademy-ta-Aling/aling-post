@@ -11,11 +11,11 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 import java.util.Optional;
 import kr.aling.post.common.dto.PageResponseDto;
-import kr.aling.post.common.utils.NormalPostUtils;
-import kr.aling.post.normalpost.dto.response.ReadNormalPostResponseDto;
+import kr.aling.post.common.utils.PostUtils;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.normalpost.repository.NormalPostReadRepository;
 import kr.aling.post.normalpost.service.impl.NormalPostReadServiceImpl;
+import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import kr.aling.post.post.entity.Post;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,28 +46,26 @@ class NormalPostReadServiceTest {
     @Test
     @DisplayName("게시물 번호로 일반 게시물의 응답 객체 반환")
     void readNormalPostByPostNo() {
-        long postNo = 1L;
         long userNo = 1L;
+        long postNo = 1L;
+
+        Post post = Post.builder().build();
+        ReflectionTestUtils.setField(post, "postNo", postNo);
 
         NormalPost normalPost = NormalPost.builder()
-                .postNo(postNo)
+                .post(post)
                 .userNo(userNo)
                 .build();
 
-        Post post = Post.builder().build();
-
-        ReflectionTestUtils.setField(normalPost, "post", post);
-
-        ReadNormalPostResponseDto response = NormalPostUtils.convert(normalPost);
+        ReadPostResponseDto response = PostUtils.convert(post);
 
         given(normalPostReadRepository.findById(postNo)).willReturn(Optional.of(normalPost));
 
-        ReadNormalPostResponseDto actual = normalPostReadService.readNormalPostByPostNo(postNo);
+        ReadPostResponseDto actual = normalPostReadService.readNormalPostByPostNo(postNo);
 
         assertAll("게시물 내용과 응답 DTO 가 동일한지 확인",
-                () -> assertThat(response.getPost().getPostNo(), equalTo(actual.getPost().getPostNo())),
-                () -> assertThat(response.getPost().getContent(), equalTo(actual.getPost().getContent())),
-                () -> assertThat(response.getUserNo(), equalTo(actual.getUserNo()))
+                () -> assertThat(response.getPostNo(), equalTo(actual.getPostNo())),
+                () -> assertThat(response.getContent(), equalTo(actual.getContent()))
         );
     }
 
@@ -77,20 +75,15 @@ class NormalPostReadServiceTest {
         long userNo = 1L;
         long postNo = 1L;
 
-        NormalPost normalPost = NormalPost.builder()
-                .postNo(postNo)
-                .userNo(userNo)
-                .build();
-
         Post post = Post.builder().build();
+        ReflectionTestUtils.setField(post, "postNo", postNo);
 
-        ReflectionTestUtils.setField(normalPost, "post", post);
-
-        Page<ReadNormalPostResponseDto> responses = new PageImpl<>(List.of(NormalPostUtils.convert(normalPost)));
+        Page<ReadPostResponseDto> responses = new PageImpl<>(List.of(PostUtils.convert(post
+        )));
 
         given(normalPostReadRepository.findAllByUserNo(userNo, Pageable.unpaged())).willReturn(responses);
 
-        PageResponseDto<ReadNormalPostResponseDto> actual =
+        PageResponseDto<ReadPostResponseDto> actual =
                 normalPostReadService.readNormalPostsByUserNo(userNo, Pageable.unpaged());
 
         assertAll(

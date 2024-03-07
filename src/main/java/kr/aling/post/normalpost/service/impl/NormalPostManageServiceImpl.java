@@ -1,7 +1,8 @@
 package kr.aling.post.normalpost.service.impl;
 
 import kr.aling.post.common.annotation.ManageService;
-import kr.aling.post.common.utils.NormalPostUtils;
+import kr.aling.post.common.feign.client.UserFeignClient;
+import kr.aling.post.common.utils.PostUtils;
 import kr.aling.post.normalpost.dto.request.CreateNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.response.CreateNormalPostResponseDto;
@@ -10,6 +11,7 @@ import kr.aling.post.normalpost.repository.NormalPostManageRepository;
 import kr.aling.post.normalpost.service.NormalPostManageService;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
 import kr.aling.post.post.service.PostManageService;
+import kr.aling.post.user.exception.UnauthenticatedUserException;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -26,17 +28,20 @@ public class NormalPostManageServiceImpl implements NormalPostManageService {
 
     private final NormalPostManageRepository normalPostManageRepository;
     private final PostManageService postManageService;
-
+    private final UserFeignClient userFeignClient;
     /**
      * {@inheritDoc}
      */
     @Override
     public CreateNormalPostResponseDto createNormalPost(Long userNo, CreateNormalPostRequestDto request) {
 
-        CreatePostResponseDto createPostResponse = postManageService.createPost(NormalPostUtils.convert(request));
+        if (Boolean.FALSE.equals(userFeignClient.isExistUser(userNo).getIsExists())) {
+            throw new UnauthenticatedUserException("Reply");
+        }
+
+        CreatePostResponseDto createPostResponse = postManageService.createPost(PostUtils.convert(request));
 
         NormalPost normalPost = NormalPost.builder()
-                .postNo(createPostResponse.getPost().getPostNo())
                 .post(createPostResponse.getPost())
                 .userNo(userNo)
                 .build();
@@ -49,7 +54,7 @@ public class NormalPostManageServiceImpl implements NormalPostManageService {
      */
     @Override
     public void modifyNormalPost(Long postNo, ModifyNormalPostRequestDto request) {
-        postManageService.modifyPost(postNo, NormalPostUtils.convert(request));
+        postManageService.modifyPost(postNo, PostUtils.convert(request));
     }
 
     /**

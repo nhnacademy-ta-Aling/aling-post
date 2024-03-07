@@ -13,7 +13,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.ArrayList;
 import java.util.List;
 import kr.aling.post.common.dto.PageResponseDto;
-import kr.aling.post.common.utils.ReplyUtils;
+import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
@@ -46,14 +46,18 @@ class ReplyReadServiceTest {
     @Mock
     ReplyReadRepository replyReadRepository;
 
+    @Mock
+    UserFeignClient userFeignClient;
+
     @InjectMocks
     ReplyReadServiceImpl replyReadService;
+
 
     Post post;
 
     @BeforeEach
     void setUp() {
-        post = PostDummy.dummyPost();
+        post = PostDummy.postDummy();
         ReflectionTestUtils.setField(post, "postNo", 1L);
     }
 
@@ -61,14 +65,14 @@ class ReplyReadServiceTest {
     @DisplayName("게시물 번호로 댓글 목록 페이지 조회")
     void readRepliesByPostNo() {
 
-        List<ReadReplyResponseDto> content = new ArrayList<>();
+        List<Reply> content = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Reply reply = ReplyDummy.dummyReply(post.getPostNo());
             ReflectionTestUtils.setField(reply, "replyNo", Integer.toUnsignedLong(i));
-            content.add(ReplyUtils.convertToReadResponse(reply));
+            content.add(ReplyDummy.dummyReply(1L));
         }
 
-        Page<ReadReplyResponseDto> page = new PageImpl<>(content);
+        Page<Reply> page = new PageImpl<>(content);
 
         given(replyReadRepository.findRepliesByPostNoAndIsDeleteIsFalse(any(), any())).willReturn(page);
 

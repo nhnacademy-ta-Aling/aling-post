@@ -1,7 +1,7 @@
 package kr.aling.post.normalpost.repository;
 
-import kr.aling.post.normalpost.dto.response.ReadNormalPostResponseDto;
 import kr.aling.post.normalpost.entity.NormalPost;
+import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,5 +23,5 @@ public interface NormalPostReadRepository extends JpaRepository<NormalPost, Long
      * @author : 이성준
      * @since 1.0
      */
-    Page<ReadNormalPostResponseDto> findAllByUserNo(Long userNo, Pageable pageable);
+    Page<ReadPostResponseDto> findAllByUserNo(Long userNo, Pageable pageable);
 }

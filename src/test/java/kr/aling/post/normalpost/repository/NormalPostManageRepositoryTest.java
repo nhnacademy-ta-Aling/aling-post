@@ -48,10 +48,10 @@ class NormalPostManageRepositoryTest {
                 .isOpen(true)
                 .build();
 
-        post = entityManager.persist(post);
+        entityManager.persist(post);
 
         normalPost = NormalPost.builder()
-                .postNo(post.getPostNo())
+                .post(post)
                 .userNo(1L)
                 .build();
     }
@@ -80,11 +80,12 @@ class NormalPostManageRepositoryTest {
         Post post = entityManager.find(Post.class, postNo);
 
         NormalPost normal = NormalPost.builder()
-                .postNo(postNo)
+                .post(post)
                 .userNo(1L)
                 .build();
 
         assertNull(post);
+        
         assertThrows(DataIntegrityViolationException.class, () -> normalPostManageRepository.saveAndFlush(normal));
 
     }

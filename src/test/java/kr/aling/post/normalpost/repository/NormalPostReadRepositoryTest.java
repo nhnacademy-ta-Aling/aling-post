@@ -44,7 +44,7 @@ class NormalPostReadRepositoryTest {
         post = entityManager.persist(post);
 
         normalPost = NormalPost.builder()
-                .postNo(post.getPostNo())
+                .post(post)
                 .userNo(1L)
                 .build();
 

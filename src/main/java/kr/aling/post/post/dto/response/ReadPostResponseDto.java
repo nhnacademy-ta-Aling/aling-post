@@ -1,7 +1,8 @@
 package kr.aling.post.post.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 /**
@@ -10,14 +11,16 @@ import lombok.Getter;
  * @author : 이성준
  * @since 1.0
  */
-@AllArgsConstructor
+@Builder
 @Getter
 public class ReadPostResponseDto {
 
     private Long postNo;
     private String content;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createAt;
-    private LocalDateTime modifyAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime modifyAt;
 }
