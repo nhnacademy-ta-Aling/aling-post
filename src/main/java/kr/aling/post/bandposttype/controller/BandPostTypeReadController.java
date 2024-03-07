@@ -29,7 +29,7 @@ public class BandPostTypeReadController {
      * 그룹 게시물 분류 리스트를 조회 하기 위한 메서드입니다. <br> 특정 그룹의 그룹 게시물 분류 리스트를 조회 합니다.
      *
      * @return 200 ok. 그룹 게시물 분류 정보 dto 리스트
-     * @pxaram bandNo 그룹 번호
+     * @param bandNo 그룹 번호
      */
     @GetMapping
     public ResponseEntity<List<GetBandPostTypeResponseDto>> bandPostTypeList(@RequestParam("bandNo") Long bandNo) {

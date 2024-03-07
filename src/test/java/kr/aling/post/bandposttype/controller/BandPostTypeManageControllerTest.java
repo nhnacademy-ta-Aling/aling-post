@@ -8,7 +8,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
@@ -19,7 +18,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,16 +46,15 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(BandPostTypeManageController.class)
 @AutoConfigureRestDocs(uriPort = 9030)
 class BandPostTypeManageControllerTest {
+    private final String url = "/api/v1/band-post-types";
     @Autowired
     MockMvc mvc;
     @Autowired
     ObjectMapper objectMapper;
     @MockBean
     BandPostTypeManageService bandPostTypeManageService;
-
     CreateBandPostTypeRequestDto createRequestDto;
     ModifyBandPostTypeRequestDto modifyRequestDto;
-    private final String url = "/api/v1/band-post-types";
 
     @BeforeEach
     public void setUp() {
@@ -155,7 +152,7 @@ class BandPostTypeManageControllerTest {
 
     @Test
     @DisplayName("그룹 게시글 분류 수정 성공")
-    void updateBandPostType_successTest() throws Exception{
+    void updateBandPostType_successTest() throws Exception {
         // given
         Long postTypeNo = 1L;
 
@@ -163,12 +160,13 @@ class BandPostTypeManageControllerTest {
         ReflectionTestUtils.setField(modifyRequestDto, "bandPostTypeName", "typeName");
 
         // when
-        doNothing().when(bandPostTypeManageService).updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
+        doNothing().when(bandPostTypeManageService)
+                .updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
 
         // then
         mvc.perform(put(url + "/{postTypeNo}", postTypeNo)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(modifyRequestDto)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(modifyRequestDto)))
                 .andExpect(status().isOk())
                 .andDo(document("bandposttype-modify",
                         preprocessRequest(prettyPrint()),
@@ -186,12 +184,13 @@ class BandPostTypeManageControllerTest {
                         )
                 ));
 
-        verify(bandPostTypeManageService, times(1)).updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
+        verify(bandPostTypeManageService, times(1)).updateBandPostType(anyLong(),
+                any(ModifyBandPostTypeRequestDto.class));
     }
 
     @Test
     @DisplayName("그룹 게시글 분류 수정 실패_그룹 번호가 null인 경우")
-    void updateBandPostType_failTest_bandNoIsNull() throws Exception{
+    void updateBandPostType_failTest_bandNoIsNull() throws Exception {
         // given
         Long postTypeNo = 1L;
 
@@ -199,7 +198,8 @@ class BandPostTypeManageControllerTest {
         ReflectionTestUtils.setField(modifyRequestDto, "bandPostTypeName", "typeName");
 
         // when
-        doNothing().when(bandPostTypeManageService).updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
+        doNothing().when(bandPostTypeManageService)
+                .updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
 
         // then
         mvc.perform(put(url + "/{postTypeNo}", postTypeNo)
@@ -207,12 +207,13 @@ class BandPostTypeManageControllerTest {
                         .content(objectMapper.writeValueAsString(modifyRequestDto)))
                 .andExpect(status().isBadRequest());
 
-        verify(bandPostTypeManageService, times(0)).updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
+        verify(bandPostTypeManageService, times(0)).updateBandPostType(anyLong(),
+                any(ModifyBandPostTypeRequestDto.class));
     }
 
     @Test
     @DisplayName("그룹 게시글 분류 수정 실패_그룹 게시글 분류 명이 blank 인 경우")
-    void updateBandPostType_failTest_bandPostTypeNameIsBlank() throws Exception{
+    void updateBandPostType_failTest_bandPostTypeNameIsBlank() throws Exception {
         // given
         Long postTypeNo = 1L;
 
@@ -220,7 +221,8 @@ class BandPostTypeManageControllerTest {
         ReflectionTestUtils.setField(modifyRequestDto, "bandPostTypeName", "  ");
 
         // when
-        doNothing().when(bandPostTypeManageService).updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
+        doNothing().when(bandPostTypeManageService)
+                .updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
 
         // then
         mvc.perform(put(url + "/{postTypeNo}", postTypeNo)
@@ -228,12 +230,13 @@ class BandPostTypeManageControllerTest {
                         .content(objectMapper.writeValueAsString(modifyRequestDto)))
                 .andExpect(status().isBadRequest());
 
-        verify(bandPostTypeManageService, times(0)).updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
+        verify(bandPostTypeManageService, times(0)).updateBandPostType(anyLong(),
+                any(ModifyBandPostTypeRequestDto.class));
     }
 
     @Test
     @DisplayName("그룹 게시글 분류 수정 실패_그룹 게시글 분류 명 사이즈 초과")
-    void updateBandPostType_failTest_bandPostTypeName_sizeExceed() throws Exception{
+    void updateBandPostType_failTest_bandPostTypeName_sizeExceed() throws Exception {
         // given
         Long postTypeNo = 1L;
 
@@ -241,7 +244,8 @@ class BandPostTypeManageControllerTest {
         ReflectionTestUtils.setField(modifyRequestDto, "bandPostTypeName", "a".repeat(11));
 
         // when
-        doNothing().when(bandPostTypeManageService).updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
+        doNothing().when(bandPostTypeManageService)
+                .updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
 
         // then
         mvc.perform(put(url + "/{postTypeNo}", postTypeNo)
@@ -249,7 +253,8 @@ class BandPostTypeManageControllerTest {
                         .content(objectMapper.writeValueAsString(modifyRequestDto)))
                 .andExpect(status().isBadRequest());
 
-        verify(bandPostTypeManageService, times(0)).updateBandPostType(anyLong(), any(ModifyBandPostTypeRequestDto.class));
+        verify(bandPostTypeManageService, times(0)).updateBandPostType(anyLong(),
+                any(ModifyBandPostTypeRequestDto.class));
     }
 
     @Test
