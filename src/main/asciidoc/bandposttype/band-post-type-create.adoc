@@ -6,14 +6,14 @@
 
 ===== 요청
 
-operation::band-post-type-create[snippets='http-request']
+operation::bandposttype-create[snippets='http-request']
 
 ===== 응답
 
-operation::band-post-type-create[snippets='http-response']
+operation::bandposttype-create[snippets='http-response']
 
 ===== 파라미터 설명
 
 ====== 요청 Body
 
-operation::band-post-type-create[snippets='request-fields']
+operation::bandposttype-create[snippets='request-fields']

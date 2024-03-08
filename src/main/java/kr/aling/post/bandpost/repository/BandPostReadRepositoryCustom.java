@@ -31,4 +31,12 @@ public interface BandPostReadRepositoryCustom {
      * @return 페이징 된 게시글 정보 QueryDto
      */
     Page<BandPostExceptFileQueryDto> getBandPostByBand(Long bandNo, Pageable pageable);
+
+    /**
+     * 특정 그룹 게시글 분류 내의 그룹 게시글 개수 조회.
+     *
+     * @param bandPostTypeNo 그룹 게시글 분류
+     * @return 그룹 게시글 분류 내 그룹 게시글 개수
+     */
+    long getCountBandPostByBandPostTypeNo(Long bandPostTypeNo);
 }

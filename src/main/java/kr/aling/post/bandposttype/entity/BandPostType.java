@@ -55,4 +55,12 @@ public class BandPostType {
         this.bandNo = bandNo;
         this.name = name;
     }
+
+    public void updatePostType(String name) {
+        this.name = name;
+    }
+
+    public void deletePostType() {
+        this.isDelete = true;
+    }
 }

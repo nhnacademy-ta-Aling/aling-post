@@ -1,0 +1,23 @@
+:toc:
+
+==== 그룹 게시글 분류 수정
+
+그룹 게시글 분류 수정 API
+
+===== 요청
+
+operation::bandposttype-modify[snippets='http-request']
+
+===== 응답
+
+operation::bandposttype-modify[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 요청 Path Variable
+
+operation::bandposttype-modify[snippets='path-parameters']
+
+====== 요청 Body
+
+operation::bandposttype-modify[snippets='request-fields']

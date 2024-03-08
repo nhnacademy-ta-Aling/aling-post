@@ -6,18 +6,18 @@
 
 ===== 요청
 
-operation::band-post-type-get-list[snippets='http-request']
+operation::bandposttype-get-list[snippets='http-request']
 
 ===== 응답
 
-operation::band-post-type-get-list[snippets='http-response']
+operation::bandposttype-get-list[snippets='http-response']
 
 ===== 파라미터 설명
 
-====== 요청 Path Variable
+====== 요청 Query Param
 
-operation::band-post-type-get-list[snippets='path-parameters']
+operation::bandposttype-get-list[snippets='request-parameters']
 
 ====== 응답 Body
 
-operation::band-post-type-get-list[snippets='response-fields']
+operation::bandposttype-get-list[snippets='response-fields']
