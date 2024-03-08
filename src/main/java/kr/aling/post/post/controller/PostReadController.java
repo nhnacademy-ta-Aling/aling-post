@@ -2,11 +2,13 @@ package kr.aling.post.post.controller;
 
 
 import java.util.List;
+import kr.aling.post.common.dto.PageResponseDto;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostResponseIntegrationDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.service.PostReadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,4 +61,12 @@ public class PostReadController {
         return ResponseEntity.ok()
                 .body(postReadService.readPostByPostNo(postNo));
     }
+
+    @GetMapping("/posts")
+    public ResponseEntity<PageResponseDto<ReadPostResponseIntegrationDto>> getPosts(Pageable pageable) {
+        return ResponseEntity.ok()
+                .body(postReadService.readPostsThatIsOpen(pageable));
+    }
+
+
 }

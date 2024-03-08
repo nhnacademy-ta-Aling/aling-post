@@ -1,7 +1,7 @@
 package kr.aling.post.reply.controller;
 
 import kr.aling.post.common.dto.PageResponseDto;
-import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
+import kr.aling.post.reply.dto.response.ReadReplyDetailResponseDto;
 import kr.aling.post.reply.service.ReplyReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,14 +30,13 @@ public class ReplyReadController {
      * @param postNo   댓글을 조회할 게시물 번호
      * @param pageable 페이지네이션 정보
      * @return 조회한 댓글의 페이징 응답 객체
-     * @author : 이성준
      * @since 1.0
      */
     @GetMapping
-    public ResponseEntity<PageResponseDto<ReadReplyResponseDto>> readRepliesByPostNo(@PathVariable Long postNo,
-            Pageable pageable) {
+    public ResponseEntity<PageResponseDto<ReadReplyDetailResponseDto>> readRepliesByPostNo(@PathVariable Long postNo,
+                                                                                           Pageable pageable) {
 
-        PageResponseDto<ReadReplyResponseDto> response = replyReadService.readRepliesByPostNo(postNo, pageable);
+        PageResponseDto<ReadReplyDetailResponseDto> response = replyReadService.readRepliesByPostNo(postNo, pageable);
 
         return ResponseEntity.ok(response);
     }

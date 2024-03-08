@@ -3,7 +3,6 @@ package kr.aling.post.common.utils;
 import kr.aling.post.reply.dto.response.CreateReplyResponseDto;
 import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
 import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
-import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
 import kr.aling.post.reply.entity.Reply;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -52,7 +51,7 @@ public class ReplyUtils {
         );
     }
 
-    public static ReadReplyResponseDto convertToReadReplyResponse(Reply reply, ReadWriterResponseDto writerResponseDto) {
+    public static ReadReplyResponseDto convertToReadReplyResponse(Reply reply) {
         return ReadReplyResponseDto.builder()
                 .replyNo(reply.getReplyNo())
                 .parentReplyNo(reply.getParentReplyNo())
@@ -60,7 +59,6 @@ public class ReplyUtils {
                 .content(reply.getContent())
                 .createAt(reply.getCreateAt())
                 .modifyAt(reply.getModifyAt())
-                .writer(writerResponseDto)
                 .build();
     }
 }

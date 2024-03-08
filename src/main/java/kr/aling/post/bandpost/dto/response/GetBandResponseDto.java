@@ -1,6 +1,6 @@
 package kr.aling.post.bandpost.dto.response;
 
-import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
+import kr.aling.post.reply.dto.response.ReadUserInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -18,6 +18,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GetBandResponseDto {
 
-    private ReadWriterResponseDto writer;
+    private ReadUserInfoResponseDto writer;
     private BandPostDto post;
 }

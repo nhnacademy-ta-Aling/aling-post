@@ -23,7 +23,7 @@ import kr.aling.post.bandpost.dto.response.GetBandResponseDto;
 import kr.aling.post.bandpost.dto.response.external.GetFileInfoResponseDto;
 import kr.aling.post.bandpost.service.facade.BandPostFacadeReadService;
 import kr.aling.post.common.dto.PageResponseDto;
-import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
+import kr.aling.post.reply.dto.response.ReadUserInfoResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,7 +51,7 @@ class BandPostReadControllerTest {
     String url = "/api/v1";
 
     GetBandResponseDto getBandResponseDto;
-    ReadWriterResponseDto writerDto;
+    ReadUserInfoResponseDto writerDto;
     BandPostExceptFileQueryDto bandPostExceptFileQueryDto;
     GetFileInfoResponseDto getFileInfoResponseDto;
 
@@ -59,7 +59,7 @@ class BandPostReadControllerTest {
 
     @BeforeEach
     void setUp() {
-        writerDto = new ReadWriterResponseDto();
+        writerDto = new ReadUserInfoResponseDto();
         ReflectionTestUtils.setField(writerDto, "userNo", 1L);
         ReflectionTestUtils.setField(writerDto, "username", "사용자 이름");
         ReflectionTestUtils.setField(writerDto, "profilePath",
