@@ -2,8 +2,7 @@ package kr.aling.post.post.dto.response;
 
 import java.util.List;
 import kr.aling.post.bandpost.dto.response.external.GetFileInfoResponseDto;
-import kr.aling.post.post.dto.PostAdditionalInformationDto;
-import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
+import kr.aling.post.reply.dto.response.ReadUserInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +21,7 @@ import lombok.Getter;
 public class ReadPostResponseIntegrationDto {
 
     private ReadPostResponseDto post;
-    private ReadWriterResponseDto writer;
-    private List<GetFileInfoResponseDto> file;
+    private ReadUserInfoResponseDto writer;
+    private List<GetFileInfoResponseDto> files;
     private PostAdditionalInformationDto additional;
 }

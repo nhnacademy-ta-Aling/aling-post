@@ -16,8 +16,6 @@ import feign.FeignException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import kr.aling.post.common.feign.client.FileFeignClient;
-import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.common.utils.PostUtils;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
@@ -28,8 +26,10 @@ import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.exception.PostNotFoundException;
 import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.post.service.impl.PostReadServiceImpl;
+import kr.aling.post.postfile.adaptor.PostFileAdaptor;
 import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
-import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
+import kr.aling.post.reply.dto.response.ReadUserInfoResponseDto;
+import kr.aling.post.user.adaptor.AuthorInformationAdaptor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,9 +52,11 @@ class PostReadServiceTest {
     PostReadRepository postReadRepository;
 
     @Mock
-    UserFeignClient userFeignClient;
+    AuthorInformationAdaptor authorInformationAdaptor;
+
     @Mock
-    FileFeignClient fileFeignClient;
+    PostFileAdaptor postFileAdaptor;
+
     @InjectMocks
     PostReadServiceImpl postReadService;
 
@@ -75,7 +77,7 @@ class PostReadServiceTest {
 
         ReflectionTestUtils.setField(post, "normalPost", normalPost);
 
-        ReadWriterResponseDto writerResponse = new ReadWriterResponseDto(1L, "테스트 작성자", null);
+        ReadUserInfoResponseDto writerResponse = new ReadUserInfoResponseDto(1L, "테스트 작성자", null);
 
         ReadPostResponseIntegrationDto integrationDto = ReadPostResponseIntegrationDto.builder()
                 .post(PostUtils.convert(post))
@@ -83,8 +85,8 @@ class PostReadServiceTest {
                 .additional(null)
                 .build();
 
-        given(postReadRepository.findByPostNoAndIsDeleteFalse(post.getPostNo())).willReturn(Optional.of(post));
-        doThrow(FeignException.class).when(userFeignClient).requestWriterNames(any());
+        given(postReadRepository.findByPostNoAndIsDeleteFalseAndIsOpenTrue(post.getPostNo())).willReturn(Optional.of(post));
+        doThrow(FeignException.class).when(authorInformationAdaptor).readPostAuthorInfo(any());
 
         ReadPostResponseIntegrationDto actual = postReadService.readPostByPostNo(post.getPostNo());
 

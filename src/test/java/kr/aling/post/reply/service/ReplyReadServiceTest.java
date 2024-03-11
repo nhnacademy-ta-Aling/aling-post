@@ -13,14 +13,14 @@ import static org.mockito.BDDMockito.given;
 import java.util.ArrayList;
 import java.util.List;
 import kr.aling.post.common.dto.PageResponseDto;
-import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
-import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
+import kr.aling.post.reply.dto.response.ReadReplyDetailResponseDto;
 import kr.aling.post.reply.dummy.ReplyDummy;
 import kr.aling.post.reply.entity.Reply;
 import kr.aling.post.reply.repo.ReplyReadRepository;
 import kr.aling.post.reply.service.impl.ReplyReadServiceImpl;
+import kr.aling.post.user.adaptor.AuthorInformationAdaptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class ReplyReadServiceTest {
     ReplyReadRepository replyReadRepository;
 
     @Mock
-    UserFeignClient userFeignClient;
+    AuthorInformationAdaptor authorInformationAdaptor;
 
     @InjectMocks
     ReplyReadServiceImpl replyReadService;
@@ -76,7 +76,7 @@ class ReplyReadServiceTest {
 
         given(replyReadRepository.findRepliesByPostNoAndIsDeleteIsFalse(any(), any())).willReturn(page);
 
-        PageResponseDto<ReadReplyResponseDto> actual =
+        PageResponseDto<ReadReplyDetailResponseDto> actual =
                 replyReadService.readRepliesByPostNo(post.getPostNo(), Pageable.unpaged());
 
         assertAll(
@@ -86,12 +86,12 @@ class ReplyReadServiceTest {
                 () -> assertThat(actual.getContent(), not(nullValue()))
         );
 
-        List<ReadReplyResponseDto> actualReplies = actual.getContent();
+        List<ReadReplyDetailResponseDto> actualReplies = actual.getContent();
         assertThat(actualReplies, is(not(empty())));
 
         actualReplies.forEach(
                 reply -> {
-                    assertThat(reply.getPostNo(), equalTo(post.getPostNo()));
+                    assertThat(reply.getReply().getPostNo(), equalTo(post.getPostNo()));
                 }
         );
 

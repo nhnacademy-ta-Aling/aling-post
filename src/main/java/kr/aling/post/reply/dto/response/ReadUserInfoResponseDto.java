@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
  * @since : 1.0
  */
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class ReadWriterResponseDto {
-
+@AllArgsConstructor
+public class ReadUserInfoResponseDto {
     private Long userNo;
     private String username;
     private String profilePath;

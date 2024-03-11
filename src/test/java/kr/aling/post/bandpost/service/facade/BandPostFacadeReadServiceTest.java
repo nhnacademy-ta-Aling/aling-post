@@ -17,7 +17,7 @@ import kr.aling.post.common.feign.client.FileFeignClient;
 import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.postfile.dto.response.PostFileQueryDto;
 import kr.aling.post.postfile.service.PostFileReadService;
-import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
+import kr.aling.post.reply.dto.response.ReadUserInfoResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class BandPostFacadeReadServiceTest {
     BandPostQueryDto bandPostQueryDto;
     BandPostExceptFileQueryDto bandPostExceptFileQueryDto;
     GetFileInfoResponseDto getFileInfoResponseDto;
-    ReadWriterResponseDto getBandPostUserInfoResponseDto;
+    ReadUserInfoResponseDto getBandPostUserInfoResponseDto;
 
     @BeforeEach
     void setUp() {
@@ -60,7 +60,7 @@ class BandPostFacadeReadServiceTest {
                         true);
 
         getFileInfoResponseDto = new GetFileInfoResponseDto();
-        getBandPostUserInfoResponseDto = new ReadWriterResponseDto();
+        getBandPostUserInfoResponseDto = new ReadUserInfoResponseDto();
     }
 
     @Test

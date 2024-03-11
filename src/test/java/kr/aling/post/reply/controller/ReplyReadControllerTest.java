@@ -23,8 +23,8 @@ import java.util.List;
 import kr.aling.post.common.dto.PageResponseDto;
 import kr.aling.post.common.utils.PageUtils;
 import kr.aling.post.common.utils.ReplyUtils;
-import kr.aling.post.reply.dto.response.ReadReplyResponseDto;
-import kr.aling.post.reply.dto.response.ReadWriterResponseDto;
+import kr.aling.post.reply.dto.response.ReadReplyDetailResponseDto;
+import kr.aling.post.reply.dto.response.ReadUserInfoResponseDto;
 import kr.aling.post.reply.dummy.ReplyDummy;
 import kr.aling.post.reply.entity.Reply;
 import kr.aling.post.reply.service.ReplyReadService;
@@ -66,10 +66,12 @@ class ReplyReadControllerTest {
         Long postNo = 1L;
         Reply reply = ReplyDummy.dummyReply(postNo);
 
-        Page<ReadReplyResponseDto> page = new PageImpl<>(
-                List.of(ReplyUtils.convertToReadReplyResponse(reply,new ReadWriterResponseDto(0L,"테스트 유저", "http://profile-image-path"))));
+        Page<ReadReplyDetailResponseDto> page = new PageImpl<>(List.of(
+                new ReadReplyDetailResponseDto(ReplyUtils.convertToReadReplyResponse(reply),
+                        new ReadUserInfoResponseDto(1L,"작성자", null))
+        ));
 
-        PageResponseDto<ReadReplyResponseDto> response = PageUtils.convert(page);
+        PageResponseDto<ReadReplyDetailResponseDto> response = PageUtils.convert(page);
 
         given(replyReadService.readRepliesByPostNo(any(), any(Pageable.class))).willReturn(response);
 
@@ -101,12 +103,12 @@ class ReplyReadControllerTest {
                                 ),
 
                                 responseFields(
-                                        fieldWithPath("content[].replyNo").description("댓글 번호"),
-                                        fieldWithPath("content[].postNo").description("댓글이 달린 게시물 번호"),
-                                        fieldWithPath("content[].parentReplyNo").description("대댓글인 경우 부모 댓글의 번호"),
-                                        fieldWithPath("content[].content").description("게시물의 내용"),
-                                        fieldWithPath("content[].createAt").description("최초 작성 시간"),
-                                        fieldWithPath("content[].modifyAt").description("마지막 수정 시간"),
+                                        fieldWithPath("content[].reply.replyNo").description("댓글 번호"),
+                                        fieldWithPath("content[].reply.postNo").description("댓글이 달린 게시물 번호"),
+                                        fieldWithPath("content[].reply.parentReplyNo").description("대댓글인 경우 부모 댓글의 번호"),
+                                        fieldWithPath("content[].reply.content").description("게시물의 내용"),
+                                        fieldWithPath("content[].reply.createAt").description("최초 작성 시간"),
+                                        fieldWithPath("content[].reply.modifyAt").description("마지막 수정 시간"),
                                         fieldWithPath("content[].writer.userNo").description("작성자 식별 번호"),
                                         fieldWithPath("content[].writer.username").description("작성자 이름"),
                                         fieldWithPath("content[].writer.profilePath").description("작성자 프로필 사진 위치"),

@@ -19,7 +19,7 @@ public class ErrorResponseUtils {
     public static ErrorResponseDto makeResponse(HttpMediaTypeException exception) {
         String message = "Available Media Types - ";
 
-        return new ErrorResponseDto(message + exception.getSupportedMediaTypes().toString());
+        return new ErrorResponseDto(message + exception.getSupportedMediaTypes());
     }
 
     public static ErrorResponseDto makeResponse(RuntimeException exception) {

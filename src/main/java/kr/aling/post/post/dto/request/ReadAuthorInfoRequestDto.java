@@ -1,9 +1,8 @@
 package kr.aling.post.post.dto.request;
 
-import java.util.Set;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * 댓글 작성자의 이름을 조회하기 위한 요청 객체입니다.
@@ -12,10 +11,10 @@ import lombok.NoArgsConstructor;
  * @author : 이성준
  * @since : 1.0
  */
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class WriterRequestDto {
-    private Set<Long> writersNo;
+@EqualsAndHashCode
+public class ReadAuthorInfoRequestDto {
+    private Long userNo;
 }
 

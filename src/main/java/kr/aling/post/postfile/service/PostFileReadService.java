@@ -18,4 +18,5 @@ public interface PostFileReadService {
      * @return 게시글 첨부 파일 번호 리스트
      */
     List<PostFileQueryDto> getPostFileNoList(Long postNo);
+
 }

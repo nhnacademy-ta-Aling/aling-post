@@ -2,6 +2,8 @@ package kr.aling.post.post.repository;
 
 import java.util.Optional;
 import kr.aling.post.post.entity.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -12,5 +14,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface PostReadRepository extends JpaRepository<Post, Long>, PostReadRepositoryCustom {
 
-    Optional<Post> findByPostNoAndIsDeleteFalse(Long postNo);
+    Optional<Post> findByPostNoAndIsDeleteFalseAndIsOpenTrue(Long postNo);
+
+    Page<Post> getAllByIsDeleteFalseAndIsOpenTrue(Pageable pageable);
 }

@@ -1,9 +1,11 @@
 package kr.aling.post.post.service;
 
 import java.util.List;
+import kr.aling.post.common.dto.PageResponseDto;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostResponseIntegrationDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 게시물 조회 서비스 레이어.
@@ -41,4 +43,14 @@ public interface PostReadService {
      * @since 1.0
      */
     ReadPostsForScrapResponseDto getPostsForScrap(List<Long> postNos);
+
+    /**
+     * 공개된 모든 게시물을 조회합니다.
+     *
+     * @param pageable 페이지네이션 정보
+     * @return 페이지네이션이 적용된 게시물 조회 DTO 목록
+     * @author : 이성준
+     * @since : 1.0
+     */
+    PageResponseDto<ReadPostResponseIntegrationDto> readPostsThatIsOpen(Pageable pageable);
 }
