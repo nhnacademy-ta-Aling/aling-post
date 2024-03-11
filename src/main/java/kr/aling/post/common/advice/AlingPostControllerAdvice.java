@@ -1,5 +1,6 @@
 package kr.aling.post.common.advice;
 
+import feign.FeignException;
 import kr.aling.post.bandpost.exception.BandPostNotFoundException;
 import kr.aling.post.bandposttype.exception.BandPostTypeAlreadyExistsException;
 import kr.aling.post.bandposttype.exception.BandPostTypeNotFoundException;
@@ -106,6 +107,14 @@ public class AlingPostControllerAdvice {
         loggingError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, exception);
 
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .body(ErrorResponseUtils.makeResponse(exception));
+    }
+
+    @ExceptionHandler({FeignException.class})
+    public ResponseEntity<ErrorResponseDto> handleFeignExceptions(FeignException exception){
+        loggingError(HttpStatus.INTERNAL_SERVER_ERROR, exception);
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ErrorResponseUtils.makeResponse(exception));
     }
 

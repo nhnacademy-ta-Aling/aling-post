@@ -24,6 +24,7 @@ public interface UserFeignClient {
 
     @GetMapping("/api/v1/band-users/{bandUserNo}")
     ReadUserInfoResponseDto requestBandPostUserInfo(@PathVariable("bandUserNo") Long bandUserNo);
+
     @GetMapping("/api/v1/users/{userNo}")
     ReadUserInfoResponseDto requestUserInfo(@PathVariable("userNo") Long userNo);
 

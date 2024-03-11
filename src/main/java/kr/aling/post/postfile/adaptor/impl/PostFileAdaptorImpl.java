@@ -1,7 +1,5 @@
 package kr.aling.post.postfile.adaptor.impl;
 
-import feign.FeignException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,13 +28,7 @@ public class PostFileAdaptorImpl implements PostFileAdaptor {
 
     @Override
     public Map<Long, List<GetFileInfoResponseDto>> readPostsFiles(List<ReadPostFileRequestDto> requests) {
-        List<ReadPostFileResponseDto> responses = new ArrayList<>();
-        try {
-            responses = fileFeignClient.requestPostFiles(requests);
-        } catch (FeignException e) {
-            log.error(e.getMessage());
-        }
-        return responses.stream().collect(
+        return fileFeignClient.requestPostFiles(requests).stream().collect(
                 Collectors.toMap(ReadPostFileResponseDto::getPostNo, ReadPostFileResponseDto::getFiles));
 
     }
