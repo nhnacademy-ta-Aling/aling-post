@@ -59,7 +59,6 @@ public class PostReadRepositoryImpl extends QuerydslRepositorySupport implements
 
         return from(post)
                 .where(post.postNo.in(postNos))
-                .orderBy(orderSpecifier)
                 .select(Projections.constructor(ReadPostScrapsPostResponseDto.class,
                         post.postNo,
                         post.content.substring(0, 30),
