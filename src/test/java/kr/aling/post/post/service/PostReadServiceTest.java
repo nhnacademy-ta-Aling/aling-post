@@ -106,7 +106,8 @@ class PostReadServiceTest {
                 .additional(null)
                 .build();
 
-        given(postReadRepository.findByPostNoAndIsDeleteFalseAndIsOpenTrue(post.getPostNo())).willReturn(Optional.of(post));
+        given(postReadRepository.findByPostNoAndIsDeleteFalseAndIsOpenTrue(post.getPostNo())).willReturn(
+                Optional.of(post));
         doThrow(FeignException.class).when(authorInformationAdaptor).readPostAuthorInfo(any());
 
         ReadPostResponseIntegrationDto actual = postReadService.readPostByPostNo(post.getPostNo());

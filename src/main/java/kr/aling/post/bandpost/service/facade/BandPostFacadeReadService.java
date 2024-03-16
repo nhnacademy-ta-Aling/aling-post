@@ -41,8 +41,7 @@ public class BandPostFacadeReadService {
     private final FileFeignClient fileFeignClient;
 
     /**
-     * 그룹 게시글 단건 조회 Facade 메서드. <br>
-     * 다음 로직을 순차적 수행. <br>
+     * 그룹 게시글 단건 조회 Facade 메서드. <br> 다음 로직을 순차적 수행. <br>
      * <ol>
      *     <li>post DB 에서 게시글 정보 (파일 번호 리스트 포함) 만 쿼리를 통해 가져옴</li>
      *     <li>쿼리를 통해 가져온 첨부 파일 번호 리스트 가지고 File 서버에 조회 API 호출</li>
@@ -71,8 +70,7 @@ public class BandPostFacadeReadService {
     }
 
     /**
-     * 그룹 게시글 페이징 조회 Facade 메서드. <Br>
-     * 다음 로직을 순차적 수행. <br>
+     * 그룹 게시글 페이징 조회 Facade 메서드. <Br> 다음 로직을 순차적 수행. <br>
      * <ol>
      *     <li>post DB 에서 게시글 정보 만 쿼리를 통해 가져옴 (이때, 파일 번호 리스트 가져 오지 않음)</li>
      *     <li>쿼리를 통해 가져온 파일 번호를 가지고 post DB 에 파일 번호 리스틑 쿼리를 통해 가져옴</li>

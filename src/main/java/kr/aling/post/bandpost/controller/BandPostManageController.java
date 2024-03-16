@@ -60,7 +60,7 @@ public class BandPostManageController {
      */
     @PutMapping("/{postNo}")
     public ResponseEntity<Void> modifyBandPost(@PathVariable("postNo") Long postNo,
-                                               @Valid @RequestBody ModifyBandPostRequestDto modifyBandPostRequestDto) {
+            @Valid @RequestBody ModifyBandPostRequestDto modifyBandPostRequestDto) {
         bandPostFacadeService.modifyBandPostFacade(postNo, modifyBandPostRequestDto);
 
         return ResponseEntity

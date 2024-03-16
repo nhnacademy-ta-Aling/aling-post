@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 그룹 게시글 분류를 관리하기 위한 Rest Controller. <br>
- * 모든 그룹 게시글 분류에 관한 요청은 User 서버의 Band 를 거쳐 와야 합니다.
+ * 그룹 게시글 분류를 관리하기 위한 Rest Controller. <br> 모든 그룹 게시글 분류에 관한 요청은 User 서버의 Band 를 거쳐 와야 합니다.
  *
  * @author 정유진
  * @since 1.0
@@ -59,8 +58,7 @@ public class BandPostTypeManageController {
     }
 
     /**
-     * 그룹 게시글 분류를 삭제 하기 위한 메서드 입니다.<br>
-     * 삭제되지 않은 그룹 게시글이 존재할 경우 삭제가 불가능 합니다.
+     * 그룹 게시글 분류를 삭제 하기 위한 메서드 입니다.<br> 삭제되지 않은 그룹 게시글이 존재할 경우 삭제가 불가능 합니다.
      *
      * @param postTypeNo 삭제할 그룹 게시글 분류 번호
      * @return 204 no content

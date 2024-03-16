@@ -13,8 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 게시물의 파일 정보 요청 인터페이스 구현체입니다.
- * OpenFeign 을 이용하여 데이터를 요청합니다.
+ * 게시물의 파일 정보 요청 인터페이스 구현체입니다. OpenFeign 을 이용하여 데이터를 요청합니다.
  *
  * @author : 이성준
  * @since : 1.0

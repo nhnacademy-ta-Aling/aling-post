@@ -226,8 +226,8 @@ public class PostReadServiceImpl implements PostReadService {
      * @since : 1.0
      */
     private ReadPostResponseIntegrationDto getIntegrationDto(Post post,
-                                                             List<GetFileInfoResponseDto> postFiles,
-                                                             ReadUserInfoResponseDto authorInfo) {
+            List<GetFileInfoResponseDto> postFiles,
+            ReadUserInfoResponseDto authorInfo) {
 
         PostAdditionalInformationDto additional = null;
 
