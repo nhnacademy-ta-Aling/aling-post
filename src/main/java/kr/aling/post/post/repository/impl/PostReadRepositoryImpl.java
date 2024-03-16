@@ -57,8 +57,15 @@ public class PostReadRepositoryImpl extends QuerydslRepositorySupport implements
 
         OrderSpecifier<?> orderSpecifier = Expressions.stringTemplate("FIELD({0}, {1})", post.postNo, temp).asc();
 
+        String temp = postNos.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+
+        OrderSpecifier<?> orderSpecifier = Expressions.stringTemplate("FIELD({0}, {1})", post.postNo, temp).asc();
+
         return from(post)
                 .where(post.postNo.in(postNos))
+                .orderBy(orderSpecifier)
                 .select(Projections.constructor(ReadPostScrapsPostResponseDto.class,
                         post.postNo,
                         post.content.substring(0, 30),
