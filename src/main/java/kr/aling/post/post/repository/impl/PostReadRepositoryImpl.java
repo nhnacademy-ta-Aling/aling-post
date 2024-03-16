@@ -1,6 +1,10 @@
 package kr.aling.post.post.repository.impl;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import java.util.List;
+import java.util.stream.Collectors;
 import com.querydsl.jpa.JPQLQuery;
 import java.util.List;
 import kr.aling.post.bandpost.entity.QBandPost;
@@ -14,6 +18,7 @@ import kr.aling.post.post.repository.PostReadRepositoryCustom;
 import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
@@ -24,6 +29,7 @@ import org.springframework.stereotype.Repository;
  * @author 이수정
  * @since 1.0
  */
+@Slf4j
 @Repository
 public class PostReadRepositoryImpl extends QuerydslRepositorySupport implements PostReadRepositoryCustom {
 
@@ -45,8 +51,15 @@ public class PostReadRepositoryImpl extends QuerydslRepositorySupport implements
     @Override
     public List<ReadPostScrapsPostResponseDto> getPostInfoForScrap(List<Long> postNos) {
 
+        String temp = postNos.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+
+        OrderSpecifier<?> orderSpecifier = Expressions.stringTemplate("FIELD({0}, {1})", post.postNo, temp).asc();
+
         return from(post)
                 .where(post.postNo.in(postNos))
+                .orderBy(orderSpecifier)
                 .select(Projections.constructor(ReadPostScrapsPostResponseDto.class,
                         post.postNo,
                         post.content.substring(0, 30),
