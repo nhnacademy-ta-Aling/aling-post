@@ -43,6 +43,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @WebMvcTest(BandPostTypeReadController.class)
 @AutoConfigureRestDocs(uriPort = 9030)
 class BandPostTypeReadControllerTest {
+
     private final String url = "/api/v1/band-post-types";
     @Autowired
     MockMvc mvc;

@@ -38,6 +38,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  **/
 @ExtendWith(SpringExtension.class)
 class BandPostTypeManageServiceImplTest {
+
     @InjectMocks
     BandPostTypeManageServiceImpl bandPostTypeManageService;
 

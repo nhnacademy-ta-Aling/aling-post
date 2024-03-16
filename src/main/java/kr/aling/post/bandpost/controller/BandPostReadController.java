@@ -47,7 +47,7 @@ public class BandPostReadController {
      */
     @GetMapping("/bands/{bandNo}/posts")
     public ResponseEntity<PageResponseDto<GetBandResponseDto>> getBandPostsByBand(@PathVariable("bandNo") Long bandNo,
-                                                                                  Pageable pageable) {
+            Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(bandPostFacadeReadService.getBandPostByBand(bandNo, pageable));

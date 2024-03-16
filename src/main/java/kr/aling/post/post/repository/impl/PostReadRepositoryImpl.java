@@ -41,7 +41,8 @@ public class PostReadRepositoryImpl extends QuerydslRepositorySupport implements
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
 
-        OrderSpecifier<?> orderSpecifier = Expressions.stringTemplate("FIELD({0}, {1})", post.postNo, temp).asc();
+        OrderSpecifier<?> orderSpecifier =
+                Expressions.stringTemplate("FIELD({0}, {1})", post.postNo, temp).asc();
 
         return from(post)
                 .where(post.postNo.in(postNos))

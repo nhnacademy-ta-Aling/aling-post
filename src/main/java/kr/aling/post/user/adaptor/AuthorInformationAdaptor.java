@@ -9,7 +9,6 @@ import kr.aling.post.user.dto.request.ReadPostAuthorInfoRequestDto;
 /**
  * 작성자 정보를 요청하는 데이터 액세스 인터페이스입니다.
  *
- *
  * @author : 이성준
  * @since : 1.0
  */

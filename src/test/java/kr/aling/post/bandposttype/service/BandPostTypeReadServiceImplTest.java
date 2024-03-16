@@ -26,6 +26,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  **/
 @ExtendWith(SpringExtension.class)
 class BandPostTypeReadServiceImplTest {
+
     @InjectMocks
     BandPostTypeReadServiceImpl bandPostTypeReadService;
 

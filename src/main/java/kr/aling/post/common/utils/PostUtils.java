@@ -37,6 +37,7 @@ public class PostUtils {
 
     /**
      * 일반 게시물 엔티티에 대한 수정 객체를 게시물 엔티티로 변환합니다.
+     *
      * @param request 변환할 수정 요청 객체
      * @return 게시물에 대한 수정 요청 객체
      * @author : 이성준
@@ -48,6 +49,7 @@ public class PostUtils {
 
     /**
      * 일반 게시물 엔티티에 대한 작성 객체를 게시물 엔티티로 변환합니다.
+     *
      * @param request 변환할 작성 요청 객체
      * @return 게시물에 대한 작성 요청 객체
      * @author : 이성준

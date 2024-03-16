@@ -46,6 +46,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(BandPostTypeManageController.class)
 @AutoConfigureRestDocs(uriPort = 9030)
 class BandPostTypeManageControllerTest {
+
     private final String url = "/api/v1/band-post-types";
     @Autowired
     MockMvc mvc;

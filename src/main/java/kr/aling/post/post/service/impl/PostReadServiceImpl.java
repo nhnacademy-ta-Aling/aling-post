@@ -140,15 +140,15 @@ public class PostReadServiceImpl implements PostReadService {
     /**
      * 게시물 정보 통합 응답 객체를 만드는 private 메서드 입니다.
      *
-     * @param post 대상 게시물
-     * @param postFiles 게시물에 첨부된 파일 목록
+     * @param post       대상 게시물
+     * @param postFiles  게시물에 첨부된 파일 목록
      * @param authorInfo 작성자 정보
      * @return 정보가 통합된 응답 객체입니다.
      * @since : 1.0
      */
     private ReadPostResponseIntegrationDto getIntegrationDto(Post post,
-                                                             List<GetFileInfoResponseDto> postFiles,
-                                                             ReadUserInfoResponseDto authorInfo) {
+            List<GetFileInfoResponseDto> postFiles,
+            ReadUserInfoResponseDto authorInfo) {
 
         PostAdditionalInformationDto additional = null;
 

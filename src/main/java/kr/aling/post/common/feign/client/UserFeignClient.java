@@ -32,8 +32,7 @@ public interface UserFeignClient {
     List<ReadUserInfoResponseDto> requestUserInfos(@RequestParam List<Long> userNoList);
 
     /**
-     * 게시물 작성자 정보 요청입니다.
-     * 여러개의 게시물을 한번에 요청하기 때문에 요청에 대한 정보를 Request Body 에 담습니다.
+     * 게시물 작성자 정보 요청입니다. 여러개의 게시물을 한번에 요청하기 때문에 요청에 대한 정보를 Request Body 에 담습니다.
      *
      * @param requests 작성자 정보를 요청할 요청 객체 목록
      * @return 게시물의 작성자 정보 응답 객체 목록

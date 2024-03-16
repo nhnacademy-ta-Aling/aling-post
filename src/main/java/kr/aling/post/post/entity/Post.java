@@ -64,7 +64,6 @@ public class Post extends BaseCreateTimeEntity {
     private BandPost bandPost;
 
 
-
     @PrePersist
     public void prePersist() {
         isDelete = !(Objects.isNull(isDelete) || !isDelete);

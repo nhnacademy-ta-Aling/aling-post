@@ -40,7 +40,7 @@ public class BandPostManageController {
      */
     @PostMapping
     public ResponseEntity<Void> createBandPost(@Valid @RequestBody CreateBandPostRequestDto createBandPostRequestDto,
-                                               @RequestHeader(X_BAND_USER_NO) Long bandUserNo) {
+            @RequestHeader(X_BAND_USER_NO) Long bandUserNo) {
         bandPostFacadeService.createBandPostFacade(createBandPostRequestDto, bandUserNo);
 
         return ResponseEntity
@@ -57,7 +57,7 @@ public class BandPostManageController {
      */
     @PutMapping("/{postNo}")
     public ResponseEntity<Void> modifyBandPost(@PathVariable("postNo") Long postNo,
-                                               @Valid @RequestBody ModifyBandPostRequestDto modifyBandPostRequestDto) {
+            @Valid @RequestBody ModifyBandPostRequestDto modifyBandPostRequestDto) {
         bandPostFacadeService.modifyBandPostFacade(postNo, modifyBandPostRequestDto);
 
         return ResponseEntity

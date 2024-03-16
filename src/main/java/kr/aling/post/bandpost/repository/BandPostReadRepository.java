@@ -10,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @since 1.0
  **/
 public interface BandPostReadRepository extends JpaRepository<BandPost, Long>, BandPostReadRepositoryCustom {
+
 }
