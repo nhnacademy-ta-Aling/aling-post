@@ -1,7 +1,7 @@
 package kr.aling.post.bandpost.controller;
 
-import static kr.aling.post.common.utils.ConstantUtil.X_ALING_USER_NO;
 import static kr.aling.post.common.utils.ConstantUtil.X_BAND_USER_NO;
+import static kr.aling.post.common.utils.ConstantUtil.X_USER_NO;
 
 import javax.validation.Valid;
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
@@ -43,7 +43,7 @@ public class BandPostManageController {
     @PostMapping
     public ResponseEntity<Void> createBandPost(@Valid @RequestBody CreateBandPostRequestDto createBandPostRequestDto,
                                                @RequestHeader(X_BAND_USER_NO) Long bandUserNo,
-                                               @RequestHeader(X_ALING_USER_NO) Long alingUserNo) {
+                                               @RequestHeader(X_USER_NO) Long alingUserNo) {
         bandPostFacadeService.createBandPostFacade(createBandPostRequestDto, bandUserNo, alingUserNo);
 
         return ResponseEntity

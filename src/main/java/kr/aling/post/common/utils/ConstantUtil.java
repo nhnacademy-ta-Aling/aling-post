@@ -12,7 +12,7 @@ public class ConstantUtil {
 
     public static final String X_BAND_USER_NO = "X-BAND-USER-NO";
     public static final String X_BAND_USER_ROLE = "X-BAND-USER-ROLE";
-    public static final String X_ALING_USER_NO = "X-ALING-USER-NO";
+    public static final String X_USER_NO = "X-USER-NO";
 
     /**
      * Util 기본 생성자.
