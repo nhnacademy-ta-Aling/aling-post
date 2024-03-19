@@ -38,7 +38,7 @@ public class BandPostFacadeService {
      * @param alingUserNo              회원 번호
      */
     public void createBandPostFacade(CreateBandPostRequestDto createBandPostRequestDto, Long bandUserNo,
-                                     Long alingUserNo) {
+            Long alingUserNo) {
         CreatePostResponseDto createPostResponseDto = postManageService.createPost(createBandPostRequestDto);
 
         postFileManageService.savePostFiles(createPostResponseDto.getPost(), createBandPostRequestDto.getFileNoList());

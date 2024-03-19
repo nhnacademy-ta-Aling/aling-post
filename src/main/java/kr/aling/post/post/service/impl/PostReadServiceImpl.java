@@ -260,8 +260,8 @@ public class PostReadServiceImpl implements PostReadService {
     }
 
     private ReadPostResponseIntegrationDto convertToBandPostIntegrationDto(BandPostResponseDto bandPostResponseDto,
-                                                                           List<GetFileInfoResponseDto> postFiles,
-                                                                           ReadUserInfoResponseDto readUserInfoResponseDto) {
+            List<GetFileInfoResponseDto> postFiles,
+            ReadUserInfoResponseDto readUserInfoResponseDto) {
 
         PostAdditionalInformationDto postAdditionalInformationDto = PostAdditionalInformationDto.builder()
                 .isOpen(bandPostResponseDto.getIsOpen())

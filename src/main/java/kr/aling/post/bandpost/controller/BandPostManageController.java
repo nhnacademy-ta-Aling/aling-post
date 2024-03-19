@@ -42,8 +42,8 @@ public class BandPostManageController {
      */
     @PostMapping
     public ResponseEntity<Void> createBandPost(@Valid @RequestBody CreateBandPostRequestDto createBandPostRequestDto,
-                                               @RequestHeader(X_BAND_USER_NO) Long bandUserNo,
-                                               @RequestHeader(X_USER_NO) Long alingUserNo) {
+            @RequestHeader(X_BAND_USER_NO) Long bandUserNo,
+            @RequestHeader(X_USER_NO) Long alingUserNo) {
         bandPostFacadeService.createBandPostFacade(createBandPostRequestDto, bandUserNo, alingUserNo);
 
         return ResponseEntity
