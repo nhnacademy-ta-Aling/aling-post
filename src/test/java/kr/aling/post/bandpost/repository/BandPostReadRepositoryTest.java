@@ -96,7 +96,7 @@ class BandPostReadRepositoryTest {
         assertThat(result.getContent().get(0).getBandUserNo()).isEqualTo(bandPost.getBandNo());
         assertThat(result.getContent().get(0).getCreateAt()).isBefore(LocalDateTime.now());
         assertThat(result.getContent().get(0).getModifyAt()).isNull();
-        ;
+
         assertThat(result.getContent().get(0).getIsDelete()).isEqualTo(post.getIsDelete());
         assertThat(result.getContent().get(0).getDeleteReason()).isEqualTo(post.getDeleteReason());
         assertThat(result.getContent().get(0).getIsOpen()).isEqualTo(post.getIsOpen());

@@ -14,6 +14,7 @@ public class BandPostDummy {
                 .bandPostType(bandPostType)
                 .bandUserNo(1L)
                 .title("title")
+                .alingUserNo(1L)
                 .build();
     }
 }

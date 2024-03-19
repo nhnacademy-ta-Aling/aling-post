@@ -66,15 +66,15 @@ class BandPostFacadeServiceTest {
         // when
         when(postManageService.createPost(any(CreateBandPostRequestDto.class))).thenReturn(createPostResponseDto);
         doNothing().when(postFileManageService).savePostFiles(any(), anyList());
-        doNothing().when(bandPostManageService).createBandPost(any(), any(), anyLong());
+        doNothing().when(bandPostManageService).createBandPost(any(), any(), anyLong(), anyLong());
 
         // then
-        bandPostFacadeService.createBandPostFacade(createBandPostRequestDto, 1L);
+        bandPostFacadeService.createBandPostFacade(createBandPostRequestDto, 1L, 1L);
 
         verify(postManageService, times(1)).createPost(any(CreateBandPostRequestDto.class));
         verify(postFileManageService, times(1)).savePostFiles(any(Post.class), anyList());
         verify(bandPostManageService, times(1)).createBandPost(any(CreatePostResponseDto.class),
-                any(CreateBandPostRequestDto.class), anyLong());
+                any(CreateBandPostRequestDto.class), anyLong(), anyLong());
     }
 
     @Test

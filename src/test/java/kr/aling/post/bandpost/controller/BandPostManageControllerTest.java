@@ -1,5 +1,6 @@
 package kr.aling.post.bandpost.controller;
 
+import static kr.aling.post.common.utils.ConstantUtil.X_ALING_USER_NO;
 import static kr.aling.post.common.utils.ConstantUtil.X_BAND_USER_NO;
 import static kr.aling.post.util.RestDocsUtil.REQUIRED;
 import static kr.aling.post.util.RestDocsUtil.REQUIRED_NO;
@@ -53,12 +54,14 @@ class BandPostManageControllerTest {
 
     CreateBandPostRequestDto createBandPostRequestDto;
     Long bandUserNo;
+    Long alingUserNo;
     String url = "/api/v1/band-posts";
 
     @BeforeEach
     void setUp() {
         createBandPostRequestDto = new CreateBandPostRequestDto();
         bandUserNo = 1L;
+        alingUserNo = 1L;
     }
 
     @Test
@@ -73,11 +76,13 @@ class BandPostManageControllerTest {
         ReflectionTestUtils.setField(createBandPostRequestDto, "fileNoList", List.of(1L, 2L));
 
         // when
-        doNothing().when(bandPostFacadeService).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
+        doNothing().when(bandPostFacadeService)
+                .createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong(), anyLong());
 
         // then
         mvc.perform(post(url)
                         .header(X_BAND_USER_NO, bandUserNo)
+                        .header(X_ALING_USER_NO, alingUserNo)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createBandPostRequestDto)))
                 .andExpect(status().is2xxSuccessful())
@@ -88,6 +93,8 @@ class BandPostManageControllerTest {
 
                         requestHeaders(
                                 headerWithName(X_BAND_USER_NO).description("그룹 회원 번호")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES)),
+                                headerWithName(X_ALING_USER_NO).description("회원 번호")
                                         .attributes(key(REQUIRED).value(REQUIRED_YES))
                         ),
 
@@ -114,7 +121,8 @@ class BandPostManageControllerTest {
 
                 ));
 
-        verify(bandPostFacadeService, times(1)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
+        verify(bandPostFacadeService, times(1)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong(),
+                anyLong());
     }
 
     @Test
@@ -137,7 +145,8 @@ class BandPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
+        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong(),
+                anyLong());
     }
 
     @Test
@@ -160,7 +169,8 @@ class BandPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
+        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong(),
+                anyLong());
     }
 
     @Test
@@ -183,7 +193,8 @@ class BandPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
+        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong(),
+                anyLong());
     }
 
     @Test
@@ -206,7 +217,8 @@ class BandPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
+        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong(),
+                anyLong());
     }
 
     @Test
@@ -229,7 +241,8 @@ class BandPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
+        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong(),
+                anyLong());
     }
 
     @Test
@@ -252,7 +265,8 @@ class BandPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
+        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong(),
+                anyLong());
     }
 
     @Test
@@ -276,6 +290,7 @@ class BandPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong());
+        verify(bandPostFacadeService, times(0)).createBandPostFacade(any(CreateBandPostRequestDto.class), anyLong(),
+                anyLong());
     }
 }
