@@ -1,5 +1,6 @@
 package kr.aling.post.bandpost.controller;
 
+import static kr.aling.post.common.utils.ConstantUtil.X_ALING_USER_NO;
 import static kr.aling.post.common.utils.ConstantUtil.X_BAND_USER_NO;
 
 import javax.validation.Valid;
@@ -36,12 +37,14 @@ public class BandPostManageController {
      *
      * @param createBandPostRequestDto 게시글 생성 요청 dto
      * @param bandUserNo               그룹 회원 번호
+     * @param alingUserNo              회원 번호
      * @return Status 201
      */
     @PostMapping
     public ResponseEntity<Void> createBandPost(@Valid @RequestBody CreateBandPostRequestDto createBandPostRequestDto,
-                                               @RequestHeader(X_BAND_USER_NO) Long bandUserNo) {
-        bandPostFacadeService.createBandPostFacade(createBandPostRequestDto, bandUserNo);
+                                               @RequestHeader(X_BAND_USER_NO) Long bandUserNo,
+                                               @RequestHeader(X_ALING_USER_NO) Long alingUserNo) {
+        bandPostFacadeService.createBandPostFacade(createBandPostRequestDto, bandUserNo, alingUserNo);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
