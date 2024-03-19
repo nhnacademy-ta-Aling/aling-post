@@ -4,6 +4,8 @@ import kr.aling.post.normalpost.dto.request.CreateNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequestDto;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
+import kr.aling.post.post.dto.response.BandPostResponseDto;
+import kr.aling.post.post.dto.response.NormalPostResponseDto;
 import kr.aling.post.post.dto.response.ReadPostResponseDto;
 import kr.aling.post.post.entity.Post;
 import lombok.AccessLevel;
@@ -36,7 +38,38 @@ public class PostUtils {
     }
 
     /**
+     * 일반 게시물 조회 Dto -> 공통 조회 객체로 변환.
+     *
+     * @param normalPostResponseDto 일반 게시물 조회 Dto
+     * @return 공통 게시물 조회 객체
+     */
+    public static ReadPostResponseDto convert(NormalPostResponseDto normalPostResponseDto) {
+        return ReadPostResponseDto.builder()
+                .postNo(normalPostResponseDto.getPostNo())
+                .content(normalPostResponseDto.getContent())
+                .createAt(normalPostResponseDto.getCreateAt())
+                .modifyAt(normalPostResponseDto.getModifyAt())
+                .build();
+    }
+
+    /**
+     * 그룹 게시물 조회 Dto -> 공통 조회 객체로 변환.
+     *
+     * @param bandPostResponseDto 그룹 게시물 조회 Dto
+     * @return 공통 게시물 조회 객체
+     */
+    public static ReadPostResponseDto convert(BandPostResponseDto bandPostResponseDto) {
+        return ReadPostResponseDto.builder()
+                .postNo(bandPostResponseDto.getPostNo())
+                .content(bandPostResponseDto.getContent())
+                .createAt(bandPostResponseDto.getCreateAt())
+                .modifyAt(bandPostResponseDto.getModifyAt())
+                .build();
+    }
+
+    /**
      * 일반 게시물 엔티티에 대한 수정 객체를 게시물 엔티티로 변환합니다.
+     *
      * @param request 변환할 수정 요청 객체
      * @return 게시물에 대한 수정 요청 객체
      * @author : 이성준
@@ -48,6 +81,7 @@ public class PostUtils {
 
     /**
      * 일반 게시물 엔티티에 대한 작성 객체를 게시물 엔티티로 변환합니다.
+     *
      * @param request 변환할 작성 요청 객체
      * @return 게시물에 대한 작성 요청 객체
      * @author : 이성준
