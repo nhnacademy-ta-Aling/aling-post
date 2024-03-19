@@ -108,7 +108,7 @@ class PostManageServiceTest {
         ReflectionTestUtils.setField(bandPostRequestDto, "bandPostContent", "content");
         ReflectionTestUtils.setField(bandPostRequestDto, "bandPostTypeNo", 2L);
 
-        Post post = PostDummy.dummyPost();
+        Post post = PostDummy.postDummy();
 
         // when
         when(postReadRepository.findById(anyLong())).thenReturn(Optional.of(post));

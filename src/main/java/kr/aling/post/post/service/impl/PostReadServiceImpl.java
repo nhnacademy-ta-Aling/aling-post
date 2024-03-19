@@ -13,7 +13,9 @@ import kr.aling.post.common.dto.PageResponseDto;
 import kr.aling.post.common.utils.PageUtils;
 import kr.aling.post.common.utils.PostUtils;
 import kr.aling.post.post.dto.request.ReadAuthorInfoRequestDto;
+import kr.aling.post.post.dto.response.BandPostResponseDto;
 import kr.aling.post.post.dto.response.IsExistsPostResponseDto;
+import kr.aling.post.post.dto.response.NormalPostResponseDto;
 import kr.aling.post.post.dto.response.PostAdditionalInformationDto;
 import kr.aling.post.post.dto.response.ReadPostResponseIntegrationDto;
 import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
@@ -23,7 +25,9 @@ import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.post.service.PostReadService;
 import kr.aling.post.postfile.adaptor.PostFileAdaptor;
 import kr.aling.post.postfile.dto.request.ReadPostFileRequestDto;
+import kr.aling.post.postfile.dto.response.PostFileQueryDto;
 import kr.aling.post.postfile.entity.PostFile;
+import kr.aling.post.postfile.repository.PostFileReadRepository;
 import kr.aling.post.reply.dto.response.ReadUserInfoResponseDto;
 import kr.aling.post.user.adaptor.AuthorInformationAdaptor;
 import kr.aling.post.user.dto.request.ReadPostAuthorInfoRequestDto;
@@ -32,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * PostReadService 의 구현체입니다. 조회 전용 서비스 레이어 이기 때문에 스프링의 스테레오타입 Service 와 Transaction(readonly = true) 가 적용된 ReadService
@@ -47,6 +52,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 public class PostReadServiceImpl implements PostReadService {
 
     private final PostReadRepository postReadRepository;
+    private final PostFileReadRepository postFileReadRepository;
 
     private final PostFileAdaptor postFileAdaptor;
     private final AuthorInformationAdaptor authorInformationAdaptor;
@@ -93,11 +99,13 @@ public class PostReadServiceImpl implements PostReadService {
 
         posts.forEach(
                 post -> {
-                    filesRequests.add(
-                            new ReadPostFileRequestDto(post.getPostNo(),
-                                    post.getPostFileList().stream().map(PostFile::getFileNo)
-                                            .collect(Collectors.toList())));
-                    authorRequests.add(getAuthor(post));
+                    if (!ObjectUtils.isEmpty(post.getPostFileList())) {
+                        filesRequests.add(
+                                new ReadPostFileRequestDto(post.getPostNo(),
+                                        post.getPostFileList().stream().map(PostFile::getFileNo)
+                                                .collect(Collectors.toList())));
+                        authorRequests.add(getAuthor(post));
+                    }
                 }
         );
 
@@ -138,10 +146,81 @@ public class PostReadServiceImpl implements PostReadService {
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @param userNo   회원 번호
+     * @param pageable 페이징
+     * @return 회원별 페이징 일반 게시글 응답 Dto
+     */
+    @Override
+    public PageResponseDto<ReadPostResponseIntegrationDto> getNormalPostsByUserNo(Long userNo, Pageable pageable) {
+        Page<NormalPostResponseDto> page = postReadRepository.getNormalPostsByUserNo(userNo, pageable);
+
+        List<ReadPostFileRequestDto> fileRequestList = new ArrayList<>();
+        for (NormalPostResponseDto normalPostResponseDto : page.getContent()) {
+            List<Long> fileNoList = postFileReadRepository.getPostFileByPostNo(normalPostResponseDto.getPostNo())
+                    .stream().map(PostFileQueryDto::getFileNo)
+                    .collect(Collectors.toList());
+
+            fileRequestList.add(ReadPostFileRequestDto.builder()
+                    .postNo(normalPostResponseDto.getPostNo())
+                    .fileNoList(fileNoList).build());
+        }
+
+        Map<Long, List<GetFileInfoResponseDto>> postFileMap = postFileAdaptor.readPostsFiles(fileRequestList);
+        ReadUserInfoResponseDto readUserInfoResponseDto = authorInformationAdaptor.readNormalPostAuthorInfo(userNo);
+
+        List<ReadPostResponseIntegrationDto> content = new ArrayList<>();
+        page.forEach(
+                post -> content.add(
+                        convertToNormalPostIntegrationDto(post, postFileMap.get(post.getPostNo()),
+                                readUserInfoResponseDto))
+        );
+
+        return PageUtils.convert(
+                PageableExecutionUtils.getPage(content, pageable, page::getTotalElements));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param userNo   회원 번호
+     * @param pageable 페이징
+     * @return 회원별 페이징 그룹 게시글 응답 Dto
+     */
+    @Override
+    public PageResponseDto<ReadPostResponseIntegrationDto> getBandPostsByUserNo(Long userNo, Pageable pageable) {
+        Page<BandPostResponseDto> page = postReadRepository.getBandPostsByUserNo(userNo, pageable);
+
+        List<ReadPostFileRequestDto> fileRequestList = new ArrayList<>();
+        for (BandPostResponseDto bandPostResponseDto : page.getContent()) {
+            List<Long> fileNoList = postFileReadRepository.getPostFileByPostNo(bandPostResponseDto.getPostNo())
+                    .stream().map(PostFileQueryDto::getFileNo)
+                    .collect(Collectors.toList());
+
+            fileRequestList.add(ReadPostFileRequestDto.builder()
+                    .postNo(bandPostResponseDto.getPostNo())
+                    .fileNoList(fileNoList).build());
+        }
+
+        Map<Long, List<GetFileInfoResponseDto>> postFileMap = postFileAdaptor.readPostsFiles(fileRequestList);
+        ReadUserInfoResponseDto readUserInfoResponseDto = authorInformationAdaptor.readNormalPostAuthorInfo(userNo);
+
+        List<ReadPostResponseIntegrationDto> content = new ArrayList<>();
+        page.forEach(
+                bandPost -> content.add(convertToBandPostIntegrationDto(bandPost, postFileMap.get(bandPost.getPostNo()),
+                        readUserInfoResponseDto))
+        );
+
+        return PageUtils.convert(
+                PageableExecutionUtils.getPage(content, pageable, page::getTotalElements));
+    }
+
+    /**
      * 게시물 정보 통합 응답 객체를 만드는 private 메서드 입니다.
      *
-     * @param post 대상 게시물
-     * @param postFiles 게시물에 첨부된 파일 목록
+     * @param post       대상 게시물
+     * @param postFiles  게시물에 첨부된 파일 목록
      * @param authorInfo 작성자 정보
      * @return 정보가 통합된 응답 객체입니다.
      * @since : 1.0
@@ -153,14 +232,50 @@ public class PostReadServiceImpl implements PostReadService {
         PostAdditionalInformationDto additional = null;
 
         if (Objects.nonNull(post.getBandPost())) {
-            additional = new PostAdditionalInformationDto(post.getBandPost().getBandNo());
+            additional = PostAdditionalInformationDto.builder()
+                    .isOpen(post.getIsOpen())
+                    .bandNo(post.getBandPost().getBandNo())
+                    .title(post.getBandPost().getTitle())
+                    .postTypeNo(post.getBandPost().getBandPostType().getBandPostTypeNo())
+                    .postTypeName(post.getBandPost().getBandPostType().getName())
+                    .build();
         }
 
         return ReadPostResponseIntegrationDto.builder()
                 .post(PostUtils.convert(post))
                 .writer(authorInfo)
-                .additional(additional)
                 .files(postFiles)
+                .additional(additional)
+                .build();
+    }
+
+    private ReadPostResponseIntegrationDto convertToNormalPostIntegrationDto(
+            NormalPostResponseDto normalPostResponseDto, List<GetFileInfoResponseDto> postFiles,
+            ReadUserInfoResponseDto readUserInfoResponseDto) {
+        return ReadPostResponseIntegrationDto.builder()
+                .post(PostUtils.convert(normalPostResponseDto))
+                .writer(readUserInfoResponseDto)
+                .files(postFiles)
+                .build();
+    }
+
+    private ReadPostResponseIntegrationDto convertToBandPostIntegrationDto(BandPostResponseDto bandPostResponseDto,
+                                                                           List<GetFileInfoResponseDto> postFiles,
+                                                                           ReadUserInfoResponseDto readUserInfoResponseDto) {
+
+        PostAdditionalInformationDto postAdditionalInformationDto = PostAdditionalInformationDto.builder()
+                .isOpen(bandPostResponseDto.getIsOpen())
+                .bandNo(bandPostResponseDto.getBandNo())
+                .title(bandPostResponseDto.getTitle())
+                .postTypeNo(bandPostResponseDto.getPostTypeNo())
+                .postTypeName(bandPostResponseDto.getPostTypeName())
+                .build();
+
+        return ReadPostResponseIntegrationDto.builder()
+                .post(PostUtils.convert(bandPostResponseDto))
+                .writer(readUserInfoResponseDto)
+                .files(postFiles)
+                .additional(postAdditionalInformationDto)
                 .build();
     }
 

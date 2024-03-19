@@ -35,13 +35,15 @@ public class BandPostFacadeService {
      *
      * @param createBandPostRequestDto 그룹 게시글 생성 요청 Dto
      * @param bandUserNo               그룹 회원 번호
+     * @param alingUserNo              회원 번호
      */
-    public void createBandPostFacade(CreateBandPostRequestDto createBandPostRequestDto, Long bandUserNo) {
+    public void createBandPostFacade(CreateBandPostRequestDto createBandPostRequestDto, Long bandUserNo,
+                                     Long alingUserNo) {
         CreatePostResponseDto createPostResponseDto = postManageService.createPost(createBandPostRequestDto);
 
         postFileManageService.savePostFiles(createPostResponseDto.getPost(), createBandPostRequestDto.getFileNoList());
 
-        bandPostManageService.createBandPost(createPostResponseDto, createBandPostRequestDto, bandUserNo);
+        bandPostManageService.createBandPost(createPostResponseDto, createBandPostRequestDto, bandUserNo, alingUserNo);
     }
 
     /**

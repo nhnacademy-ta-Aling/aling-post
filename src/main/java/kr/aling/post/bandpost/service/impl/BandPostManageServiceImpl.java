@@ -32,10 +32,11 @@ public class BandPostManageServiceImpl implements BandPostManageService {
      * @param createPostResponseDto    게시글 생성 응답 Dto
      * @param createBandPostRequestDto 그룹 게시글 생성 요청 Dto
      * @param baneUserNo               그룹 회원 번호
+     * @param alingUserNo              회원 번호
      */
     @Override
     public void createBandPost(CreatePostResponseDto createPostResponseDto,
-                               CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo) {
+                               CreateBandPostRequestDto createBandPostRequestDto, Long baneUserNo, Long alingUserNo) {
         BandPostType bandPostType = bandPostTypeReadRepository.findById(createBandPostRequestDto.getBandPostTypeNo())
                 .orElseThrow(BandPostTypeNotFoundException::new);
 
@@ -46,6 +47,7 @@ public class BandPostManageServiceImpl implements BandPostManageService {
                 .bandPostType(bandPostType)
                 .bandUserNo(baneUserNo)
                 .title(createBandPostRequestDto.getBandPostTitle())
+                .alingUserNo(alingUserNo)
                 .build();
 
         bandPostManageRepository.save(bandPost);

@@ -2,6 +2,7 @@ package kr.aling.post.postfile.dto.request;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Getter;
  * @since : 1.0
  */
 @Getter
+@Builder
 @AllArgsConstructor
 public class ReadPostFileRequestDto {
 

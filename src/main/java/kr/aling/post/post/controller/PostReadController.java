@@ -9,6 +9,7 @@ import kr.aling.post.post.dto.response.ReadPostsForScrapResponseDto;
 import kr.aling.post.post.service.PostReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,17 +57,58 @@ public class PostReadController {
         return ResponseEntity.ok().body(postReadService.getPostsForScrap(postNos));
     }
 
+    /**
+     * 게시물 단건 조회 API.
+     *
+     * @param postNo 게시글 번호
+     * @return 게시글 통합 응답 Dto
+     */
     @GetMapping("/posts/{postNo}")
     public ResponseEntity<ReadPostResponseIntegrationDto> getPostByPostNo(@PathVariable Long postNo) {
         return ResponseEntity.ok()
                 .body(postReadService.readPostByPostNo(postNo));
     }
 
+    /**
+     * 게시글 페이징 조회 API.
+     *
+     * @param pageable 페이징
+     * @return 페이징 게시글 통합 응답 Dto
+     */
     @GetMapping("/posts")
     public ResponseEntity<PageResponseDto<ReadPostResponseIntegrationDto>> getPosts(Pageable pageable) {
         return ResponseEntity.ok()
                 .body(postReadService.readPostsThatIsOpen(pageable));
     }
 
+    /**
+     * 회원별 일반 게시글 페이징 조회 API.
+     *
+     * @param userNo   유저 번호
+     * @param pageable 페이징
+     * @return 회원별 페이징 일반 게시글 통합 응답 Dto
+     */
+    @GetMapping("/users/{userNo}/normal-posts")
+    public ResponseEntity<PageResponseDto<ReadPostResponseIntegrationDto>> getNormalPostsByUser(
+            @PathVariable("userNo") Long userNo, Pageable pageable) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(postReadService.getNormalPostsByUserNo(userNo, pageable));
+    }
+
+    /**
+     * 회원별 그룹 게시글 페이징 조회 API.
+     *
+     * @param userNo   유저 번호
+     * @param pageable 페이징
+     * @return 회원별 페이징 그룹 게시글 통합 응답 Dto
+     */
+    @GetMapping("/users/{userNo}/band-posts")
+    public ResponseEntity<PageResponseDto<ReadPostResponseIntegrationDto>> getBandPostsByUser(
+            @PathVariable("userNo") Long userNo, Pageable pageable) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(postReadService.getBandPostsByUserNo(userNo, pageable));
+    }
 
 }

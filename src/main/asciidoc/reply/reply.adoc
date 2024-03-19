@@ -1,4 +1,4 @@
-=== 게시물(Post)
+=== 댓글 (Reply)
 
 include::../reply/reply-get.adoc[]
 include::../reply/reply-create.adoc[]

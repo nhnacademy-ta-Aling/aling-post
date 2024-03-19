@@ -53,4 +53,22 @@ public interface PostReadService {
      * @since : 1.0
      */
     PageResponseDto<ReadPostResponseIntegrationDto> readPostsThatIsOpen(Pageable pageable);
+
+    /**
+     * 회원별 일반 게시글 조회 메서드.
+     *
+     * @param userNo   회원 번호
+     * @param pageable 페이징
+     * @return 회원별 페이징 일반 게시글 응답 Dto
+     */
+    PageResponseDto<ReadPostResponseIntegrationDto> getNormalPostsByUserNo(Long userNo, Pageable pageable);
+
+    /**
+     * 회원별 그룹 게시글 조회 메서드.
+     *
+     * @param userNo   회원 번호
+     * @param pageable 페이징
+     * @return 회원별 페이징 그룹 게시글 응답 Dto
+     */
+    PageResponseDto<ReadPostResponseIntegrationDto> getBandPostsByUserNo(Long userNo, Pageable pageable);
 }
