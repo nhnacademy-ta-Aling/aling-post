@@ -45,3 +45,75 @@ operation::post-read-for-scrap[snippets='request-parameters']
 
 operation::post-read-for-scrap[snippets='response-fields']
 
+==== 게시글 단건 조회
+
+게시글 단건 조회 API
+
+===== 요청
+
+operation::post-single-get[snippets='http-request']
+
+===== 응답
+
+operation::post-single-get[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 응답 Body
+
+operation::post-single-get[snippets='response-fields']
+
+==== 게시글 (여러개) 조회
+
+여러 게시글 조회 API
+
+===== 요청
+
+operation::post-paging-get[snippets='http-request']
+
+===== 응답
+
+operation::post-paging-get[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 응답 Body 
+
+operation::post-paging-get[snippets='response-fields']
+
+==== 회원별 일반 게시글 조회
+
+회원이 작성한 일반 게시글 조회 API
+
+===== 요청
+
+operation::post-normal-byUser-get[snippets='http-request']
+
+===== 응답
+
+operation::post-normal-byUser-get[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 응답 Body 
+
+operation::post-normal-byUser-get[snippets='response-fields']
+
+==== 회원별 그룹 게시글 조회
+
+회원이 작성한 그룹 게시글 조회 API
+
+===== 요청
+
+operation::post-band-byUser-get[snippets='http-request']
+
+===== 응답
+
+operation::post-band-byUser-get[snippets='http-response']
+
+===== 파라미터 설명
+
+====== 응답 Body
+
+operation::post-band-byUser-get[snippets='response-fields']
+
