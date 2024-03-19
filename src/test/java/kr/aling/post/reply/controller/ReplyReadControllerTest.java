@@ -68,7 +68,7 @@ class ReplyReadControllerTest {
 
         Page<ReadReplyDetailResponseDto> page = new PageImpl<>(List.of(
                 new ReadReplyDetailResponseDto(ReplyUtils.convertToReadReplyResponse(reply),
-                        new ReadUserInfoResponseDto(1L,"작성자", null))
+                        new ReadUserInfoResponseDto(1L, "작성자", null))
         ));
 
         PageResponseDto<ReadReplyDetailResponseDto> response = PageUtils.convert(page);

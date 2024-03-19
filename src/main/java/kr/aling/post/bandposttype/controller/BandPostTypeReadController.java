@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 그룹 게시물 분류를 조회하기 위한 Rest Controller.<br>
- * 모든 그룹 게시글 분류에 관한 요청은 User 서버의 Band 를 거쳐 와야 합니다.
+ * 그룹 게시물 분류를 조회하기 위한 Rest Controller.<br> 모든 그룹 게시글 분류에 관한 요청은 User 서버의 Band 를 거쳐 와야 합니다.
  *
  * @author 정유진
  * @since 1.0
@@ -28,8 +27,8 @@ public class BandPostTypeReadController {
     /**
      * 그룹 게시물 분류 리스트를 조회 하기 위한 메서드입니다. <br> 특정 그룹의 그룹 게시물 분류 리스트를 조회 합니다.
      *
-     * @return 200 ok. 그룹 게시물 분류 정보 dto 리스트
      * @param bandNo 그룹 번호
+     * @return 200 ok. 그룹 게시물 분류 정보 dto 리스트
      */
     @GetMapping
     public ResponseEntity<List<GetBandPostTypeResponseDto>> bandPostTypeList(@RequestParam("bandNo") Long bandNo) {

@@ -111,7 +111,7 @@ public class AlingPostControllerAdvice {
     }
 
     @ExceptionHandler({FeignException.class})
-    public ResponseEntity<ErrorResponseDto> handleFeignExceptions(FeignException exception){
+    public ResponseEntity<ErrorResponseDto> handleFeignExceptions(FeignException exception) {
         loggingError(HttpStatus.INTERNAL_SERVER_ERROR, exception);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

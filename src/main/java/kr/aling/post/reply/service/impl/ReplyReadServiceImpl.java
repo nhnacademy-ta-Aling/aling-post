@@ -51,7 +51,8 @@ public class ReplyReadServiceImpl implements ReplyReadService {
 
         List<ReadReplyDetailResponseDto> pageContent = setAuthorInfo(replies, authorInfoMap);
 
-        return PageUtils.convert(PageableExecutionUtils.getPage(pageContent, page.getPageable(), page.getPageable()::getOffset));
+        return PageUtils.convert(
+                PageableExecutionUtils.getPage(pageContent, page.getPageable(), page.getPageable()::getOffset));
     }
 
     /**
@@ -62,7 +63,7 @@ public class ReplyReadServiceImpl implements ReplyReadService {
      * @author : 이성준
      * @since : 1.0
      */
-    private Set<ReadAuthorInfoRequestDto> getUsers(List<Reply> replies){
+    private Set<ReadAuthorInfoRequestDto> getUsers(List<Reply> replies) {
         Set<ReadAuthorInfoRequestDto> users = new HashSet<>();
         replies.forEach(reply -> users.add(new ReadAuthorInfoRequestDto(reply.getUserNo())));
 
@@ -72,13 +73,14 @@ public class ReplyReadServiceImpl implements ReplyReadService {
     /**
      * 댓글 목록에 대응하여 작성자 정보를 매치시키는 메서드입니다.
      *
-     * @param replies 기반이 되는 댓글 목록
+     * @param replies       기반이 되는 댓글 목록
      * @param authorInfoMap 작성자 식별 정보를 key 로 사용하는 유저 정보 객체의 맵
      * @return
      * @author : 이성준
      * @since : 1.0
      */
-    private List<ReadReplyDetailResponseDto> setAuthorInfo(List<Reply> replies, Map<Long, ReadUserInfoResponseDto> authorInfoMap){
+    private List<ReadReplyDetailResponseDto> setAuthorInfo(List<Reply> replies,
+            Map<Long, ReadUserInfoResponseDto> authorInfoMap) {
         List<ReadReplyDetailResponseDto> pageContent = new ArrayList<>();
 
         replies.forEach(reply -> pageContent.add(

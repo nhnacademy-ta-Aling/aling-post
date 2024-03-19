@@ -67,7 +67,7 @@ public class BandPost {
      */
     @Builder
     public BandPost(Long postNo, Post post, Long bandNo, BandPostType bandPostType, Long bandUserNo, String title,
-                    Long alingUserNo) {
+            Long alingUserNo) {
         this.postNo = postNo;
         this.post = post;
         this.bandNo = bandNo;

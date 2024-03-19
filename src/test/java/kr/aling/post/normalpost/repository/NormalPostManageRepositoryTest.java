@@ -85,7 +85,7 @@ class NormalPostManageRepositoryTest {
                 .build();
 
         assertNull(post);
-        
+
         assertThrows(DataIntegrityViolationException.class, () -> normalPostManageRepository.saveAndFlush(normal));
 
     }
