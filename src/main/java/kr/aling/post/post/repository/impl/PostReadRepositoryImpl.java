@@ -51,12 +51,19 @@ public class PostReadRepositoryImpl extends QuerydslRepositorySupport implements
     @Override
     public List<ReadPostScrapsPostResponseDto> getPostInfoForScrap(List<Long> postNos) {
 
+
         String temp = postNos.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
 
         OrderSpecifier<?> orderSpecifier = Expressions.stringTemplate("FIELD({0}, {1})", post.postNo, temp).asc();
 
+        String temp = postNos.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+
+        OrderSpecifier<?> orderSpecifier =
+                Expressions.stringTemplate("FIELD({0}, {1})", post.postNo, temp).asc();
         String temp = postNos.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
