@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import kr.aling.post.config.JpaConfig;
+import kr.aling.post.normalpost.dummy.NormalPostDummy;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.post.entity.Post;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.jpa.JpaSystemException;
 
 /**
  * 일반 게시물 관리 레포지토리 테스트
@@ -79,14 +80,11 @@ class NormalPostManageRepositoryTest {
 
         Post post = entityManager.find(Post.class, postNo);
 
-        NormalPost normal = NormalPost.builder()
-                .post(post)
-                .userNo(1L)
-                .build();
+        NormalPost normal = NormalPostDummy.normalPostDummy();
 
         assertNull(post);
         
-        assertThrows(DataIntegrityViolationException.class, () -> normalPostManageRepository.saveAndFlush(normal));
+        assertThrows(JpaSystemException.class, () -> normalPostManageRepository.saveAndFlush(normal));
 
     }
 
@@ -95,16 +93,16 @@ class NormalPostManageRepositoryTest {
     void deleteNormalPost() {
         normalPostManageRepository.save(normalPost);
 
-        boolean beforeDelete = normalPostManageRepository.existsById(normalPost.getPostNo());
+        boolean beforeDelete = normalPostManageRepository.findById(normalPost.getPostNo()).get().getPost().getIsDelete();
 
-        normalPostManageRepository.deleteById(normalPost.getPostNo());
+        normalPost.getPost().softDelete();
 
-        boolean afterDelete = normalPostManageRepository.existsById(normalPost.getPostNo());
+        boolean afterDelete = normalPostManageRepository.findById(normalPost.getPostNo()).get().getPost().getIsDelete();
 
         assertAll("게시물 존재 여부 확인",
-                () -> assertTrue(beforeDelete),
+                () -> assertFalse(beforeDelete),
                 () -> assertThat(beforeDelete, not(equalTo(afterDelete))),
-                () -> assertFalse(afterDelete)
+                () -> assertTrue(afterDelete)
         );
     }
 }

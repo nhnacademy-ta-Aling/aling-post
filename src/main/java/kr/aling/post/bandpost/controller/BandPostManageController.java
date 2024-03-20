@@ -72,8 +72,9 @@ public class BandPostManageController {
      * @return Status 204
      */
     @DeleteMapping("/{postNo}")
-    public ResponseEntity<Void> deletePost(@PathVariable("postNo") Long postNo) {
-        bandPostFacadeService.deleteBandPostFacade(postNo);
+    public ResponseEntity<Void> deletePost(@PathVariable("postNo") Long postNo,
+                                           @RequestHeader("X-User-No") Long userNo) {
+        bandPostFacadeService.deleteBandPostFacade(postNo, userNo);
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)

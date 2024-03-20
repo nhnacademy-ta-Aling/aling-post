@@ -57,7 +57,8 @@ public interface PostManageService {
      * 게시물 삭제.
      *
      * @param postNo 삭제할 게시물 번호
+     * @param userNo
      */
-    void safeDeleteById(Long postNo);
+    void softDeleteById(Long postNo, Long userNo);
 
 }

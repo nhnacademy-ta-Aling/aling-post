@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
 import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
+import kr.aling.post.normalpost.dummy.NormalPostDummy;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
@@ -108,7 +109,7 @@ class PostManageServiceTest {
         ReflectionTestUtils.setField(bandPostRequestDto, "bandPostContent", "content");
         ReflectionTestUtils.setField(bandPostRequestDto, "bandPostTypeNo", 2L);
 
-        Post post = PostDummy.dummyPost();
+        Post post = PostDummy.postDummy();
 
         // when
         when(postReadRepository.findById(anyLong())).thenReturn(Optional.of(post));
@@ -149,14 +150,17 @@ class PostManageServiceTest {
     @DisplayName("게시물 삭제")
     void deleteById() {
         Long postNo = 1L;
+        Long userNo = 1L;
         Post post = Post.builder()
                 .content("삭제 처리 테스트 게시물 내용")
                 .isOpen(true)
                 .build();
 
+        ReflectionTestUtils.setField(post, "normalPost", NormalPostDummy.normalPostDummy());
+
         given(postReadRepository.findById(postNo)).willReturn(Optional.of(post));
 
-        postManageService.safeDeleteById(postNo);
+        postManageService.softDeleteById(postNo, userNo);
 
         assertTrue(post.getIsDelete());
     }

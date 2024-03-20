@@ -1,8 +1,11 @@
 package kr.aling.post.post.service.impl;
 
+import java.util.Objects;
+import java.util.Optional;
 import kr.aling.post.bandpost.dto.request.CreateBandPostRequestDto;
 import kr.aling.post.bandpost.dto.request.ModifyBandPostRequestDto;
 import kr.aling.post.common.annotation.ManageService;
+import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.post.dto.request.CreatePostRequestDto;
 import kr.aling.post.post.dto.request.ModifyPostRequestDto;
 import kr.aling.post.post.dto.response.CreatePostResponseDto;
@@ -12,6 +15,8 @@ import kr.aling.post.post.repository.PostManageRepository;
 import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.post.service.PostManageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
 
 /**
  * PostManageService 의 구현체입니다. <br> 엔티티의 수정이 발생하는 서비스 레이어 이기 때문에 스프링의 스테레오타입 Service 와 Transaction(readonly = false) 가
@@ -27,6 +32,7 @@ public class PostManageServiceImpl implements PostManageService {
 
     private final PostManageRepository postManageRepository;
     private final PostReadRepository postReadRepository;
+    private final UserFeignClient userFeignClient;
 
     /**
      * {@inheritDoc}
@@ -91,8 +97,27 @@ public class PostManageServiceImpl implements PostManageService {
      * {@inheritDoc}
      */
     @Override
-    public void safeDeleteById(Long postNo) {
-        this.findById(postNo).softDelete();
+    public void softDeleteById(Long postNo, Long userNo) {
+
+        Post post = this.findById(postNo);
+
+        Optional<Long> writerNo;
+
+        if (Objects.nonNull(post.getBandPost())) {
+            writerNo = Optional.ofNullable(
+                    userFeignClient.requestBandPostUserInfo(post.getBandPost().getBandUserNo()).getUserNo());
+        } else {
+            writerNo = Optional.ofNullable(post.getNormalPost().getUserNo());
+        }
+
+        writerNo.ifPresentOrElse(
+                writer -> {
+                    if (writer.equals(userNo)) {
+                        post.softDelete();
+                    }
+                },
+                () -> {throw new HttpClientErrorException(HttpStatus.FORBIDDEN);}
+        );
     }
 
     /**

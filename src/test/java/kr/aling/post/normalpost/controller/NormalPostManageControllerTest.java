@@ -12,7 +12,12 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -21,10 +26,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,6 +36,7 @@ import kr.aling.post.normalpost.dto.request.CreateNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.response.CreateNormalPostResponseDto;
 import kr.aling.post.normalpost.service.NormalPostManageService;
+import kr.aling.post.util.MockMvcUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +44,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -65,11 +67,12 @@ class NormalPostManageControllerTest {
     NormalPostManageService normalPostManageService;
     String mappedUrl = "/api/v1/normal-posts";
 
+    Long userNo = 1L;
+    Long postNo = 1L;
+
     @Test
     @DisplayName("일반 게시물 생성")
     void createNormalPost() throws Exception {
-        Long userNo = 1L;
-        Long postNo = 1L;
 
         CreateNormalPostRequestDto createNormalPostRequest = new CreateNormalPostRequestDto();
 
@@ -81,12 +84,7 @@ class NormalPostManageControllerTest {
         given(normalPostManageService.createNormalPost(any(), any(CreateNormalPostRequestDto.class))).willReturn(
                 createNormalPostResponse);
 
-        mockMvc.perform(post(mappedUrl)
-                        .param("userNo", String.valueOf(userNo))
-                        .content(mapper.writeValueAsString(createNormalPostRequest))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                )
+        mockMvc.perform(MockMvcUtils.buildRequest(post(mappedUrl),createNormalPostRequest))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(mapper.writeValueAsString(createNormalPostResponse)))
                 .andDo(print())
@@ -94,8 +92,8 @@ class NormalPostManageControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
 
-                        requestParameters(
-                                parameterWithName("userNo").description("유저 번호")
+                        requestHeaders(
+                                headerWithName("X-User-No").description("유저 번호")
                                         .attributes(key(REQUIRED).value(REQUIRED_YES))
                         ),
 
@@ -118,7 +116,7 @@ class NormalPostManageControllerTest {
     @Test
     @DisplayName("일반 게시물 생성 요청시 지원하지 않는 content-type 포맷")
     void createNormalPostNotSupportedContentTypeHeader() throws Exception {
-        Long userNo = 1L;
+
 
         CreateNormalPostRequestDto createNormalPostRequest = new CreateNormalPostRequestDto();
 
@@ -140,11 +138,10 @@ class NormalPostManageControllerTest {
                 .andDo(print());
     }
 
-    //FIXME Controller Advice 에서 반환되는 메시지가 표시되지 않음.
     @Test
     @DisplayName("일반 게시물 생성 요청시 지원하지 않는 응답 포맷")
     void createNormalPostNotSupportedAcceptHeader() throws Exception {
-        Long userNo = 1L;
+
 
         CreateNormalPostRequestDto createNormalPostRequest = new CreateNormalPostRequestDto();
 
@@ -164,8 +161,8 @@ class NormalPostManageControllerTest {
     @Test
     @DisplayName("일반 게시물 생성 요청시 요청 값이 유효하지 않음")
     void createNormalPostInvalidRequest() throws Exception {
-        Long userNo = 1L;
-        Long postNo = 1L;
+
+
 
         CreateNormalPostRequestDto createNormalPostRequest = new CreateNormalPostRequestDto();
 
@@ -240,20 +237,16 @@ class NormalPostManageControllerTest {
     @Test
     @DisplayName("일반 게시물 수정")
     void modifyNormalPost() throws Exception {
-        Long postNo = 1L;
+
 
         ModifyNormalPostRequestDto modifyNormalPostRequest = new ModifyNormalPostRequestDto();
 
         ReflectionTestUtils.setField(modifyNormalPostRequest, "content", "수정 일반 게시물 내용");
         ReflectionTestUtils.setField(modifyNormalPostRequest, "isOpen", false);
 
-        doNothing().when(normalPostManageService).modifyNormalPost(any(), any(ModifyNormalPostRequestDto.class));
+        doNothing().when(normalPostManageService).modifyNormalPost(any(), anyLong(), any(ModifyNormalPostRequestDto.class));
 
-        mockMvc.perform(RestDocumentationRequestBuilders.put(mappedUrl + "/{postNo}", postNo)
-                        .content(mapper.writeValueAsString(modifyNormalPostRequest))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                )
+        mockMvc.perform(MockMvcUtils.buildRequest(put(mappedUrl + "/{postNo}", postNo), modifyNormalPostRequest))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(print())
                 .andDo(document("normal-post-modify",
@@ -275,7 +268,7 @@ class NormalPostManageControllerTest {
                         )
                 ));
 
-        then(normalPostManageService).should(times(1)).modifyNormalPost(any(), any(ModifyNormalPostRequestDto.class));
+        then(normalPostManageService).should(times(1)).modifyNormalPost(any(), anyLong(), any(ModifyNormalPostRequestDto.class));
     }
 
     @Test
@@ -296,7 +289,7 @@ class NormalPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(normalPostManageService, times(0)).modifyNormalPost(anyLong(), any(ModifyNormalPostRequestDto.class));
+        verify(normalPostManageService, times(0)).modifyNormalPost(anyLong(), anyLong(), any(ModifyNormalPostRequestDto.class));
     }
 
     @Test
@@ -317,7 +310,7 @@ class NormalPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(normalPostManageService, times(0)).modifyNormalPost(anyLong(), any(ModifyNormalPostRequestDto.class));
+        verify(normalPostManageService, times(0)).modifyNormalPost(anyLong(), anyLong(), any(ModifyNormalPostRequestDto.class));
     }
 
     @Test
@@ -338,17 +331,19 @@ class NormalPostManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(normalPostManageService, times(0)).modifyNormalPost(anyLong(), any(ModifyNormalPostRequestDto.class));
+        verify(normalPostManageService, times(0)).modifyNormalPost(anyLong(), anyLong(), any(ModifyNormalPostRequestDto.class));
     }
 
     @Test
     @DisplayName("일반 게시물 삭제")
     void deleteNormalPost() throws Exception {
-        Long postNo = 1L;
 
-        mockMvc.perform(RestDocumentationRequestBuilders.delete(mappedUrl + "/{postNo}", postNo)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
+
+        mockMvc.perform(
+                        MockMvcUtils.buildRequest(
+                                delete(
+                                        mappedUrl + "/{postNo}", postNo)
+                        )
                 )
                 .andExpect(status().isNoContent())
                 .andDo(print())

@@ -1,6 +1,5 @@
 package kr.aling.post.normalpost.entity;
 
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,7 +48,7 @@ public class NormalPost {
     @Builder
     public NormalPost(Post post, Long userNo) {
         this.post = post;
-        this.postNo = Objects.nonNull(post) ? post.getPostNo() : Long.MIN_VALUE;
+        this.postNo = post.getPostNo();
         this.userNo = userNo;
     }
 }

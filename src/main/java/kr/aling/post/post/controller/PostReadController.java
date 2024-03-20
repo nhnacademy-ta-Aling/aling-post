@@ -68,5 +68,4 @@ public class PostReadController {
                 .body(postReadService.readPostsThatIsOpen(pageable));
     }
 
-
 }

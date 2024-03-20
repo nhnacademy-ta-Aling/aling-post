@@ -46,14 +46,14 @@ public class NormalPostManageServiceImpl implements NormalPostManageService {
                 .userNo(userNo)
                 .build();
 
-        return new CreateNormalPostResponseDto(normalPostManageRepository.save(normalPost).getPostNo());
+        return new CreateNormalPostResponseDto(normalPostManageRepository.save(normalPost).getPost().getPostNo());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void modifyNormalPost(Long postNo, ModifyNormalPostRequestDto request) {
+    public void modifyNormalPost(Long postNo, Long userNo, ModifyNormalPostRequestDto request) {
         postManageService.modifyPost(postNo, PostUtils.convert(request));
     }
 
@@ -61,7 +61,7 @@ public class NormalPostManageServiceImpl implements NormalPostManageService {
      * {@inheritDoc}
      */
     @Override
-    public void safeDeleteById(Long postNo) {
-        postManageService.safeDeleteById(postNo);
+    public void softDeleteById(Long postNo, Long userNo) {
+        postManageService.softDeleteById(postNo, userNo);
     }
 }

@@ -26,14 +26,15 @@ public interface NormalPostManageService {
      * 일반 게시물 수정.
      *
      * @param postNo  수정 요청한 게시물의 번호
+     * @param userNo
      * @param request 게시물 수정 요청에 대한 폼 데이터
      */
-    void modifyNormalPost(Long postNo, ModifyNormalPostRequestDto request);
+    void modifyNormalPost(Long postNo, Long userNo, ModifyNormalPostRequestDto request);
 
     /**
      * 일반 게시물 삭제.
      *
      * @param postNo 삭제하려는 게시물 번호
      */
-    void safeDeleteById(Long postNo);
+    void softDeleteById(Long postNo, Long userNo);
 }
