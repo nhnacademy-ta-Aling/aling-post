@@ -34,9 +34,10 @@ public class PostFileReadRepositoryImpl extends QuerydslRepositorySupport implem
 
         return from(post)
                 .leftJoin(post.postFileList, postFile)
-                .where(post.postNo.eq(postNo))
+                .where(post.postNo.eq(postNo)
+                        .and(post.postFileList.isNotEmpty()))
                 .select(Projections.constructor(PostFileQueryDto.class,
                         postFile.fileNo))
                 .fetch();
-    }
+        }
 }
