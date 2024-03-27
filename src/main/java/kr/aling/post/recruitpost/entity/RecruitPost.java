@@ -16,6 +16,7 @@ import kr.aling.post.common.base.BaseCreateTimeEntity;
 import kr.aling.post.locationcode.entity.LocationCode;
 import kr.aling.post.recruitbranchcode.entity.RecruitBranchCode;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -75,5 +76,21 @@ public class RecruitPost extends BaseCreateTimeEntity {
     public void prePersist() {
         isOpen = !Objects.isNull(isOpen) && isOpen;
         isDelete = !Objects.isNull(isDelete) && isDelete;
+    }
+
+    @Builder
+    public RecruitPost(Long userNo, LocationCode locationCode, RecruitBranchCode recruitBranchCode,
+                       String title, String content, Integer salary, String careerYear,
+                       LocalDateTime startAt, LocalDateTime endAt, Boolean isOpen) {
+        this.userNo = userNo;
+        this.locationCode = locationCode;
+        this.recruitBranchCode = recruitBranchCode;
+        this.title = title;
+        this.content = content;
+        this.salary = salary;
+        this.careerYear = careerYear;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.isOpen = isOpen;
     }
 }
