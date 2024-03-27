@@ -56,6 +56,7 @@ class BandPostManagerRepositoryTest {
         assertThat(save.getBandPostType().getBandPostTypeNo()).isEqualTo(bandPostType.getBandPostTypeNo());
         assertThat(save.getBandUserNo()).isEqualTo(bandPost.getBandUserNo());
         assertThat(save.getTitle()).isEqualTo(bandPost.getTitle());
+        assertThat(save.getUserNo()).isEqualTo(bandPost.getUserNo());
     }
 
 }

@@ -29,6 +29,7 @@ public class NormalPostManageServiceImpl implements NormalPostManageService {
     private final NormalPostManageRepository normalPostManageRepository;
     private final PostManageService postManageService;
     private final UserFeignClient userFeignClient;
+
     /**
      * {@inheritDoc}
      */

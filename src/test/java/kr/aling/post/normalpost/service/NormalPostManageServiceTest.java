@@ -70,7 +70,6 @@ class NormalPostManageServiceTest {
         ReflectionTestUtils.setField(createNormalPostRequest, "content", "테스트용 일반 게시물 내용");
         ReflectionTestUtils.setField(createNormalPostRequest, "isOpen", true);
 
-
         IsExistsUserResponseDto responseDto = new IsExistsUserResponseDto();
         ReflectionTestUtils.setField(responseDto, "isExists", true);
 

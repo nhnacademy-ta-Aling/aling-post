@@ -14,8 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * 작성자 정보 요청 인터페이스 구현체입니다.
- * OpenFeign 을 이용하여 데이터를 요청합니다.
+ * 작성자 정보 요청 인터페이스 구현체입니다. OpenFeign 을 이용하여 데이터를 요청합니다.
  *
  * @author : 이성준
  * @since : 1.0

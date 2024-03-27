@@ -76,7 +76,7 @@ class BandPostManageServiceTest {
         when(bandPostTypeReadRepository.findById(anyLong())).thenReturn(Optional.of(bandPostType));
 
         // then
-        bandPostManageService.createBandPost(createPostResponseDto, createBandPostRequestDto, 1L);
+        bandPostManageService.createBandPost(createPostResponseDto, createBandPostRequestDto, 1L, 1L);
 
         verify(bandPostManageRepository, times(1)).save(any(BandPost.class));
         verify(bandPostTypeReadRepository, times(1)).findById(anyLong());
@@ -92,7 +92,7 @@ class BandPostManageServiceTest {
 
         // then
         assertThatThrownBy(() -> bandPostManageService.createBandPost(createPostResponseDto,
-                createBandPostRequestDto, 1L))
+                createBandPostRequestDto, 1L, 1L))
                 .isInstanceOf(BandPostTypeNotFoundException.class)
                 .hasMessageContaining(BandPostTypeNotFoundException.MESSAGE);
     }

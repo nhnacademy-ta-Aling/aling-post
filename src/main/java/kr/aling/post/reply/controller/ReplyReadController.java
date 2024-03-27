@@ -34,7 +34,7 @@ public class ReplyReadController {
      */
     @GetMapping
     public ResponseEntity<PageResponseDto<ReadReplyDetailResponseDto>> readRepliesByPostNo(@PathVariable Long postNo,
-                                                                                           Pageable pageable) {
+            Pageable pageable) {
 
         PageResponseDto<ReadReplyDetailResponseDto> response = replyReadService.readRepliesByPostNo(postNo, pageable);
 

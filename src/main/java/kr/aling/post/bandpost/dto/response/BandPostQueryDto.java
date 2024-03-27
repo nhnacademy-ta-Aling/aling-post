@@ -34,6 +34,7 @@ public class BandPostQueryDto {
     @Getter
     @AllArgsConstructor
     public static class AlingFileInfo {
+
         private Long fileNo;
     }
 

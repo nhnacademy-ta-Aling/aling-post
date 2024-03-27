@@ -51,7 +51,7 @@ public class BandPostDto {
      * @param fileInfoResponseDtoList    파일 정보 가지고 있는 List Dto
      */
     public BandPostDto(BandPostExceptFileQueryDto bandPostExceptFileQueryDto,
-                       List<GetFileInfoResponseDto> fileInfoResponseDtoList) {
+            List<GetFileInfoResponseDto> fileInfoResponseDtoList) {
         this.postNo = bandPostExceptFileQueryDto.getPostNo();
         this.title = bandPostExceptFileQueryDto.getTitle();
         this.content = bandPostExceptFileQueryDto.getContent();

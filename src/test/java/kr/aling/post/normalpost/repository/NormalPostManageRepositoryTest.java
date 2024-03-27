@@ -83,7 +83,6 @@ class NormalPostManageRepositoryTest {
         NormalPost normal = NormalPostDummy.normalPostDummy();
 
         assertNull(post);
-        
         assertThrows(JpaSystemException.class, () -> normalPostManageRepository.saveAndFlush(normal));
 
     }

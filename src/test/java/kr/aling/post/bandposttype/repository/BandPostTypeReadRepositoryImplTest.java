@@ -1,13 +1,11 @@
 package kr.aling.post.bandposttype.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import kr.aling.post.bandposttype.dto.response.GetBandPostTypeResponseDto;
 import kr.aling.post.bandposttype.dummy.BandPostTypeDummy;
 import kr.aling.post.bandposttype.entity.BandPostType;
-import kr.aling.post.bandposttype.repository.BandPostTypeReadRepository;
 import kr.aling.post.config.JpaConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,6 +24,7 @@ import org.springframework.context.annotation.Import;
 @DataJpaTest
 @Import(JpaConfig.class)
 class BandPostTypeReadRepositoryImplTest {
+
     @Autowired
     BandPostTypeReadRepository bandPostTypeReadRepository;
 
@@ -49,7 +48,8 @@ class BandPostTypeReadRepositoryImplTest {
         // when
 
         // then
-        boolean result = bandPostTypeReadRepository.existsByNameAndBandNo(bandPostType.getName(), bandPostType.getBandNo());
+        boolean result =
+                bandPostTypeReadRepository.existsByNameAndBandNo(bandPostType.getName(), bandPostType.getBandNo());
         assertThat(result).isTrue();
     }
 

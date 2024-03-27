@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 일반 게시물 조회 컨트롤러 입니다.
- * accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
+ * 일반 게시물 조회 컨트롤러 입니다. accept 헤더와 content-type 헤더를 application/json 를 기본으로 요구합니다.
  *
  * @author : 이성준
  * @since : 1.0
  */
-@RequestMapping(value = "/api/v1/normal-posts",produces = {"application/json"})
+@RequestMapping(value = "/api/v1/normal-posts", produces = {"application/json"})
 @RequiredArgsConstructor
 @RestController
 public class NormalPostReadController {
@@ -55,7 +54,7 @@ public class NormalPostReadController {
      */
     @GetMapping
     public ResponseEntity<PageResponseDto<ReadPostResponseDto>> readNormalPostsByUser(@RequestParam Long userNo,
-                                                                                            Pageable pageable) {
+            Pageable pageable) {
         PageResponseDto<ReadPostResponseDto>
                 responses = normalPostReadService.readNormalPostsByUserNo(userNo, pageable);
 

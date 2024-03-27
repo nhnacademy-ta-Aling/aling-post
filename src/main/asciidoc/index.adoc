@@ -14,6 +14,9 @@ Aling Post API 명세서
 
 == API
 
+// 게시글
+include::../asciidoc/post/post.adoc[]
+
 // 일반 게시글
 include::../asciidoc/normalpost/normal-post.adoc[]
 

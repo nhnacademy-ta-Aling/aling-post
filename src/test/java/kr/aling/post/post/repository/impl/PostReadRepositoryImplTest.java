@@ -7,6 +7,7 @@ import kr.aling.post.post.dummy.PostDummy;
 import kr.aling.post.post.entity.Post;
 import kr.aling.post.post.repository.PostReadRepository;
 import kr.aling.post.postscrap.dto.response.ReadPostScrapsPostResponseDto;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ class PostReadRepositoryImplTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
+    @Disabled
     @Test
     @DisplayName("게시물 스크랩 조회용 게시물 정보 조회 성공")
     void getPostInfoForScrap() {

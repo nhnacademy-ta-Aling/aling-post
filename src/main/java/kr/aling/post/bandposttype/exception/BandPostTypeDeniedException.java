@@ -7,6 +7,7 @@ package kr.aling.post.bandposttype.exception;
  * @since 1.0
  **/
 public class BandPostTypeDeniedException extends RuntimeException {
+
     public static final String MESSAGE = "Band post type denied.";
 
     public BandPostTypeDeniedException() {

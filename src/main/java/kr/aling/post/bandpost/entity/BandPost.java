@@ -51,6 +51,9 @@ public class BandPost {
     @Column(name = "band_post_title")
     private String title;
 
+    @Column(name = "aling_user_no")
+    private Long userNo;
+
     /**
      * 그룹 게시글(BandPost) 생성자.
      *
@@ -60,15 +63,18 @@ public class BandPost {
      * @param bandPostType 게시글 분류
      * @param bandUserNo   그룹 회원 번호
      * @param title        제목
+     * @param alingUserNo  유저 번호
      */
     @Builder
-    public BandPost(Long postNo, Post post, Long bandNo, BandPostType bandPostType, Long bandUserNo, String title) {
+    public BandPost(Long postNo, Post post, Long bandNo, BandPostType bandPostType, Long bandUserNo, String title,
+            Long alingUserNo) {
         this.postNo = postNo;
         this.post = post;
         this.bandNo = bandNo;
         this.bandPostType = bandPostType;
         this.bandUserNo = bandUserNo;
         this.title = title;
+        this.userNo = alingUserNo;
     }
 
     /**

@@ -12,6 +12,7 @@ import kr.aling.post.postfile.dto.request.ReadPostFileRequestDto;
  * @since : 1.0
  */
 public interface PostFileAdaptor {
+
     /**
      * 여러 개의 게시물 목록에 포함된 파일을 요청하는 메서드입니다.
      *
