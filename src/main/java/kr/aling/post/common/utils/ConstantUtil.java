@@ -8,8 +8,9 @@ package kr.aling.post.common.utils;
  **/
 public class ConstantUtil {
 
-    public static final String X_TEMP_USER_NO = "X-TEMP-USER-NO";
+    public static final String X_USER_NO = "X-USER-NO";
 
+    public static final String X_USER_ROLE = "X-USER-ROLE";
     public static final String X_BAND_USER_NO = "X-BAND-USER-NO";
     public static final String X_BAND_USER_ROLE = "X-BAND-USER-ROLE";
 
