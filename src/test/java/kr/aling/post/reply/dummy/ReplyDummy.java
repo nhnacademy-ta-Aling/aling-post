@@ -40,7 +40,6 @@ public class ReplyDummy {
         CreateReplyRequestDto request = new CreateReplyRequestDto();
 
         ReflectionTestUtils.setField(request, "parentReplyNo", reply.getParentReplyNo());
-        ReflectionTestUtils.setField(request, "userNo", reply.getUserNo());
         ReflectionTestUtils.setField(request, "content", reply.getContent());
 
         return request;

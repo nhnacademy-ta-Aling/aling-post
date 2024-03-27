@@ -65,8 +65,9 @@ public class BandPostFacadeService {
      * 그룹 게시글 삭제 메서드.
      *
      * @param postNo 게시글 번호
+     * @param userNo 삭제를 요청하는 유저의 식별 번호
      */
-    public void deleteBandPostFacade(Long postNo) {
-        postManageService.safeDeleteById(postNo);
+    public void deleteBandPostFacade(Long postNo, Long userNo) {
+        postManageService.softDeleteById(postNo, userNo);
     }
 }

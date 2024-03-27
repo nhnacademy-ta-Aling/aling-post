@@ -10,7 +10,12 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -20,8 +25,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,6 +38,7 @@ import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
 import kr.aling.post.reply.dummy.ReplyDummy;
 import kr.aling.post.reply.entity.Reply;
 import kr.aling.post.reply.service.ReplyManageService;
+import kr.aling.post.util.MockMvcUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +47,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -56,6 +59,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureRestDocs(uriPort = 9030)
 class ReplyManageControllerTest {
 
+    public static final String X_USER_NO = "X-User-No";
     String mappedUrl = "/api/v1/posts/";
 
     @Autowired
@@ -75,6 +79,7 @@ class ReplyManageControllerTest {
         reply = ReplyDummy.dummyReply(1L);
 
         createReplyRequestDto = new CreateReplyRequestDto();
+
     }
 
     @Test
@@ -85,12 +90,14 @@ class ReplyManageControllerTest {
 
         CreateReplyResponseDto response = new CreateReplyResponseDto(2L, 1L, 1L, 1L, "댓글", LocalDateTime.now());
 
-        given(replyManageService.createReply(any(), any(CreateReplyRequestDto.class))).willReturn(response);
+        given(replyManageService.createReply(anyLong(), anyLong(), any(CreateReplyRequestDto.class))).willReturn(
+                response);
 
-        mockMvc.perform(RestDocumentationRequestBuilders.post(mappedUrl + "/{postNo}/replies/", reply.getPostNo())
-                        .content(mapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(
+                        MockMvcUtils.buildRequest(
+                                post(mappedUrl + "/{postNo}/replies/", reply.getPostNo()),
+                                request
+                        ))
                 .andExpect(status().isCreated())
                 .andExpect(content().bytes((mapper.writeValueAsString(response)).getBytes()))
                 .andDo(print())
@@ -102,13 +109,16 @@ class ReplyManageControllerTest {
                                 parameterWithName("postNo").description("게시글 번호")
                         ),
 
+                        requestHeaders(
+                                headerWithName(X_USER_NO).description("댓글 작성자 번호")
+                                        .attributes(key(REQUIRED).value(REQUIRED_YES))
+                                        .attributes(key(VALID).value("Not Null"))
+                        ),
+
                         requestFields(
                                 fieldWithPath("parentReplyNo").description("대댓글인 경우 부모댓글")
                                         .attributes(key(REQUIRED).value(REQUIRED_NO))
                                         .attributes(key(VALID).value("")),
-                                fieldWithPath("userNo").description("댓글 작성자 번호")
-                                        .attributes(key(REQUIRED).value(REQUIRED_YES))
-                                        .attributes(key(VALID).value("Not Null")),
                                 fieldWithPath("content").description("작성할 댓글 내용")
                                         .attributes(key(REQUIRED).value(REQUIRED_YES))
                                         .attributes(key(VALID).value("Not Blank, 최대 1,000자"))
@@ -124,14 +134,13 @@ class ReplyManageControllerTest {
                         )
                 ));
 
-        verify(replyManageService, times(1)).createReply(anyLong(), any(CreateReplyRequestDto.class));
+        verify(replyManageService, times(1)).createReply(anyLong(), anyLong(), any(CreateReplyRequestDto.class));
     }
 
     @Test
     @DisplayName("댓글 작성 실패 - userNo Null")
     void createReply_fail_userNo_Null() throws Exception {
         // given
-        ReflectionTestUtils.setField(createReplyRequestDto, "userNo", null);
         ReflectionTestUtils.setField(createReplyRequestDto, "content", "content");
 
         // when
@@ -143,45 +152,49 @@ class ReplyManageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(replyManageService, times(0)).createReply(anyLong(), any(CreateReplyRequestDto.class));
+        verify(replyManageService, times(0)).createReply(anyLong(), anyLong(), any(CreateReplyRequestDto.class));
     }
 
     @Test
     @DisplayName("댓글 작성 실패 - content Null")
     void createReply_fail_content_null() throws Exception {
         // given
-        ReflectionTestUtils.setField(createReplyRequestDto, "userNo", 1L);
         ReflectionTestUtils.setField(createReplyRequestDto, "content", "");
 
         // when
 
         // then
-        mockMvc.perform(post(mappedUrl + "/{postNo}/replies/", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(createReplyRequestDto)))
+        mockMvc.perform(
+                        MockMvcUtils.buildRequest(
+                                post(mappedUrl + "/{postNo}/replies/", 1L),
+                                createReplyRequestDto
+                        ))
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(replyManageService, times(0)).createReply(anyLong(), any(CreateReplyRequestDto.class));
+        verify(replyManageService, times(0)).createReply(anyLong(), anyLong(), any(CreateReplyRequestDto.class));
     }
 
     @Test
     @DisplayName("댓글 작성 실패 - content 1000 글자 초과")
     void createReply_fail_content_over_1000() throws Exception {
         // given
-        ReflectionTestUtils.setField(createReplyRequestDto, "userNo", 1L);
         ReflectionTestUtils.setField(createReplyRequestDto, "content", "i".repeat(1_001));
 
         // when
 
         // then
-        mockMvc.perform(post(mappedUrl + "/{postNo}/replies/", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(createReplyRequestDto)))
+
+
+        mockMvc.perform(
+                        MockMvcUtils.buildRequest(
+                                post(mappedUrl + "/{postNo}/replies/", 1L),
+                                createReplyRequestDto)
+                )
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
-        verify(replyManageService, times(0)).createReply(anyLong(), any(CreateReplyRequestDto.class));
+        verify(replyManageService, times(0)).createReply(anyLong(), anyLong(), any(CreateReplyRequestDto.class));
     }
 
     @Test
@@ -193,11 +206,11 @@ class ReplyManageControllerTest {
 
         given(replyManageService.modifyReply(any(), any(), any(ModifyReplyRequestDto.class))).willReturn(response);
 
-        mockMvc.perform(RestDocumentationRequestBuilders.put(mappedUrl + "{postNo}/replies/{replyNo}", 1L, 1L)
-                        .content(mapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                )
+        mockMvc.perform(
+                        MockMvcUtils.buildRequest(
+                                put(mappedUrl + "{postNo}/replies/{replyNo}", 1L, 1L),
+                                request
+                        ))
                 .andExpect(status().isOk())
                 .andExpect(content().bytes((mapper.writeValueAsString(response)).getBytes()))
                 .andDo(print())
@@ -236,9 +249,11 @@ class ReplyManageControllerTest {
         // when
 
         // then
-        mockMvc.perform(put(mappedUrl + "/{postNo}/replies/{replyNo}", 1L, 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(modifyReplyRequestDto)))
+        mockMvc.perform(
+                        MockMvcUtils.buildRequest(
+                                put(mappedUrl + "/{postNo}/replies/{replyNo}", 1L, 1L),
+                                modifyReplyRequestDto
+                        ))
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
@@ -255,9 +270,11 @@ class ReplyManageControllerTest {
         // when
 
         // then
-        mockMvc.perform(put(mappedUrl + "/{postNo}/replies/{replyNo}", 1L, 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(modifyReplyRequestDto)))
+        mockMvc.perform(
+                        MockMvcUtils.buildRequest(
+                                put(mappedUrl + "/{postNo}/replies/{replyNo}", 1L, 1L),
+                                modifyReplyRequestDto
+                        ))
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
 
@@ -268,10 +285,10 @@ class ReplyManageControllerTest {
     @DisplayName("댓글 삭제")
     void safeDeleteByReplyNo() throws Exception {
 
-        mockMvc.perform(RestDocumentationRequestBuilders.delete(mappedUrl + "{postNo}/replies/{replyNo}", 1L, 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                )
+        mockMvc.perform(
+                        MockMvcUtils.buildRequest(
+                                delete(mappedUrl + "{postNo}/replies/{replyNo}", 1L, 1L)
+                        ))
                 .andExpect(status().isNoContent())
                 .andDo(print())
                 .andDo(document("reply-delete",
@@ -322,13 +339,16 @@ class ReplyManageControllerTest {
 
         ReflectionTestUtils.setField(request, "content", "");
 
-        mockMvc.perform(post(mappedUrl + reply.getPostNo() + "/replies/")
-                        .content(mapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
+        mockMvc.perform(
+                        MockMvcUtils.buildRequest(
+                                post(mappedUrl + reply.getPostNo() + "/replies/"),
+                                request
+                        ))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(containsString("must not be blank")))
                 .andDo(print());
     }
+
+
+
 }

@@ -98,14 +98,16 @@ class BandPostFacadeServiceTest {
     @DisplayName("그룹 게시글 삭제 Facade service test")
     void deleteBandPost_facade_service_test() {
         // given
+        Long userNo = 1L;
+        Long postNo = 1L;
 
         // when
-        doNothing().when(postManageService).safeDeleteById(anyLong());
+        doNothing().when(postManageService).softDeleteById(anyLong(), anyLong());
 
         // then
-        bandPostFacadeService.deleteBandPostFacade(anyLong());
+        bandPostFacadeService.deleteBandPostFacade(postNo, userNo);
 
-        verify(postManageService, times(1)).safeDeleteById(anyLong());
+        verify(postManageService, times(1)).softDeleteById(anyLong(), anyLong());
     }
 
 }

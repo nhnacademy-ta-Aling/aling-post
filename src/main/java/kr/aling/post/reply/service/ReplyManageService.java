@@ -13,7 +13,6 @@ import kr.aling.post.reply.dto.response.ModifyReplyResponseDto;
  * @since 1.0
  */
 public interface ReplyManageService {
-
     /**
      * 댓글 작성.
      *
@@ -22,18 +21,18 @@ public interface ReplyManageService {
      * @return 댓글 작성시 응답 객체
      * @since 1.0
      */
-    CreateReplyResponseDto createReply(Long postNo, CreateReplyRequestDto request);
+    CreateReplyResponseDto createReply(Long postNo, Long userNo, CreateReplyRequestDto request);
 
     /**
      * 댓글 수정.
      *
      * @param replyNo 수정할 대상 댓글 번호
-     * @param no
+     * @param userNo 수정할 대상 댓글 번호
      * @param request 댓글 수정시 필요한 데이터 객체
      * @return 댓글 수정시 응답 객체
      * @since 1.0
      */
-    ModifyReplyResponseDto modifyReply(Long replyNo, Long no, ModifyReplyRequestDto request);
+    ModifyReplyResponseDto modifyReply(Long replyNo, Long userNo, ModifyReplyRequestDto request);
 
     /**
      * 댓글 삭제.

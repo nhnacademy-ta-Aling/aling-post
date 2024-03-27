@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -40,9 +40,8 @@ public class NormalPostManageController {
      * @since 1.0
      */
     @PostMapping
-    public ResponseEntity<CreateNormalPostResponseDto> createNormalPost(
-            @RequestBody @Valid CreateNormalPostRequestDto request,
-            @RequestParam Long userNo) {
+    public ResponseEntity<CreateNormalPostResponseDto> createNormalPost(@RequestBody @Valid CreateNormalPostRequestDto request,
+                                                                        @RequestHeader("X-User-No") Long userNo) {
         CreateNormalPostResponseDto response = normalPostManageService.createNormalPost(userNo, request);
 
         return ResponseEntity
@@ -54,16 +53,18 @@ public class NormalPostManageController {
      * 일반 게시물 수정.
      *
      * @param request 게시물 수정 요청 정보
+     * @param userNo 게시물 수정을 요청한 사용자의 식별 정보
      * @param postNo  수정할 게시물의 번호
      * @return HTTP 상태 코드를 가진 Response Entity
      * @author : 이성준
      * @since 1.0
      */
     @PutMapping("/{postNo}")
-    public ResponseEntity<Void> modifyNormalPost(@RequestBody @Valid ModifyNormalPostRequestDto request,
-            @PathVariable Long postNo) {
+    public ResponseEntity<Void> modifyNormalPost(@PathVariable Long postNo,
+                                                 @RequestBody @Valid ModifyNormalPostRequestDto request,
+                                                 @RequestHeader("X-User-No") Long userNo) {
 
-        normalPostManageService.modifyNormalPost(postNo, request);
+        normalPostManageService.modifyNormalPost(postNo, userNo, request);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -79,8 +80,9 @@ public class NormalPostManageController {
      * @since 1.0
      */
     @DeleteMapping("/{postNo}")
-    public ResponseEntity<Void> deleteNormalPost(@PathVariable Long postNo) {
-        normalPostManageService.safeDeleteById(postNo);
+    public ResponseEntity<Void> deleteNormalPost(@PathVariable Long postNo,
+                                                 @RequestHeader("X-User-No") Long userNo) {
+        normalPostManageService.softDeleteById(postNo, userNo);
 
         return ResponseEntity
                 .noContent()

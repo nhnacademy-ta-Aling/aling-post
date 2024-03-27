@@ -13,6 +13,7 @@ import kr.aling.post.common.feign.client.UserFeignClient;
 import kr.aling.post.normalpost.dto.request.CreateNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.request.ModifyNormalPostRequestDto;
 import kr.aling.post.normalpost.dto.response.CreateNormalPostResponseDto;
+import kr.aling.post.normalpost.dummy.NormalPostDummy;
 import kr.aling.post.normalpost.entity.NormalPost;
 import kr.aling.post.normalpost.repository.NormalPostManageRepository;
 import kr.aling.post.normalpost.service.impl.NormalPostManageServiceImpl;
@@ -50,20 +51,19 @@ class NormalPostManageServiceTest {
 
     @Mock
     NormalPostManageRepository normalPostManageRepository;
+    Long userNo = 1L;
+    Long postNo = 1L;
 
     @Test
     @DisplayName("일반 게시물 생성")
     void createNormalPost() {
-        Long userNo = 1L;
-        long postNo = 1L;
+
 
         Post post = Post.builder().build();
         ReflectionTestUtils.setField(post, "postNo", postNo);
 
-        NormalPost normalPost = NormalPost.builder()
-                .post(post)
-                .userNo(userNo)
-                .build();
+        NormalPost normalPost = NormalPostDummy.normalPostDummy();
+        ReflectionTestUtils.setField(normalPost, "post", post);
 
         CreateNormalPostRequestDto createNormalPostRequest = new CreateNormalPostRequestDto();
 
@@ -88,7 +88,6 @@ class NormalPostManageServiceTest {
     @Test
     @DisplayName("일반 게시물 수정")
     void modifyNormalPost() {
-        Long postNo = 1L;
 
         ModifyNormalPostRequestDto modifyNormalPostRequest = new ModifyNormalPostRequestDto();
 
@@ -97,7 +96,7 @@ class NormalPostManageServiceTest {
 
         doNothing().when(postManageService).modifyPost(anyLong(), any(ModifyPostRequestDto.class));
 
-        normalPostManageService.modifyNormalPost(postNo, modifyNormalPostRequest);
+        normalPostManageService.modifyNormalPost(postNo, userNo, modifyNormalPostRequest);
 
         then(postManageService).should(times(1)).modifyPost(anyLong(), any(ModifyPostRequestDto.class));
     }
@@ -105,10 +104,8 @@ class NormalPostManageServiceTest {
     @Test
     @DisplayName("일반 게시물 삭제")
     void deleteById() {
-        Long postNo = 1L;
+        normalPostManageService.softDeleteById(postNo, userNo);
 
-        normalPostManageService.safeDeleteById(postNo);
-
-        then(postManageService).should(times(1)).safeDeleteById(postNo);
+        then(postManageService).should(times(1)).softDeleteById(postNo, userNo);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 1.0
  */
 @RestController
-@RequestMapping(value = "/api/v1/posts/{postNo}/replies/", consumes = {"application/json"}, produces = {
+@RequestMapping(value = "/api/v1/posts/{postNo}/replies", produces = {
         "application/json"})
 @RequiredArgsConstructor
 public class ReplyManageController {
@@ -38,10 +39,12 @@ public class ReplyManageController {
      * @return Created 상태 코드와 생성 응답 객체 바디, 댓글을 작성한 게시물 주소를 Location 헤더를 갖는 ResponseEntity.
      * @since 1.0
      */
-    @PostMapping
-    public ResponseEntity<CreateReplyResponseDto> createReply(@Valid @RequestBody CreateReplyRequestDto request,
-            @PathVariable Long postNo) {
-        CreateReplyResponseDto response = replyManageService.createReply(postNo, request);
+    @PostMapping(consumes = {"application/json"})
+    public ResponseEntity<CreateReplyResponseDto> createReply(@PathVariable Long postNo,
+                                                              @RequestHeader("X-User-No") Long userNo,
+                                                              @Valid @RequestBody CreateReplyRequestDto request
+    ) {
+        CreateReplyResponseDto response = replyManageService.createReply(postNo, userNo, request);
 
         return ResponseEntity.created(URI.create("/api/v1/post/" + postNo))
                 .body(response);
@@ -54,10 +57,12 @@ public class ReplyManageController {
      * @return OK 상태 코드와 수정에 대한 응답 객체를 바디로 갖는 ResponseEntity.
      * @since 1.0
      */
-    @PutMapping("/{replyNo}")
-    public ResponseEntity<ModifyReplyResponseDto> modifyReply(@Valid @RequestBody ModifyReplyRequestDto request,
-            @PathVariable Long postNo, @PathVariable Long replyNo) {
-        ModifyReplyResponseDto modifyReplyResponseDto = replyManageService.modifyReply(postNo, replyNo, request);
+    @PutMapping(value = "/{replyNo}",consumes = {"application/json"})
+    public ResponseEntity<ModifyReplyResponseDto> modifyReply(@PathVariable Long postNo,
+                                                              @PathVariable Long replyNo,
+                                                              @RequestHeader("X-User-No") Long userNo,
+                                                              @Valid @RequestBody ModifyReplyRequestDto request) {
+        ModifyReplyResponseDto modifyReplyResponseDto = replyManageService.modifyReply(replyNo, userNo, request);
 
         return ResponseEntity.ok(modifyReplyResponseDto);
     }
@@ -70,8 +75,10 @@ public class ReplyManageController {
      * @since 1.0
      */
     @DeleteMapping("/{replyNo}")
-    public ResponseEntity<Void> safeDeleteByReplyNo(@PathVariable Long postNo, @PathVariable Long replyNo) {
-        replyManageService.safeDeleteByReplyNo(postNo, replyNo);
+    public ResponseEntity<Void> safeDeleteByReplyNo(@PathVariable Long postNo,
+                                                    @RequestHeader("X-User-No") Long userNo,
+                                                    @PathVariable Long replyNo) {
+        replyManageService.safeDeleteByReplyNo(replyNo, userNo);
 
         return ResponseEntity
                 .noContent()

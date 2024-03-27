@@ -79,12 +79,13 @@ class ReplyManageServiceTest {
     @DisplayName("댓글 작성")
     void createReply() {
         Post post = PostDummy.postDummy();
+        Long userNo = 1L;
         CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
 
         given(replyManageRepository.save(any())).willReturn(reply);
         given(postReadRepository.findById(reply.getPostNo())).willReturn(Optional.ofNullable(post));
 
-        CreateReplyResponseDto actual = replyManageService.createReply(reply.getPostNo(), request);
+        CreateReplyResponseDto actual = replyManageService.createReply(reply.getPostNo(), userNo, request);
 
         then(replyManageRepository).should(times(1)).save(any());
         then(postReadRepository).should(times(1)).findById(reply.getPostNo());
@@ -97,6 +98,7 @@ class ReplyManageServiceTest {
     @DisplayName("댓글 작성")
     void createReReply() {
         Post post = PostDummy.postDummy();
+        Long userNo = 1L;
         Long parentReplyNo = 999L;
 
         CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
@@ -105,7 +107,7 @@ class ReplyManageServiceTest {
 
         given(postReadRepository.findById(reply.getPostNo())).willReturn(Optional.ofNullable(post));
 
-        CreateReplyResponseDto actual = replyManageService.createReply(reply.getPostNo(), request);
+        CreateReplyResponseDto actual = replyManageService.createReply(reply.getPostNo(), userNo, request);
 
         then(replyManageRepository).should(times(1)).save(any());
         then(postReadRepository).should(times(1)).findById(reply.getPostNo());
@@ -118,10 +120,11 @@ class ReplyManageServiceTest {
     @DisplayName("댓글 작성 실패")
     void createReplyFailPostNotFount() {
         CreateReplyRequestDto request = ReplyDummy.dummyCreateRequest();
+        Long userNo = 1L;
 
         doThrow(new PostNotFoundException(reply.getPostNo())).when(postReadRepository).findById(reply.getPostNo());
 
-        assertThatThrownBy(() -> replyManageService.createReply(reply.getPostNo(), request))
+        assertThatThrownBy(() -> replyManageService.createReply(reply.getPostNo(), userNo, request))
                 .isInstanceOf(PostNotFoundException.class);
 
         then(postReadRepository).should(times(1)).findById(reply.getPostNo());
@@ -133,11 +136,12 @@ class ReplyManageServiceTest {
     void modifyReply() {
 
         ModifyReplyRequestDto request = ReplyDummy.dummyModifyRequest();
+        Long userNo = 1L;
         String replaceContent = request.getContent();
 
         given(replyReadRepository.findById(reply.getReplyNo())).willReturn(Optional.ofNullable(reply));
 
-        ModifyReplyResponseDto actual = replyManageService.modifyReply(reply.getPostNo(), reply.getReplyNo(), request);
+        ModifyReplyResponseDto actual = replyManageService.modifyReply(reply.getReplyNo(), userNo, request);
 
         then(replyReadRepository).should(times(1)).findById(reply.getReplyNo());
         assertThat(actual.getContent(), equalTo(replaceContent));
@@ -149,7 +153,7 @@ class ReplyManageServiceTest {
 
         given(replyReadRepository.findById(reply.getReplyNo())).willReturn(Optional.ofNullable(reply));
 
-        replyManageService.safeDeleteByReplyNo(reply.getPostNo(), reply.getReplyNo());
+        replyManageService.safeDeleteByReplyNo(reply.getReplyNo(), reply.getUserNo());
 
         then(replyReadRepository).should(times(1)).findById(reply.getReplyNo());
         assertThat(reply.getIsDelete(), is(true));

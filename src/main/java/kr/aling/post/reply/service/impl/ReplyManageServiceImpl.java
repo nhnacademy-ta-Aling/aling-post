@@ -16,7 +16,6 @@ import kr.aling.post.reply.exception.ReplyNotFoundException;
 import kr.aling.post.reply.repo.ReplyManageRepository;
 import kr.aling.post.reply.repo.ReplyReadRepository;
 import kr.aling.post.reply.service.ReplyManageService;
-import kr.aling.post.user.exception.UnauthenticatedUserException;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -38,11 +37,7 @@ public class ReplyManageServiceImpl implements ReplyManageService {
      * {@inheritDoc}
      */
     @Override
-    public CreateReplyResponseDto createReply(Long postNo, CreateReplyRequestDto request) {
-
-        if (Boolean.FALSE.equals(userFeignClient.isExistUser(request.getUserNo()).getIsExists())) {
-            throw new UnauthenticatedUserException("Reply");
-        }
+    public CreateReplyResponseDto createReply(Long postNo, Long userNo, CreateReplyRequestDto request) {
 
         Post post = postReadRepository.findById(postNo)
                 .orElseThrow(() -> new PostNotFoundException(postNo));
@@ -53,7 +48,7 @@ public class ReplyManageServiceImpl implements ReplyManageService {
 
         Reply reply = Reply.builder()
                 .parentReplyNo(request.getParentReplyNo())
-                .userNo(request.getUserNo())
+                .userNo(userNo)
                 .postNo(postNo)
                 .content(request.getContent())
                 .build();
@@ -67,7 +62,7 @@ public class ReplyManageServiceImpl implements ReplyManageService {
      * {@inheritDoc}
      */
     @Override
-    public ModifyReplyResponseDto modifyReply(Long postNo, Long replyNo, ModifyReplyRequestDto request) {
+    public ModifyReplyResponseDto modifyReply(Long replyNo, Long userNo, ModifyReplyRequestDto request) {
         Reply reply = findReplyEntityByReplyNo(replyNo);
         reply.modifyContent(request.getContent());
 
@@ -78,7 +73,7 @@ public class ReplyManageServiceImpl implements ReplyManageService {
      * {@inheritDoc}
      */
     @Override
-    public void safeDeleteByReplyNo(Long postNo, Long replyNo) {
+    public void safeDeleteByReplyNo(Long replyNo, Long userNo) {
         Reply reply = findReplyEntityByReplyNo(replyNo);
         reply.softDelete();
     }

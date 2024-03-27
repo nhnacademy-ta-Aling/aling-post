@@ -1,7 +1,6 @@
 package kr.aling.post.reply.dto.request;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +16,6 @@ import lombok.NoArgsConstructor;
 public class CreateReplyRequestDto {
 
     private Long parentReplyNo;
-
-    @NotNull
-    private Long userNo;
 
     @NotBlank
     @Size(max = 1_000)

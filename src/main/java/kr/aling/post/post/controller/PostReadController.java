@@ -81,6 +81,7 @@ public class PostReadController {
                 .body(postReadService.readPostsThatIsOpen(pageable));
     }
 
+
     /**
      * 회원별 일반 게시글 페이징 조회 API.
      *
@@ -110,5 +111,6 @@ public class PostReadController {
                 .status(HttpStatus.OK)
                 .body(postReadService.getBandPostsByUserNo(userNo, pageable));
     }
+
 
 }
